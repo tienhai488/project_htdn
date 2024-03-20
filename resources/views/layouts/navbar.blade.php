@@ -49,7 +49,7 @@
                         </a>
                     </div>
                     <div class="dropdown-item">
-                        <a href="auth-boxed-signin.html">
+                        <a href="{{ route('logout') }}">
                             <i data-feather="log-out"></i>
                             <span>Log Out</span>
                         </a>

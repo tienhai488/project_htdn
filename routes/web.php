@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,20 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/login', [LoginController::class, 'login'])->name('post_login');
 
 Route::prefix('')->middleware('auth')->group(function () {
-    Route::get('logout', [LoginController::class, 'logout']);
+    Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard.index');
-    });
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 });
