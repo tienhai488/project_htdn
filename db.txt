@@ -1,0 +1,86 @@
++ suppliers (ok)
+- id int auto_creament
+- name varchar(100)
+- phone_number varchar(20)
+- email varchar(100)
+- address varchar(255)
+
++ products (ok)
+- id int auto_increment
+- name varchar(100)
+- quantity int
+- category_id fk product_categories.id
+
++ product_categories (ok)
+- id int auto_creament
+- name varchar(100)
+
++ product_prices (ok)
+- id int auto_creament
+- product_id fk products.id
+- price decimal(16, 4)
+- purchase_price decimal(16, 4)
+
++ purchase_orders (ok)
+- id int auto_creament
+- approved_at timestamp
+- approved_by fk users.id
+- supplier_id fk suppliers.id
+- note text
+
++ products_purchase_order (ok)
+- id
+- purchase_order_id fk purchase_orders.id
+- product_id fk products.id
+- quantity int
+- current_purchase_price decimal(16, 4)
+- current_price decimal(16, 4)
+
++ dispatch_notes (ok)
+- id int auto_creament
+- approved_at timestamp
+- approved_by fk users.id
+- note text
+
++ products_dispatch_note (ok)
+- id
+- dispatch_note_id fk dispatch_notes.id
+- product_id fk products.id
+- quantity int
+- current_purchase_price decimal(16, 4)
+- current_price decimal(16, 4)
+
++ users (ok)
+- id int auto_creament
+- name varchar(100)
+- email
+- phone_number varchar(20)
+- gender int(11)
+- citizen_id varchar(50)
+- birthday timestamp
+- address varchar(255)
+- department_id fk departments.id
+
++ positions (ok)
+- id int auto_creament
+- name varchar(100)
+
++ departments (ok)
+- id int auto_creament
+- name varchar(100)
+
++ salaries
+- id int auto_creament
+- user_id fk users.id
+- position_id fk positions.id
+- amount decimal(16, 4)
+- approved_at timestamp
+- approved_by fk users.id
+- status int(11)
+
++ options
+- id int auto_creament
+- opt_key varchar(100)
+- opt_value text
+- name varchar(100)
+
