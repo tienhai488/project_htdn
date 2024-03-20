@@ -2,7 +2,7 @@
 - id int auto_creament
 - name varchar(100)
 - phone_number varchar(20)
-- email varchar(100)
+- email varchar(255)
 - address varchar(255)
 
 + products (ok)
@@ -32,9 +32,8 @@
 - id
 - purchase_order_id fk purchase_orders.id
 - product_id fk products.id
+_ product_prices_id fk product_prices.id
 - quantity int
-- current_purchase_price decimal(16, 4)
-- current_price decimal(16, 4)
 
 + dispatch_notes (ok)
 - id int auto_creament
@@ -46,20 +45,22 @@
 - id
 - dispatch_note_id fk dispatch_notes.id
 - product_id fk products.id
+_ product_prices_id fk product_prices.id
 - quantity int
-- current_purchase_price decimal(16, 4)
-- current_price decimal(16, 4)
 
 + users (ok)
 - id int auto_creament
 - name varchar(100)
-- email
+- email varchar(255)
+
++ profile_users (ok)
+- id int auto_creament
+- user_id fk users.id
 - phone_number varchar(20)
 - gender int(11)
 - citizen_id varchar(50)
 - birthday timestamp
 - address varchar(255)
-- department_id fk departments.id
 
 + positions (ok)
 - id int auto_creament
@@ -69,6 +70,11 @@
 - id int auto_creament
 - name varchar(100)
 
++ department_users
+- id int auto_creament
+- user_id fk users.id
+- department_id fk departments.id
+
 + salaries
 - id int auto_creament
 - user_id fk users.id
@@ -76,7 +82,7 @@
 - amount decimal(16, 4)
 - approved_at timestamp
 - approved_by fk users.id
-- status int(11)
+- status int(11) default(0)
 
 + options
 - id int auto_creament

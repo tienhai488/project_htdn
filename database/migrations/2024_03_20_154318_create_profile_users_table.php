@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('salaries', function (Blueprint $table) {
+        Schema::create('profile_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
-            $table->decimal('amount', 16, 4)->nullable();
-            $table->timestamp('approved_at')->nullable();
-            $table->foreignId('approved_by')->constrained('users')->onDelete('cascade');
-            $table->integer('status')->default(0);
+            $table->string('phone_number', 20)->nullable();
+            $table->integer('gender')->default(0);
+            $table->string('citizen_id', 50)->nullable();
+            $table->timestamp('birthday')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('salaries');
+        Schema::dropIfExists('profile_users');
     }
 };
