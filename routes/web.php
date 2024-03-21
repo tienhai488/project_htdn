@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,8 @@ Route::prefix('')->middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
+    Route::get('', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('supplier', SupplierController::class);
 });

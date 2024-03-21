@@ -51,6 +51,26 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="menu">
+                <a href="#users" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                    <div class="">
+                        <i data-feather="database"></i>
+                        <span>Quản lý kho</span>
+                    </div>
+                    <div>
+                        <i data-feather="chevron-right"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="users" data-bs-parent="#accordionExample">
+                    <li>
+                        <a href="">Hóa đơn nhập</a>
+                    </li>
+                    <li>
+                        <a href="">Nhà cung cấp</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>
