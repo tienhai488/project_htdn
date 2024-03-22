@@ -3,15 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Supplier\SupplierRepositoryInterface;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
+    public function __construct(
+        protected SupplierRepositoryInterface $supplierRepository
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            return $this->supplierRepository->getDataForDatatable();
+        }
         return view('admin.supplier.index');
     }
 

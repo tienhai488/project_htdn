@@ -30,9 +30,8 @@
             </div>
         </div>
 
-        <div class="shadow-bottom"></div>
         <ul class="list-unstyled menu-categories" id="accordionExample">
-            <li class="menu active">
+            <li class="menu @if (request()->routeIs('admin.dashboard')) active @endif">
                 <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
                     <div class="">
                         <i data-feather="home"></i>
@@ -67,7 +66,7 @@
                         <a href="">Hóa đơn nhập</a>
                     </li>
                     <li>
-                        <a href="">Nhà cung cấp</a>
+                        <a href="{{ route('admin.supplier.index') }}">Nhà cung cấp</a>
                     </li>
                 </ul>
             </li>

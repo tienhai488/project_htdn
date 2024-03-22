@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\User;
+namespace App\Repositories\Supplier;
 
 use App\Models\Supplier;
 use App\Repositories\BaseRepository;
@@ -15,5 +15,10 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
     {
         $this->model = $model;
         parent::__construct($model);
+    }
+
+    function getDataForDatatable()
+    {
+        return $this->model::orderByDesc('created_at')->paginate(self::PER_PAGE);
     }
 }

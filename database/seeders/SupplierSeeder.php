@@ -17,6 +17,6 @@ class SupplierSeeder extends Seeder
             return;
         }
 
-        Supplier::factory()->count(10)->create();
+        Supplier::factory()->count(100)->create();
     }
 }
