@@ -9,6 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('src/assets/img/favicon.ico') }}" />
     <link href="{{ asset('layouts/modern-light-menu/css/light/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('layouts/modern-light-menu/css/dark/loader.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('scss/custom/style.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('layouts/modern-light-menu/loader.js') }}"></script>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -52,9 +53,7 @@
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
                 <div class="middle-content container-xxl p-0">
-                    <div class="row layout-top-spacing">
-                        @yield('content')
-                    </div>
+                    @yield('content')
                 </div>
             </div>
             <!--  BEGIN FOOTER  -->
@@ -73,7 +72,7 @@
     <script src="{{ asset('src/plugins/src/waves/waves.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/font-icons/feather/feather.min.js') }}"></script>
     <script src="{{ asset('layouts/modern-light-menu/app.js') }}"></script>
-    <script src="../src/assets/js/custom.js"></script>
+    <script src="{{ asset('src/assets/js/custom.js') }}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->

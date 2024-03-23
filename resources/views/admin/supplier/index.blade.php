@@ -5,23 +5,36 @@
 @endsection
 
 @section('style-plugins')
-    <link rel="stylesheet" type="text/css" href="../src/plugins/src/table/datatable/datatables.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/css/light/table/datatable/dt-global_style.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/css/light/table/datatable/custom_dt_miscellaneous.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/css/dark/table/datatable/dt-global_style.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/css/dark/table/datatable/custom_dt_miscellaneous.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/css/light/table/datatable/custom_dt_custom.css">
-    <link rel="stylesheet" type="text/css" href="../src/plugins/css/dark/table/datatable/custom_dt_custom.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('src/plugins/css/light/table/datatable/custom_dt_miscellaneous.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('src/plugins/css/dark/table/datatable/custom_dt_miscellaneous.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/custom_dt_custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/custom_dt_custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+
+    <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="../src/plugins/src/table/datatable/datatables.js"></script>
-    <script src="../src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js"></script>
-    <script src="../src/plugins/src/table/datatable/button-ext/jszip.min.js"></script>
-    <script src="../src/plugins/src/table/datatable/button-ext/buttons.html5.min.js"></script>
-    <script src="../src/plugins/src/table/datatable/button-ext/buttons.print.min.js"></script>
-    <script src="../src/plugins/src/table/datatable/custom_miscellaneous.js"></script>
+    {{-- datatable --}}
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/table/datatable/button-ext/jszip.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.print.min.js') }}"></script>
+    {{-- sweatalert2 --}}
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    @include('layouts.toast')
+
     <script>
         let drawDT = 0;
 
@@ -128,36 +141,39 @@
 @endsection
 
 @section('content')
-    <div id="users-box" class="col-lg-12 layout-spacing">
-        <div class="statbox widget box box-shadow">
-            <div class="widget-header" style="border: none !important; border-bottom: 1px solid #e0e6ed !important;">
-                <div class="row">
-                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <h4>Quản lý nhà cung cấp</h4>
+    <div class="row layout-top-spacing">
+        <div id="users-box" class="col-lg-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Quản lý nhà cung cấp</h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="widget-content widget-content-area">
-                <div class="layout-top-spacing ps-3 pe-3 col-12">
-                    <a href="" class="btn btn-primary _effect--ripple waves-effect waves-light">
-                        Thêm mới nhà cung cấp
-                    </a>
-                </div>
+                <div class="widget-content widget-content-area">
+                    <div class="layout-top-spacing ps-3 pe-3 col-12">
+                        <a href="{{ route('admin.supplier.create') }}"
+                            class="btn btn-primary _effect--ripple waves-effect waves-light">
+                            Thêm mới nhà cung cấp
+                        </a>
+                    </div>
 
-                <table id="datatable" class="table style-3 dt-table-hover" style="width:100%">
-                    <thead>
-                        <tr role="row">
-                            <th>#</th>
-                            <th>Tên</th>
-                            <th>Số điện thoại</th>
-                            <th>Email</th>
-                            <th style="width: 10% !important;">Địa chỉ</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                    <table id="datatable" class="table style-3 dt-table-hover" style="width:100%">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Email</th>
+                                <th style="width: 10% !important;">Địa chỉ</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

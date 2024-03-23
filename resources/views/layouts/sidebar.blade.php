@@ -4,7 +4,7 @@
             <div class="nav-logo">
                 <div class="nav-item theme-logo">
                     <a href="">
-                        <img src="../src/assets/img/logo.svg" class="navbar-logo" alt="logo">
+                        <img src="{{ asset('src/assets/img/logo2.svg') }}" class="" alt="logo">
                     </a>
                 </div>
                 <div class="nav-item theme-text">
@@ -21,7 +21,7 @@
         <div class="profile-info">
             <div class="user-info">
                 <div class="profile-img">
-                    <img src="../src/assets/img/profile-30.png" alt="avatar">
+                    <img src="{{ asset('src/assets/img/profile-30.png') }}" alt="avatar">
                 </div>
                 <div class="profile-content">
                     <h6 class="">Shaun Park</h6>
