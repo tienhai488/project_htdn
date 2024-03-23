@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Supplier\StoreSupplierRequest;
+use App\Http\Requests\Supplier\UpdateSupplierRequest;
+use App\Models\Supplier;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -56,17 +58,21 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Supplier $supplier)
     {
-        //
+        return view('admin.supplier.edit', compact('supplier'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+        $this->supplierRepository->update($supplier, $request->except(['_token', '_method'])) ?
+            session()->flash('success', 'Cập nhật nhà cung cấp thành công')
+            :
+            session()->flash('error', 'Cập nhật nhà cung cấp không thành công');
+        return to_route('admin.supplier.index');
     }
 
     /**
