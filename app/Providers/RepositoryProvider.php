@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Supplier\SupplierRepository;
+use App\Repositories\Supplier\SupplierRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -11,7 +13,10 @@ class RepositoryProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(
+            SupplierRepositoryInterface::class,
+            SupplierRepository::class,
+        );
     }
 
     /**

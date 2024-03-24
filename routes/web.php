@@ -31,5 +31,5 @@ Route::prefix('')->middleware('auth')->group(function () {
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('supplier', SupplierController::class);
+    Route::resource('supplier', SupplierController::class)->except('show');
 });

@@ -4,7 +4,7 @@
             <div class="nav-logo">
                 <div class="nav-item theme-logo">
                     <a href="">
-                        <img src="../src/assets/img/logo.svg" class="navbar-logo" alt="logo">
+                        <img src="{{ asset('src/assets/img/logo2.svg') }}" class="" alt="logo">
                     </a>
                 </div>
                 <div class="nav-item theme-text">
@@ -21,7 +21,7 @@
         <div class="profile-info">
             <div class="user-info">
                 <div class="profile-img">
-                    <img src="../src/assets/img/profile-30.png" alt="avatar">
+                    <img src="{{ asset('src/assets/img/profile-30.png') }}" alt="avatar">
                 </div>
                 <div class="profile-content">
                     <h6 class="">Shaun Park</h6>
@@ -30,11 +30,10 @@
             </div>
         </div>
 
-        <div class="shadow-bottom"></div>
         <ul class="list-unstyled menu-categories" id="accordionExample">
-            <li class="menu active">
-                <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
-                    <div class="">
+            <li class="menu @if (request()->routeIs('admin.dashboard')) active @endif">
+                <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                    <div>
                         <i data-feather="home"></i>
                         <span>Dashboard</span>
                     </div>
@@ -42,8 +41,9 @@
                         <i data-feather="chevron-right"></i>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled show" id="dashboard" data-bs-parent="#accordionExample">
-                    <li class="active">
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.dashboard')) show @endif" id="dashboard"
+                    data-bs-parent="#accordionExample">
+                    <li class="@if (request()->routeIs('admin.dashboard')) active @endif">
                         <a href=""> Analytics </a>
                     </li>
                     <li>
@@ -52,8 +52,8 @@
                 </ul>
             </li>
 
-            <li class="menu">
-                <a href="#users" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+            <li class="menu @if (request()->routeIs('admin.supplier.*')) active @endif">
+                <a href="#supplier" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
                     <div class="">
                         <i data-feather="database"></i>
                         <span>Quản lý kho</span>
@@ -62,12 +62,13 @@
                         <i data-feather="chevron-right"></i>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="users" data-bs-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.supplier.*')) show @endif" id="supplier"
+                    data-bs-parent="#accordionExample">
                     <li>
                         <a href="">Hóa đơn nhập</a>
                     </li>
-                    <li>
-                        <a href="">Nhà cung cấp</a>
+                    <li class="@if (request()->routeIs('admin.supplier.*')) active @endif">
+                        <a href="{{ route('admin.supplier.index') }}">Nhà cung cấp</a>
                     </li>
                 </ul>
             </li>
