@@ -18,7 +18,7 @@
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     {{-- sweatalert2 --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
-    @include('layouts.toast')
+    @include('includes.toast')
 @endsection
 
 @section('content')

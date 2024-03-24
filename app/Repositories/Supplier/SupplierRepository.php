@@ -4,6 +4,7 @@ namespace App\Repositories\Supplier;
 
 use App\Models\Supplier;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Arr;
 
 class SupplierRepository extends BaseRepository implements SupplierRepositoryInterface
 {
@@ -17,8 +18,20 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
         parent::__construct($model);
     }
 
-    function getDataForDatatable()
+    function getDataForDatatable(array $searchArr)
     {
-        return $this->model::orderByDesc('created_at')->paginate(self::PER_PAGE);
+        $query = $this->model->query();
+
+        $keyword = Arr::get($searchArr, 'search', '');
+
+        if ($keyword) {
+            if (is_array($keyword)) {
+                $keyword = $keyword['value'];
+            }
+
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
     }
 }

@@ -22,7 +22,7 @@ class SupplierController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->supplierRepository->getDataForDatatable();
+            return $this->supplierRepository->getDataForDatatable($request->all());
         }
         return view('admin.supplier.index');
     }
