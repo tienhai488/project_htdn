@@ -36,7 +36,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 
     Route::resource('supplier', SupplierController::class)->except('show');
 
-    Route::resource('product-category', ProductCategoryController::class);
+    Route::resource('product-category', ProductCategoryController::class)->except('show');
 
     Route::resource('product', ProductController::class);
 });
