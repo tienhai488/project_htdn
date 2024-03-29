@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'name' => fake()->name(),
             'quantity' => fake()->numberBetween(1, 100),
             'category_id' => $category->id,
+            'description' => fake()->text(),
         ];
     }
 }

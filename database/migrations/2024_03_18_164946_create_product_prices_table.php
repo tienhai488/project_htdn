@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('product_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->decimal('price', 16, 4)->nullable();
-            $table->decimal('purchase_price', 16, 4)->nullable();
+            $table->decimal('sale_price', 16, 4)->nullable();
+            $table->decimal('regular_price', 16, 4)->nullable();
             $table->timestamps();
         });
     }

@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function __construct(
         protected ProductRepositoryInterface $productRepository,
+        protected ProductCategoryRepositoryInterface $productCategoryRepository,
     ) {
     }
 
@@ -19,7 +24,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->productRepository->getDataForDatatable($request->all());
+            $products = $this->productRepository->getDataForDatatable($request->all());
+            return ProductResource::collection($products);
         }
         return view('admin.product.index');
     }
@@ -29,15 +35,22 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $productCategories = $this->productCategoryRepository->all();
+        return view('admin.product.create', compact(
+            'productCategories',
+        ));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        $this->productRepository->create($request->except('_token')) ?
+            session()->flash('success', 'Thêm sản phẩm thành công')
+            :
+            session()->flash('error', 'Thêm sản phẩm không thành công');
+        return to_route('admin.product.index');
     }
 
     /**

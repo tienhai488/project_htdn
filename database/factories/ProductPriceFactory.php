@@ -20,12 +20,12 @@ class ProductPriceFactory extends Factory
     public function definition(): array
     {
         $product = Product::all()->shuffle()->first();
-        $purchase_price = fake()->randomFloat(4, 100, 200);
-        $price = fake()->randomFloat(4, 50, $purchase_price);
+        $regular_price = fake()->randomFloat(4, 100, 200);
+        $price = fake()->randomFloat(4, 50, $regular_price);
         return [
             'product_id' => $product->id,
-            'price' => $price,
-            'purchase_price' => $purchase_price,
+            'sale_price' => $price,
+            'regular_price' => $regular_price,
         ];
     }
 }

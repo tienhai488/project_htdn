@@ -24,12 +24,12 @@ class ProductPriceSeeder extends Seeder
 
         foreach ($products as $product) {
             if ($product->product_prices_count == 0) {
-                $purchase_price = fake()->randomFloat(4, 100, 200);
-                $price = fake()->randomFloat(4, 50, $purchase_price);
+                $regular_price = fake()->randomFloat(4, 100, 200);
+                $sale_price = fake()->randomFloat(4, 50, $regular_price);
                 ProductPrice::create([
                     'product_id' => $product->id,
-                    'price' => $price,
-                    'purchase_price' => $purchase_price,
+                    'sale_price' => $sale_price,
+                    'regular_price' => $regular_price,
                 ]);
             }
         }

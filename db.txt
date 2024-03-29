@@ -18,8 +18,8 @@
 + product_prices (ok)
 - id int auto_creament
 - product_id fk products.id
-- price decimal(16, 4)
-- purchase_price decimal(16, 4)
+- sale_price decimal(16, 4)
+- regular_price decimal(16, 4)
 
 + purchase_orders (ok)
 - id int auto_creament
