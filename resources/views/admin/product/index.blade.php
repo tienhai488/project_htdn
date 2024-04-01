@@ -61,6 +61,8 @@
                             <tr role="row">
                                 <th>#</th>
                                 <th>Sản phẩm</th>
+                                <th>Giá nhập</th>
+                                <th>Giá bán</th>
                                 <th>Số lượng tồn</th>
                                 <th>Thể loại</th>
                                 <th>Mô tả</th>
@@ -206,13 +208,21 @@
                                     <img src="${thumbnail}" alt="Thumbnail" style="border-radius: 18px; width:48px !important; height:48px !important;">
                                 </div>
                                 <div class="d-flex flex-column">
-                                    <span class="text-truncate fw-bold">
-                                        <div class='webkit-box'>${data}</div>
+                                    <span class="fw-bold">
+                                        <p style="max-width:200px;" class="text-truncate">${data}</p>
                                     </span>
                                 </div>
                             </div>
                         `;
                     },
+                },
+                {
+                    "data": "regular_price",
+                    "class": "text-center",
+                },
+                {
+                    "data": "sale_price",
+                    "class": "text-center",
                 },
                 {
                     "data": "quantity",
@@ -229,7 +239,7 @@
                     "data": "description",
                     "class": "text-center",
                     "render": function(data, type, full) {
-                        return `<div class='webkit-box'>${data}</div>`
+                        return `<p style="max-width:200px;" class="text-truncate">${data}</p>`
                     },
                 },
                 {

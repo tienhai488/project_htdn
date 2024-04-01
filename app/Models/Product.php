@@ -31,6 +31,35 @@ class Product extends Model implements HasMedia
         return $this->getFirstMediaUrl(self::PRODUCT_THUMBNAIL_COLLECTION) ?: asset('src/assets/img/no_product_image.png');
     }
 
+    public function getImagesAttribute()
+    {
+        $collection = $this->getMedia(self::PRODUCT_IMAGES_COLLECTION);
+
+        $imageUrls = [];
+
+        foreach ($collection as $media) {
+            $imageUrls[] = $media->getUrl();
+        }
+
+        return $imageUrls;
+    }
+
+    protected function getSalePriceAttribute()
+    {
+        return $this->product_prices()->latest()->first() ?
+            $this->product_prices()->latest()->first()['sale_price']
+            :
+            0;
+    }
+
+    protected function getRegularPriceAttribute()
+    {
+        return $this->product_prices()->latest()->first() ?
+            $this->product_prices()->latest()->first()['regular_price']
+            :
+            0;
+    }
+
     public function product_prices(): HasMany
     {
         return $this->hasMany(ProductPrice::class, 'product_id', 'id');

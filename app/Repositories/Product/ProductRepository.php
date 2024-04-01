@@ -3,6 +3,7 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Arr;
 
@@ -48,11 +49,51 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         $product = $this->model->create($productData);
 
+        ProductPrice::create([
+            'product_id' => $product->id,
+            'sale_price' => $data['sale_price'],
+            'regular_price' => $data['regular_price'],
+        ]);
+
         $product
             ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
             ->usingFileName(json_decode($data['thumbnail'])->name)
             ->toMediaCollection(Product::PRODUCT_THUMBNAIL_COLLECTION);
 
+        foreach ($data['images'] as $image) {
+            $product
+                ->addMediaFromBase64(json_decode($image)->data)
+                ->usingFileName(json_decode($image)->name)
+                ->toMediaCollection(Product::PRODUCT_IMAGES_COLLECTION);
+        }
+
+        return $product;
+    }
+
+    public function update($product, $data)
+    {
+        $productData = [
+            'name' => $data['name'],
+            'quantity' => $data['quantity'] ?? 0,
+            'category_id' => $data['category_id'],
+            'description' => $data['description'],
+        ];
+
+        $product->update($productData);
+
+        ProductPrice::firstOrCreate([
+            'product_id' => $product->id,
+            'sale_price' => $data['sale_price'],
+            'regular_price' => $data['regular_price'],
+        ]);
+
+        $product->clearMediaCollection(Product::PRODUCT_THUMBNAIL_COLLECTION);
+        $product
+            ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
+            ->usingFileName(json_decode($data['thumbnail'])->name)
+            ->toMediaCollection(Product::PRODUCT_THUMBNAIL_COLLECTION);
+
+        $product->clearMediaCollection(Product::PRODUCT_IMAGES_COLLECTION);
         foreach ($data['images'] as $image) {
             $product
                 ->addMediaFromBase64(json_decode($image)->data)
