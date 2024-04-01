@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Repositories\Product\ProductRepositoryInterface;
@@ -76,7 +77,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         $this->productRepository->update($product, $request->except('_token')) ?
             session()->flash('success', 'Cập nhật sản phẩm thành công')
