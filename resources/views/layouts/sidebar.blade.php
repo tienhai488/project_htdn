@@ -93,6 +93,24 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="menu @if (request()->routeIs('admin.customer.*')) active @endif">
+                <a href="#customer" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                    <div class="">
+                        <i data-feather="users"></i>
+                        <span>Quản lý khách hàng</span>
+                    </div>
+                    <div>
+                        <i data-feather="chevron-right"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.customer.*')) show @endif" id="customer"
+                    data-bs-parent="#accordionExample">
+                    <li class="@if (request()->routeIs('admin.customer.*')) active @endif">
+                        <a href="{{ route('admin.customer.index') }}">Khách hàng</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>
