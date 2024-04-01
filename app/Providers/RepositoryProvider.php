@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Customer\CustomerRepository;
+use App\Repositories\Customer\CustomerRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepository;
@@ -20,6 +22,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton(SupplierRepositoryInterface::class, SupplierRepository::class);
         $this->app->singleton(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->singleton(ProductCategoryRepositoryInterface::class, ProductCategoryRepository::class);
+        $this->app->singleton(CustomerRepositoryInterface::class, CustomerRepository::class);
     }
 
     /**
