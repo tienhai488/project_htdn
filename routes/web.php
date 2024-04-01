@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UploadController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,4 +36,10 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('supplier', SupplierController::class)->except('show');
+
+    Route::resource('product-category', ProductCategoryController::class)->except('show');
+
+    Route::resource('product', ProductController::class);
 });
+
+Route::post('upload', [UploadController::class, 'store'])->name('upload');

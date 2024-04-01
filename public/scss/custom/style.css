@@ -7,3 +7,12 @@
     border: none !important;
 }
 
+.webkit-box {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    white-space: pre-wrap;
+    min-width: 200px;
+}
+

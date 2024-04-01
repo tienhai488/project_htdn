@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('temporary_files', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->nullable();
-            $table->integer('quantity')->default(0);
-            $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade');
-            $table->text('description')->nullable();
+            $table->string('field');
+            $table->string('folder');
+            $table->string('filename');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('temporary_files');
     }
 };

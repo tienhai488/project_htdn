@@ -52,6 +52,27 @@
                 </ul>
             </li>
 
+            <li class="menu @if (request()->routeIs('admin.product.*') || request()->routeIs('admin.product-category.*')) active @endif">
+                <a href="#product" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                    <div class="">
+                        <i data-feather="layers"></i>
+                        <span>Quản lý sản phẩm</span>
+                    </div>
+                    <div>
+                        <i data-feather="chevron-right"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.product.*') || request()->routeIs('admin.product-category.*')) show @endif" id="product"
+                    data-bs-parent="#accordionExample">
+                    <li class="@if (request()->routeIs('admin.product-category.*')) active @endif">
+                        <a href="{{ route('admin.product-category.index') }}">Danh mục sản phẩm</a>
+                    </li>
+                    <li class="@if (request()->routeIs('admin.product.*')) active @endif">
+                        <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="menu @if (request()->routeIs('admin.supplier.*')) active @endif">
                 <a href="#supplier" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
                     <div class="">

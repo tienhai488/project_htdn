@@ -18,8 +18,8 @@
 + product_prices (ok)
 - id int auto_creament
 - product_id fk products.id
-- price decimal(16, 4)
-- purchase_price decimal(16, 4)
+- sale_price decimal(16, 4)
+- regular_price decimal(16, 4)
 
 + purchase_orders (ok)
 - id int auto_creament
@@ -40,6 +40,11 @@ _ product_prices_id fk product_prices.id
 - approved_at timestamp
 - approved_by fk users.id
 - note text
+
+customer Mã khách hàng, Tên khách hàng, Địa chỉ, Điện thoại, Email
+payment status
+delivery status
+shipping unit
 
 + products_dispatch_note (ok)
 - id
