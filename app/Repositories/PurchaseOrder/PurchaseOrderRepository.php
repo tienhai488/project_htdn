@@ -72,4 +72,49 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
 
         return $purchaseOrder;
     }
+
+    public function update($purchaseOrder, $data)
+    {
+        $purchaseOrderProducts = $purchaseOrder->products()->withPivot('quantity')->get();
+
+        foreach ($purchaseOrderProducts as $product) {
+            $oldQuantity = $product->pivot->quantity;
+            $product->update(
+                [
+                    'quantity' => $product->quantity - $oldQuantity,
+                ]
+            );
+        }
+
+        $purchaseOrderData = [
+            'approved_at' => Carbon::now(),
+            'approved_by' => auth()->id(),
+            'supplier_id' => $data['supplier_id'],
+            'note' => $data['note'],
+        ];
+
+        $purchaseOrder->update($purchaseOrderData);
+
+        $detailData = [];
+
+        foreach ($data['product_id'] as $key => $product_id) {
+            $quantity = $data['product_quantity'][$key];
+            $product = Product::find($product_id);
+            $productPriceId = $product->product_prices()->orderByDesc('created_at')->first()->id;
+
+            $detailData[$product_id] = [
+                'quantity' => $quantity,
+            ];
+
+            $product->update(
+                [
+                    'quantity' => $product->quantity + $quantity,
+                ],
+            );
+        }
+
+        $purchaseOrder->products()->sync($detailData);
+
+        return $purchaseOrder;
+    }
 }

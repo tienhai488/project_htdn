@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseOrder\StorePurchaseOrderRequest;
+use App\Http\Requests\PurchaseOrder\UpdatePurchaseOrderRequest;
 use App\Http\Resources\PurchaseOrderResource;
+use App\Models\PurchaseOrder;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\PurchaseOrder\PurchaseOrderRepositoryInterface;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
@@ -64,17 +66,32 @@ class PurchaseOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(PurchaseOrder $purchaseOrder)
     {
-        //
+        $suppliers = $this->supplierRepository->all();
+        $products = $this->productRepository->all();
+        $purchaseOrderProducts = $purchaseOrder->products()->withPivot('quantity')->get();
+        return view(
+            'admin.purchase_order.edit',
+            compact(
+                'suppliers',
+                'products',
+                'purchaseOrder',
+                'purchaseOrderProducts'
+            )
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
-        //
+        $this->purchaseOrderRepository->update($purchaseOrder, $request->except('_token')) ?
+            session()->flash('success', 'Cập nhật hóa đơn nhập thành công')
+            :
+            session()->flash('error', 'Cập nhật hóa đơn nhập không thành công');
+        return to_route('admin.purchase-order.index');
     }
 
     /**

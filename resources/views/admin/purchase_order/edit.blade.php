@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Thêm mới hóa đơn nhập
+    Cập nhật hóa đơn nhập
 @endsection
 
 @section('style-plugins')
@@ -40,15 +40,16 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Thêm mới hóa đơn nhập</h4>
+                            <h4>Cập nhật hóa đơn nhập</h4>
                         </div>
                     </div>
                 </div>
 
                 <div class="widget-content widget-content-area" style="padding: 20px !important;">
                     <div class="col-lg-12">
-                        <form id="general-settings" method="POST" action="{{ route('admin.purchase-order.store') }}">
+                        <form id="general-settings" method="POST" action="{{ route('admin.purchase-order.update', $purchaseOrder) }}">
                             @csrf
+                            @method("PUT")
                             <div class="form-group mb-4">
                                 <label for="supplier_id">Nhà cung cấp <strong class="text-danger">*</strong>
                                 </label></label>
@@ -56,7 +57,8 @@
                                     <option value="">Lựa chọn</option>
                                     @foreach ($suppliers as $supplier)
                                         <option
-                                            @selected($supplier->id == old('supplier_id')) value="{{ $supplier->id }}"
+                                            @selected($supplier->id == (old('supplier_id') || $purchaseOrder->supplier_id))
+                                            value="{{ $supplier->id }}"
                                         >
                                             {{ $supplier->name }}
                                         </option>
@@ -70,7 +72,7 @@
                                 <label for="note">Ghi chú <strong class="text-danger">*</strong>
                                 </label>
                                 <textarea name="note" id="note" class="form-control @error('note') is-invalid @enderror" id="note"
-                                    rows="3" placeholder="Ghi chú" spellcheck="false" @error('note') is-invalid @enderror>{{ old('note') }}</textarea>
+                                    rows="3" placeholder="Ghi chú" spellcheck="false" @error('note') is-invalid @enderror>{{ old('note') ?? $purchaseOrder->note }}</textarea>
                                 @error('note')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -175,6 +177,17 @@
                         let values = {!! json_encode(old('product_quantity')) !!};
                         productItemNode.querySelector(".product_quantity").value = values[index];
                     }
+                    else
+                    {
+                        if({!! json_encode($purchaseOrderProducts) !!}){
+                            let values = {!! json_encode($purchaseOrderProducts) !!};
+                            values.forEach(item => {
+                                if(item.id == value){
+                                    productItemNode.querySelector(".product_quantity").value = item.pivot.quantity;
+                                }
+                            });
+                        }
+                    }
 
                     productGroup.appendChild(productItemNode);
                 });
@@ -190,6 +203,13 @@
         if({!! json_encode(old('product_id')) !!}){
             let values = {!! json_encode(old('product_id')) !!};
             values.forEach(value => tomSelectProducts.addItem(value));
+        }
+        else
+        {
+            if({!! json_encode($purchaseOrderProducts) !!}){
+                let values = {!! json_encode($purchaseOrderProducts) !!};
+                values.forEach(value => tomSelectProducts.addItem(value.id));
+            }
         }
     </script>
 @endsection
