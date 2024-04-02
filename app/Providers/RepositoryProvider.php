@@ -8,6 +8,8 @@ use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepository;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
+use App\Repositories\PurchaseOrder\PurchaseOrderRepository;
+use App\Repositories\PurchaseOrder\PurchaseOrderRepositoryInterface;
 use App\Repositories\Supplier\SupplierRepository;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->singleton(ProductCategoryRepositoryInterface::class, ProductCategoryRepository::class);
         $this->app->singleton(CustomerRepositoryInterface::class, CustomerRepository::class);
+        $this->app->singleton(PurchaseOrderRepositoryInterface::class, PurchaseOrderRepository::class);
     }
 
     /**
