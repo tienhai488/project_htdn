@@ -39,16 +39,15 @@ _ product_prices_id fk product_prices.id
 - id int auto_creament
 - approved_at timestamp
 - approved_by fk users.id
+- customer_id
+- payment_status
+- delivery_status
+- shipping_unit_id
 - note text
 
-
-payment status
-delivery status
-shipping unit
-
-+ products_dispatch_note (ok)
++ order_details (ok)
 - id
-- dispatch_note_id fk dispatch_notes.id
+- order_id fk orders.id
 - product_id fk products.id
 _ product_prices_id fk product_prices.id
 - quantity int

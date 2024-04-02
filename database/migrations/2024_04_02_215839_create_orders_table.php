@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dispatch_notes', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->integer('payment_status')->nullable();
+            $table->integer('delivery_status')->nullable();
+            $table->foreignId('shipping_unit_id')->constrained('shipping_units')->onDelete('cascade');
             $table->text('note')->nullable();
             $table->timestamps();
         });
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dispatch_notes');
+        Schema::dropIfExists('orders');
     }
 };
