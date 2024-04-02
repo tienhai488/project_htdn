@@ -73,7 +73,7 @@
                 </ul>
             </li>
 
-            <li class="menu @if (request()->routeIs('admin.supplier.*')) active @endif">
+            <li class="menu @if (request()->routeIs('admin.supplier.*') || request()->routeIs('admin.purchase-order.*')) active @endif">
                 <a href="#supplier" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
                     <div class="">
                         <i data-feather="database"></i>
@@ -83,10 +83,10 @@
                         <i data-feather="chevron-right"></i>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.supplier.*')) show @endif" id="supplier"
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.supplier.*') || request()->routeIs('admin.purchase-order.*')) show @endif" id="supplier"
                     data-bs-parent="#accordionExample">
-                    <li>
-                        <a href="">Hóa đơn nhập</a>
+                    <li class="@if (request()->routeIs('admin.purchase-order.*')) active @endif">
+                        <a href="{{ route('admin.purchase-order.index') }}">Hóa đơn nhập</a>
                     </li>
                     <li class="@if (request()->routeIs('admin.supplier.*')) active @endif">
                         <a href="{{ route('admin.supplier.index') }}">Nhà cung cấp</a>

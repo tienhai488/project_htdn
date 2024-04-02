@@ -28,7 +28,7 @@
 - supplier_id fk suppliers.id
 - note text
 
-+ products_purchase_order (ok)
++ purchase_order_details (ok)
 - id
 - purchase_order_id fk purchase_orders.id
 - product_id fk products.id

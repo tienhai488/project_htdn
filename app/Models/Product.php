@@ -24,7 +24,10 @@ class Product extends Model implements HasMedia
         'description',
     ];
 
-    // protected $appends = ['thumbnail'];
+    protected $with = [
+        'product_prices',
+        'category',
+    ];
 
     protected function getThumbnailAttribute(): string
     {
