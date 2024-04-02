@@ -26,6 +26,7 @@ class UpdateCustomerRequest extends FormRequest
             'name' => [
                 'required',
                 'max:100',
+                'unique:customers,name,' . $this->customer->id,
             ],
             'phone_number' => [
                 'required',

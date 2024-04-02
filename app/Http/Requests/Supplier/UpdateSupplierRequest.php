@@ -26,6 +26,7 @@ class UpdateSupplierRequest extends FormRequest
             'name' => [
                 'required',
                 'max:100',
+                'unique:suppliers,name,' . $this->supplier->id,
             ],
             'phone_number' => [
                 'required',

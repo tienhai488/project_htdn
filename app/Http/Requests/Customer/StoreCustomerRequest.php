@@ -26,6 +26,7 @@ class StoreCustomerRequest extends FormRequest
             'name' => [
                 'required',
                 'max:100',
+                'unique:customers',
             ],
             'phone_number' => [
                 'required',
