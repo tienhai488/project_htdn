@@ -26,6 +26,7 @@ class UpdateProductRequest extends FormRequest
             'name' => [
                 'required',
                 'max:100',
+                'unique:products,name,' . $this->product->id,
             ],
             'category_id' => [
                 'required',
@@ -62,6 +63,7 @@ class UpdateProductRequest extends FormRequest
             'exists' => 'Trường :attribute không tồn tại!',
             'min' => 'Trường :attribute có giá trị tối thiếu là :min!',
             'numeric' => 'Trường :attribute phải là số!',
+            'unique' => 'Trường :attribute đã tồn tại trong CSDL!',
         ];
     }
 

@@ -26,6 +26,7 @@ class StoreSupplierRequest extends FormRequest
             'name' => [
                 'required',
                 'max:100',
+                'unique:suppliers',
             ],
             'phone_number' => [
                 'required',

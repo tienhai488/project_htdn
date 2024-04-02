@@ -183,8 +183,8 @@
                 },
                 "dataSrc": function(res) {
                     res.draw = drawDT;
-                    res.recordsTotal = res.total;
-                    res.recordsFiltered = res.total;
+                    res.recordsTotal = res.meta ? res.meta.total : res.total;
+                    res.recordsFiltered = res.meta ? res.meta.total : res.total;
                     return res.data;
                 }
             },
