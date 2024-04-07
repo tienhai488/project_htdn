@@ -6,6 +6,7 @@ use App\Enums\DeliveryStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
+use App\Http\Requests\Order\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Repositories\Customer\CustomerRepositoryInterface;
@@ -84,15 +85,36 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        $orderProducts = $order->products()->withPivot('quantity')->get();
+        $customers = $this->customerRepository->all();
+        $shippingUnits = $this->shippingUnitRepository->all();
+        $paymentStatuses = PaymentStatus::getPaymentStatuses();
+        $deliveryStatuses = DeliveryStatus::getDeliveryStatuses();
+        $products = $this->productRepository->getProductListForOrder();
+        return view(
+            'admin.order.edit',
+            compact(
+                'order',
+                'orderProducts',
+                'customers',
+                'shippingUnits',
+                'paymentStatuses',
+                'deliveryStatuses',
+                'products'
+            )
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $this->orderRepository->update($order, $request->except('_token')) ?
+            session()->flash('success', 'Cập nhật hóa đơn bán thành công')
+            :
+            session()->flash('error', 'Cập nhật hóa đơn bán không thành công');
+        return to_route('admin.order.index');
     }
 
     /**

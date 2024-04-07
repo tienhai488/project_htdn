@@ -79,4 +79,63 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
         return $order;
     }
+
+    public function update($order, $data)
+    {
+        $orderProducts = $order->products()->withPivot('quantity')->get();
+
+        foreach ($orderProducts as $product) {
+            $oldQuantity = $product->pivot->quantity;
+            $product->update(
+                [
+                    'quantity' => $product->quantity + $oldQuantity,
+                ]
+            );
+        }
+
+        $orderData = [
+            'customer_id' => $data['customer_id'],
+            'payment_status' => $data['payment_status'],
+            'delivery_status' => $data['delivery_status'],
+            'shipping_unit_id' => $data['shipping_unit_id'],
+            'note' => $data['note'],
+        ];
+
+        if ($order->delivery_status->value != $data['delivery_status']) {
+            if ($order->delivery_status->isPending()) {
+                $orderData['approved_at'] = Carbon::now();
+                $orderData['approved_by'] = auth()->id();
+            } else {
+                if ($data['delivery_status'] == DeliveryStatus::PENDING->value) {
+                    $orderData['approved_at'] = null;
+                    $orderData['approved_by'] = null;
+                }
+            }
+        }
+
+        $order->update($orderData);
+
+        $detailData = [];
+
+        foreach ($data['product_id'] as $key => $product_id) {
+            $quantity = $data['product_quantity'][$key];
+            $product = Product::find($product_id);
+            $productPriceId = $product->product_prices()->orderByDesc('created_at')->first()->id;
+
+            $detailData[$product_id] = [
+                'quantity' => $quantity,
+                'product_price_id' => $productPriceId,
+            ];
+
+            $product->update(
+                [
+                    'quantity' => $product->quantity - $quantity,
+                ],
+            );
+        }
+
+        $order->products()->sync($detailData);
+
+        return $order;
+    }
 }
