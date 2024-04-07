@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Order;
+use App\Models\ProductPrice;
 use App\Models\TemporaryFile;
 
 function getImageInStorage($field = '')
@@ -27,4 +29,18 @@ function getImageListInStorage($field = '')
     }
 
     return $data;
+}
+
+function getTotalOrderAmount(Order $order)
+{
+    $data = $order->products()->withPivot(['quantity', 'product_price_id'])->get();
+
+    $totalAmount = $data->sum(function ($orderDetail) {
+        $productPrice = ProductPrice::find($orderDetail->pivot->product_price_id);
+        $quantity = $orderDetail->pivot->quantity;
+        $salePrice = $productPrice->sale_price;
+        return $quantity * $salePrice;
+    });
+
+    return $totalAmount;
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
@@ -47,6 +48,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('purchase-order', PurchaseOrderController::class);
 
     Route::resource('shipping-unit', ShippingUnitController::class);
+
+    Route::resource('order', OrderController::class);
 });
 
 Route::post('upload', [UploadController::class, 'store'])->name('upload');

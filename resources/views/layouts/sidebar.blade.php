@@ -94,7 +94,7 @@
                 </ul>
             </li>
 
-            <li class="menu @if (request()->routeIs('admin.shipping-unit.*')) active @endif">
+            <li class="menu @if (request()->routeIs('admin.customer.*')) active @endif">
                 <a href="#customer" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
                     <div class="">
                         <i data-feather="users"></i>
@@ -104,15 +104,15 @@
                         <i data-feather="chevron-right"></i>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.shipping-unit.*')) show @endif" id="customer"
-                    data-bs-parent="#accordionExample">
-                    <li class="@if (request()->routeIs('admin.shipping-unit.*')) active @endif">
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.customer.*')) show @endif"
+                    id="customer" data-bs-parent="#accordionExample">
+                    <li class="@if (request()->routeIs('admin.customer.*')) active @endif">
                         <a href="{{ route('admin.customer.index') }}">Khách hàng</a>
                     </li>
                 </ul>
             </li>
 
-            <li class="menu @if (request()->routeIs('admin.shipping-unit.*')) active @endif">
+            <li class="menu @if (request()->routeIs('admin.shipping-unit.*') || request()->routeIs('admin.order.*')) active @endif">
                 <a href="#orders" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
                     <div class="">
                         <i data-feather="truck"></i>
@@ -122,8 +122,11 @@
                         <i data-feather="chevron-right"></i>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.shipping-unit.*')) show @endif" id="orders"
-                    data-bs-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.shipping-unit.*') || request()->routeIs('admin.order.*')) show @endif"
+                    id="orders" data-bs-parent="#accordionExample">
+                    <li class="@if (request()->routeIs('admin.order.*')) active @endif">
+                        <a href="{{ route('admin.order.index') }}">Hoá đơn bán</a>
+                    </li>
                     <li class="@if (request()->routeIs('admin.shipping-unit.*')) active @endif">
                         <a href="{{ route('admin.shipping-unit.index') }}">Đơn vị vận chuyển</a>
                     </li>
