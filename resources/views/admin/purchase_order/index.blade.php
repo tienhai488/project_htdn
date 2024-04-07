@@ -63,6 +63,7 @@
                                 <th>Nhà cung cấp</th>
                                 <th>Người xác nhận</th>
                                 <th>Thời gian</th>
+                                <th>Tổng tiền</th>
                                 <th>Ghi chú</th>
                                 <th>Hành động</th>
                             </tr>
@@ -211,6 +212,13 @@
                 },
                 {
                     "data": "approved_at",
+                    "class": "text-center",
+                    "render": function(data, type, full, meta) {
+                        return data;
+                    },
+                },
+                {
+                    "data": "total_amount",
                     "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return data;
