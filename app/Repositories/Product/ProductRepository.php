@@ -103,4 +103,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         return $product;
     }
+
+    public function getProductListForOrder()
+    {
+        return $this->model::where('quantity', '>', 0)->latest()->get();
+    }
 }

@@ -104,6 +104,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
 
             $detailData[$product_id] = [
                 'quantity' => $quantity,
+                'product_price_id' => $productPriceId,
             ];
 
             $product->update(
