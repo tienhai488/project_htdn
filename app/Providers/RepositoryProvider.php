@@ -4,8 +4,12 @@ namespace App\Providers;
 
 use App\Repositories\Customer\CustomerRepository;
 use App\Repositories\Customer\CustomerRepositoryInterface;
+use App\Repositories\Department\DepartmentRepository;
+use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\Position\PositionRepository;
+use App\Repositories\Position\PositionRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepository;
@@ -32,6 +36,8 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton(PurchaseOrderRepositoryInterface::class, PurchaseOrderRepository::class);
         $this->app->singleton(ShippingUnitRepositoryInterface::class, ShippingUnitRepository::class);
         $this->app->singleton(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->singleton(PositionRepositoryInterface::class, PositionRepository::class);
+        $this->app->singleton(DepartmentRepositoryInterface::class, DepartmentRepository::class);
     }
 
     /**

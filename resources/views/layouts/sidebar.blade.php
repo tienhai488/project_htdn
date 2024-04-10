@@ -132,6 +132,27 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="menu @if (request()->routeIs('admin.position.*') || request()->routeIs('admin.department.*')) active @endif">
+                <a href="#users" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                    <div class="">
+                        <i data-feather="user"></i>
+                        <span>Quản lý nguời dùng</span>
+                    </div>
+                    <div>
+                        <i data-feather="chevron-right"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled @if (request()->routeIs('admin.position.*') || request()->routeIs('admin.department.*')) show @endif"
+                    id="users" data-bs-parent="#accordionExample">
+                    <li class="@if (request()->routeIs('admin.position.*')) active @endif">
+                        <a href="{{ route('admin.position.index') }}">Vị trí</a>
+                    </li>
+                    <li class="@if (request()->routeIs('admin.department.*')) active @endif">
+                        <a href="{{ route('admin.department.index') }}">Phòng ban</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>
