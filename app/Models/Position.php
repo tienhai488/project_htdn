@@ -12,4 +12,10 @@ class Position extends Model
     protected $fillable = [
         'name',
     ];
+
+    // Get the list of users belonging to the position
+    public function users()
+    {
+        return $this->hasMany(UserProfile::class, 'position_id', 'id');
+    }
 }

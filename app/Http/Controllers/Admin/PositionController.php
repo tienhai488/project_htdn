@@ -78,8 +78,15 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Position $position)
     {
-        //
+        if ($position->users()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá vị trí không thành công. Vị trí đang tồn tại thành viên.',
+            ];
+        }
+
+        return $this->positionRepository->destroy($position);
     }
 }

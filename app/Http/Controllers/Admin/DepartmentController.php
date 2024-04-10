@@ -78,8 +78,15 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Department $department)
     {
-        //
+        if ($department->users()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá phòng ban không thành công. Phòng ban đang tồn tại thành viên.',
+            ];
+        }
+
+        return $this->departmentRepository->destroy($department);
     }
 }

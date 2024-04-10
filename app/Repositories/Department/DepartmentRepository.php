@@ -32,6 +32,8 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
+        $query->withCount('users');
+
         return $query->latest()->paginate(self::PER_PAGE);
     }
 }

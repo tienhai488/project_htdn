@@ -32,6 +32,8 @@ class PositionRepository extends BaseRepository implements PositionRepositoryInt
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
+        $query->withCount('users');
+
         return $query->latest()->paginate(self::PER_PAGE);
     }
 }
