@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -27,6 +28,7 @@ class Product extends Model implements HasMedia
     protected $with = [
         'product_prices',
         'category',
+        'media',
     ];
 
     protected function getThumbnailAttribute(): string
@@ -71,6 +73,11 @@ class Product extends Model implements HasMedia
     public function category(): BelongsTo
     {
         return $this->BelongsTo(ProductCategory::class, 'category_id', 'id');
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(config('media-library.media_model'), 'model');
     }
 
     public function registerMediaCollections(): void

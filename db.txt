@@ -35,7 +35,7 @@
 _ product_prices_id fk product_prices.id
 - quantity int
 
-+ dispatch_notes (ok)
++ orders (ok)
 - id int auto_creament
 - approved_at timestamp
 - approved_by fk users.id
@@ -63,15 +63,8 @@ _ product_prices_id fk product_prices.id
 - id int auto_creament
 - name varchar(100)
 - email varchar(255)
-
-+ profile_users (ok)
-- id int auto_creament
-- user_id fk users.id
-- phone_number varchar(20)
-- gender int(11)
-- citizen_id varchar(50)
-- birthday timestamp
-- address varchar(255)
+- status int
+- password varchar(255)
 
 + positions (ok)
 - id int auto_creament
@@ -81,15 +74,20 @@ _ product_prices_id fk product_prices.id
 - id int auto_creament
 - name varchar(100)
 
-+ department_users
++ user_profiles (ok)
 - id int auto_creament
 - user_id fk users.id
+- position_id fk positions.id
 - department_id fk departments.id
+- phone_number varchar(20)
+- gender int(11)
+- citizen_id varchar(50)
+- birthday timestamp
+- address varchar(255)
 
 + salaries
 - id int auto_creament
 - user_id fk users.id
-- position_id fk positions.id
 - amount decimal(16, 4)
 - approved_at timestamp
 - approved_by fk users.id

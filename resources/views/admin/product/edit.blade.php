@@ -305,12 +305,8 @@
             }
         );
 
-        @if (!old('thumbnail'))
-            thumbnail.addFile(`{{ $product->thumbnail }}`);
-        @endif
+        thumbnail.addFile(`{{ $product->thumbnail }}`);
 
-        @if (!old('images'))
-            images.addFiles({!! json_encode($product->images) !!});
-        @endif
+        images.addFiles({!! json_encode($product->images) !!});
     </script>
 @endsection
