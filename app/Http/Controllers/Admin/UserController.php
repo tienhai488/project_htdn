@@ -6,7 +6,9 @@ use App\Enums\Gender;
 use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\Position\PositionRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -80,17 +82,38 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $userProfile = $this->userRepository->getUserProfile($user);
+        $userStatuses = UserStatus::getUserStatuses();
+        $positions = $this->positionRepository->all();
+        $departments = $this->departmentRepository->all();
+        $genders = Gender::getGenders();
+
+        return view(
+            'admin.user.edit',
+            compact(
+                'user',
+                'userProfile',
+                'userStatuses',
+                'positions',
+                'departments',
+                'genders',
+            )
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $this->userRepository->update($user, $request->except('_token')) ?
+            session()->flash('success', 'Cập nhật người dùng thành công')
+            :
+            session()->flash('error', 'Cập nhật người dùng không thành công');
+
+        return to_route('admin.user.index');
     }
 
     /**
