@@ -36,4 +36,16 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
 
         return $query->latest()->paginate(self::PER_PAGE);
     }
+
+    public function destroy($model)
+    {
+        if ($model->users()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá phòng ban không thành công. Phòng ban đang tồn tại thành viên.',
+            ];
+        }
+
+        return $model->delete();
+    }
 }

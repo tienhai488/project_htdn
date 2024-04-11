@@ -20,6 +20,8 @@ use App\Repositories\ShippingUnit\ShippingUnitRepository;
 use App\Repositories\ShippingUnit\ShippingUnitRepositoryInterface;
 use App\Repositories\Supplier\SupplierRepository;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -38,6 +40,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->singleton(PositionRepositoryInterface::class, PositionRepository::class);
         $this->app->singleton(DepartmentRepositoryInterface::class, DepartmentRepository::class);
+        $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**

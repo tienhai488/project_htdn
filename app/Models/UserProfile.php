@@ -2,10 +2,40 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class UserProfile extends Model
+class UserProfile extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
+
+    const USER_PROFILE_THUMBNAIL_COLLECTION = 'user_profile_thumbnail';
+
+    protected $fillable = [
+        'user_id',
+        'position_id',
+        'department_id',
+        'phone_number',
+        'gender',
+        'citizen_id',
+        'birthday',
+        'address',
+    ];
+
+    protected $casts = [
+        'gender' => Gender::class,
+    ];
+
+    protected function getThumbnailAttribute(): string
+    {
+        return $this->getFirstMediaUrl(self::USER_PROFILE_THUMBNAIL_COLLECTION) ?: asset('src/assets/img/user-default.jpg');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::USER_PROFILE_THUMBNAIL_COLLECTION)->singleFile();
+    }
 }

@@ -9,16 +9,10 @@ enum PaymentStatus: int
 
     public static function getPaymentStatuses(): array
     {
-        return [
-            [
-                'case' => self::UNPAID,
-                'description' => self::UNPAID->getDescription(),
-            ],
-            [
-                'case' => self::PAID,
-                'description' => self::PAID->getDescription(),
-            ]
-        ];
+        return array_map(fn ($case) => [
+            'case' => $case,
+            'description' => $case->getDescription(),
+        ], self::cases());
     }
 
     public function getDescription(): string

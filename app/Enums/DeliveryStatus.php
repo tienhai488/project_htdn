@@ -19,12 +19,10 @@ enum DeliveryStatus: int
 
     public static function getDeliveryStatuses(): array
     {
-        $cases = DeliveryStatus::cases();
-
         return array_map(fn ($case) => [
             'case' => $case,
             'description' => $case->getDescription(),
-        ], $cases);
+        ], self::cases());
     }
 
     public function getDescription()

@@ -36,4 +36,16 @@ class PositionRepository extends BaseRepository implements PositionRepositoryInt
 
         return $query->latest()->paginate(self::PER_PAGE);
     }
+
+    public function destroy($model)
+    {
+        if ($model->users()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá vị trí không thành công. Vị trí đang tồn tại thành viên.',
+            ];
+        }
+
+        return $model->delete();
+    }
 }
