@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\Gender;
+use App\Enums\SalaryStatus;
 use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
@@ -12,7 +13,6 @@ use App\Models\User;
 use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\Position\PositionRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -89,6 +89,7 @@ class UserController extends Controller
         $positions = $this->positionRepository->all();
         $departments = $this->departmentRepository->all();
         $genders = Gender::getGenders();
+        $salaryStatuses = SalaryStatus::getSalaryStatuses();
 
         return view(
             'admin.user.edit',
@@ -99,6 +100,7 @@ class UserController extends Controller
                 'positions',
                 'departments',
                 'genders',
+                'salaryStatuses',
             )
         );
     }

@@ -4,6 +4,7 @@ use App\Models\Order;
 use App\Models\ProductPrice;
 use App\Models\PurchaseOrder;
 use App\Models\TemporaryFile;
+use Carbon\Carbon;
 
 function getImageInStorage($field = '')
 {
@@ -58,4 +59,12 @@ function getTotalPurchaseOrderAmount(PurchaseOrder $purchaseOrder)
     });
 
     return $totalAmount;
+}
+
+function formatDate($datetime, $format = 'd/m/Y H:i:s')
+{
+    if (!$datetime) {
+        return '';
+    }
+    return Carbon::parse($datetime)->format($format);
 }

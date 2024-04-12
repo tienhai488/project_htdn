@@ -125,4 +125,22 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    public function getAllUserWithSalaries($searchParams)
+    {
+        $limit = Arr::get($searchParams, 'limit', self::PER_PAGE);
+        $keyword = Arr::get($searchParams, 'search', '');
+
+        $query = $this->model->query()->with('salaries');
+
+        if ($keyword) {
+            if (is_array($keyword)) {
+                $keyword = $keyword['value'];
+            }
+
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        return $query->latest()->paginate($limit);
+    }
 }

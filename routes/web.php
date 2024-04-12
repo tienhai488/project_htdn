@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
+use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\ShippingUnitController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
@@ -59,6 +60,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('department', DepartmentController::class);
 
     Route::resource('user', UserController::class);
+
+    Route::resource('salary', SalaryController::class);
 });
 
 Route::post('upload', [UploadController::class, 'store'])->name('upload');

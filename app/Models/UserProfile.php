@@ -17,7 +17,6 @@ class UserProfile extends Model implements HasMedia
 
     protected $fillable = [
         'user_id',
-        'position_id',
         'department_id',
         'phone_number',
         'gender',

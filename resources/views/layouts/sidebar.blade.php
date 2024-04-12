@@ -256,6 +256,38 @@
                     </li>
                 </ul>
             </li>
+
+            <li
+            class="menu
+                @if (request()->routeIs('admin.salary.*'))
+                active
+                @endif"
+            >
+                <a
+                    href="#salaries"
+                    data-bs-toggle="collapse"
+                    aria-expanded="false" class="dropdown-toggle collapsed"
+                >
+                    <div class="">
+                        <i data-feather="dollar-sign"></i>
+                        <span>Quản lý lương</span>
+                    </div>
+                    <div>
+                        <i data-feather="chevron-right"></i>
+                    </div>
+                </a>
+                <ul
+                    class="collapse submenu list-unstyled
+                    @if (request()->routeIs('admin.salary.*'))
+                    show
+                    @endif"
+                    id="salaries" data-bs-parent="#accordionExample"
+                >
+                    <li class="@if (request()->routeIs('admin.salary.*')) active @endif">
+                        <a href="{{ route('admin.salary.index') }}">Lương</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>

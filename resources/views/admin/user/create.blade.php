@@ -328,7 +328,7 @@
             FilePondPluginImageExifOrientation,
             FilePondPluginFileValidateSize,
             FilePondPluginImageTransform,
-            FilePondPluginFileEncode,
+            // FilePondPluginFileEncode,
             FilePondPluginFileValidateType
         );
 
