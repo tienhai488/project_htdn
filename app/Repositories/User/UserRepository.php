@@ -43,7 +43,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ?:
             [
                 'user_id' => $model->id,
-                'position_id' => '',
                 'department_id' => '',
                 'phone_number' => '',
                 'gender' => '',
@@ -65,7 +64,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user = $this->model->create($userData);
 
         $userProfileData = [
-            'position_id' => $data['position_id'],
             'department_id' => $data['department_id'],
             'phone_number' => $data['phone_number'],
             'gender' => $data['gender'],
@@ -100,7 +98,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user->update($userData);
 
         $userProfileData = [
-            'position_id' => $data['position_id'],
             'department_id' => $data['department_id'],
             'phone_number' => $data['phone_number'],
             'gender' => $data['gender'],

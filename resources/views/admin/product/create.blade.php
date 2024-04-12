@@ -58,111 +58,97 @@
     <form id="myForm" action="{{ route('admin.product.store') }}" method="POST">
         @csrf
         <div class="row mb-4 layout-spacing layout-top-spacing">
-            <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="widget-content widget-content-area ecommerce-create-section">
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <label for="descriptilon">Ảnh đại diện <strong class="text-danger">*</strong></label>
-                            <input type="file" class="filepond file-upload" id="thumbnail" name="thumbnail">
-                            @error('thumbnail')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="form-group mb-4">
-                            <label for="name">Tên <strong class="text-danger">*</strong>
-                            </label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                id="name" placeholder="Tên" value="{{ old('name') }}" spellcheck="false">
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <label for="descriptilon">Mô tả <strong class="text-danger">*</strong>
-                            </label>
-                            <div id="description"></div>
-                            <textarea id="descriptionTextarea" name="description" style="display:none;">{{ old('description') }}</textarea>
-                            @error('description')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group mb-4">
-                            <label for="images">Hình ảnh liên quan <strong class="text-danger">*</strong>
-                            </label>
-                            <div class="multiple-file-upload">
-                                <input type="file" name="images[]" class="filepond file-upload-multiple" id="images"
-                                    accept="image/*" multiple data-allow-reorder="true">
-                            </div>
-                            @error('images.*')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
+            <div class="widget-content widget-content-area ecommerce-create-section">
+                <div class="row mb-4">
+                    <div class="col-sm-12">
+                        <label for="descriptilon">Ảnh đại diện <strong class="text-danger">*</strong></label>
+                        <input type="file" class="filepond file-upload" id="thumbnail" name="thumbnail">
+                        @error('thumbnail')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
-            </div>
-            <div class="col-xxl-3 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                <div class="form-group mb-4">
+                    <label for="name">Tên <strong class="text-danger">*</strong>
+                    </label>
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                        id="name" placeholder="Tên" value="{{ old('name') }}" spellcheck="false">
+                    @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 <div class="row">
-                    <div class="col-xxl-12 col-xl-8 col-lg-8 col-md-7 mt-xxl-0 mt-4">
-                        <div class="widget-content widget-content-area ecommerce-create-section">
-                            <div class="row">
-                                <div class="col-xxl-12 col-md-6 mb-4">
-                                    <label for="category_id">Danh mục sản phẩm <strong class="text-danger">*</strong>
-                                    </label></label>
-                                    <select class="form-select" id="category_id" name="category_id">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($productCategories as $item)
-                                            <option @selected($item->id == old('category_id')) value="{{ $item->id }}">
-                                                {{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category_id')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-12 col-xl-4 col-lg-4 col-md-5 mt-4">
-                        <div class="widget-content widget-content-area ecommerce-create-section">
-                            <div class="row">
-                                <div class="col-sm-12 mb-4">
-                                    <label for="regular-price">Giá nhập <strong class="text-danger">*</strong>
-                                    </label></label>
-                                    <input type="text" class="form-control" name="regular_price" id="regular-price"
-                                        value="{{ old('regular_price') }}" placeholder="Giá nhập" spellcheck="false">
-                                    @error('regular_price')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-12 mb-4">
-                                    <label for="sale-price">Giá bán <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input type="text" class="form-control" name="sale_price" id="sale-price"
-                                        value="{{ old('sale_price') }}" placeholder="Giá bán" spellcheck="false">
-                                    @error('sale_price')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit"
-                                        class="btn btn-primary w-100 _effect--ripple waves-effect waves-light">
-                                        Hoàn tất
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-xxl-12 col-md-6 mb-4">
+                        <label for="category_id">Danh mục sản phẩm <strong class="text-danger">*</strong>
+                        </label></label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            <option value="">Lựa chọn</option>
+                            @foreach ($productCategories as $item)
+                                <option @selected($item->id == old('category_id')) value="{{ $item->id }}">
+                                    {{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mb-4 col-md-6">
+                        <label for="regular-price">Giá nhập <strong class="text-danger">*</strong>
+                        </label></label>
+                        <input type="text" class="form-control" name="regular_price" id="regular-price"
+                            value="{{ old('regular_price') }}" placeholder="Giá nhập" spellcheck="false">
+                        @error('regular_price')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="col-sm-12 mb-4 col-md-6">
+                        <label for="sale-price">Giá bán <strong class="text-danger">*</strong>
+                        </label>
+                        <input type="text" class="form-control" name="sale_price" id="sale-price"
+                            value="{{ old('sale_price') }}" placeholder="Giá bán" spellcheck="false">
+                        @error('sale_price')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-sm-12">
+                        <label for="descriptilon">Mô tả <strong class="text-danger">*</strong>
+                        </label>
+                        <div id="description"></div>
+                        <textarea id="descriptionTextarea" name="description" style="display:none;">{{ old('description') }}</textarea>
+                        @error('description')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-4">
+                        <label for="images">Hình ảnh liên quan <strong class="text-danger">*</strong>
+                        </label>
+                        <div class="multiple-file-upload">
+                            <input type="file" name="images[]" class="filepond file-upload-multiple" id="images"
+                                accept="image/*" multiple data-allow-reorder="true">
+                        </div>
+                        @error('images.*')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
+                    Hoàn tất
+                </button>
             </div>
         </div>
     </form>
@@ -252,7 +238,7 @@
             FilePondPluginImageExifOrientation,
             FilePondPluginFileValidateSize,
             FilePondPluginImageTransform,
-            // FilePondPluginFileEncode,
+            FilePondPluginFileEncode,
             FilePondPluginFileValidateType
         );
 

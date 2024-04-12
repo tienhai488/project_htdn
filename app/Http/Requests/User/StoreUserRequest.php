@@ -54,10 +54,6 @@ class StoreUserRequest extends FormRequest
                     ->symbols(),
                 'confirmed',
             ],
-            'position_id' => [
-                'required',
-                'exists:positions,id',
-            ],
             'department_id' => [
                 'required',
                 'exists:departments,id',
@@ -109,7 +105,6 @@ class StoreUserRequest extends FormRequest
             'email' => 'email',
             'status' => 'trạng thái tài khoản',
             'password' => 'mật khẩu',
-            'position_id' => 'vị trí',
             'department_id' => 'phòng ban',
             'phone_number' => 'số điện thoại',
             'gender' => 'giới tính',

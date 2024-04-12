@@ -178,22 +178,14 @@
                                 </div>
 
                                 <div class="form-group mb-4 col-md-6">
-                                    <label for="position_id">Vị trí <strong class="text-danger">*</strong>
-                                    </label>
-                                    <select class="form-select" id="position_id" name="position_id">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($positions as $position)
-                                            <option
-                                                @selected(old('position_id') == $position->id)
-                                                value="{{ $position->id }}"
-                                            >
-                                                {{ $position->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('position_id')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                    <label for="position_id">Vị trí</label>
+                                    <input
+                                        type="text"
+                                        id="position_id"
+                                        class="form-control text-dark"
+                                        value="N/A"
+                                        readonly
+                                    >
                                 </div>
 
                                 <div class="form-group mb-4 col-md-6">
@@ -328,7 +320,7 @@
             FilePondPluginImageExifOrientation,
             FilePondPluginFileValidateSize,
             FilePondPluginImageTransform,
-            // FilePondPluginFileEncode,
+            FilePondPluginFileEncode,
             FilePondPluginFileValidateType
         );
 
