@@ -13,9 +13,22 @@ class Position extends Model
         'name',
     ];
 
-    // Get the list of users belonging to the position
-    public function users()
+    protected $appends = [
+        'count_users_pending_salary',
+    ];
+
+    // Get the list of salaries belonging to the position
+    public function salaries()
     {
-        return $this->hasMany(UserProfile::class, 'position_id', 'id');
+        return $this->hasMany(Salary::class, 'position_id', 'id');
+    }
+
+    public function getCountUsersPendingSalaryAttribute()
+    {
+        return $this
+            ->salaries()
+            ->pending()
+            ->distinct('user_id')
+            ->count();
     }
 }

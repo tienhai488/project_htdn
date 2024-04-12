@@ -32,17 +32,15 @@ class PositionRepository extends BaseRepository implements PositionRepositoryInt
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
-        $query->withCount('users');
-
         return $query->latest()->paginate(self::PER_PAGE);
     }
 
     public function destroy($model)
     {
-        if ($model->users()->count()) {
+        if ($model->salaries()->count()) {
             return [
                 'icon' => 'error',
-                'title' => 'Xoá vị trí không thành công. Vị trí đang tồn tại thành viên.',
+                'title' => 'Xoá vị trí không thành công. Dữ liệu đã tồn tại trong lịch sử lương.',
             ];
         }
 

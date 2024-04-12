@@ -48,6 +48,10 @@ class User extends Authenticatable
         'status' => UserStatus::class,
     ];
 
+    protected $appends = [
+        'approved_salary',
+    ];
+
     public function user_profile()
     {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');
@@ -62,7 +66,7 @@ class User extends Authenticatable
     {
         return $this
             ->salaries()
-            ->where('status', SalaryStatus::APPROVED)
+            ->approved()
             ->orderByDesc('approved_at')
             ->first();
     }
@@ -71,7 +75,7 @@ class User extends Authenticatable
     {
         return $this
             ->salaries()
-            ->where('status', SalaryStatus::APPROVED)
+            ->approved()
             ->with(['user', 'approvedBy', 'position'])
             ->orderByDesc('approved_at')
             ->get();
@@ -81,7 +85,7 @@ class User extends Authenticatable
     {
         return $this
             ->salaries()
-            ->where('status', SalaryStatus::PENDING)
+            ->pending()
             ->orderByDesc('created_at')
             ->first();
     }
