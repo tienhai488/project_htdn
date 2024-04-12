@@ -72,7 +72,7 @@
 
                 <div class="widget-content widget-content-area" style="padding: 20px !important;">
                     <div class="col-lg-12">
-                        @if (empty($user->pending_salary))
+                        @if (empty($pendingSalary))
                         <div class="d-flex justify-content-end">
                             <button
                                 type="button"
@@ -100,8 +100,8 @@
                                         <div class="modal-body pb-2">
                                             <p class="modal-text" style="color: #515365;">
                                                 Tiền lương hiện tại: {{
-                                                    $user->approved_salary ?
-                                                    number_format($user->approved_salary->amount)
+                                                    $approvedSalary ?
+                                                    number_format($approvedSalary->amount)
                                                     :
                                                     'N/A'
                                                 }}
@@ -109,8 +109,8 @@
 
                                             <p class="modal-text" style="color: #515365;">
                                                 Vị trí hiện tại: {{
-                                                    $user->approved_salary ?
-                                                    $user->approved_salary->position->name
+                                                    $approvedSalary ?
+                                                    $approvedSalary->position->name
                                                     :
                                                     'N/A'
                                                 }}
@@ -313,9 +313,15 @@
                                     <label for="position_id">Vị trí
                                     </label>
                                     <input
+                                        value="{{
+                                        $approvedSalary ?
+                                        $approvedSalary->position->name
+                                        :
+                                        'N/A'
+                                        }}"
                                         type="text"
                                         id="position_id"
-                                        class="form-control"
+                                        class="form-control text-dark"
                                         readonly
                                     >
                                 </div>
@@ -466,7 +472,7 @@
             <div class="widget-content widget-content-area pb-1" style="border: none; background-color:rgba(255, 255, 255, 0)">
                 <div class="table-responsive">
                     <table class="table table-bordered">
-                        @if (!empty($user->pending_salary))
+                        @if (!empty($pendingSalary))
                         <thead>
                             <tr>
                                 <th scope="col" class="text-center">Vị trí</th>
@@ -478,17 +484,17 @@
                         <tbody>
                             <tr>
                                 <td class="text-center">
-                                    {{ $user->pending_salary->position->name }}
+                                    {{ $pendingSalary->position->name }}
                                 </td>
                                 <td class="text-end">
-                                    {{ number_format($user->pending_salary->amount) }}
+                                    {{ number_format($pendingSalary->amount) }}
                                 </td>
                                 <td class="text-center">
-                                    {{ formatDate($user->pending_salary->created_at, 'd/m/Y') }}
+                                    {{ formatDate($pendingSalary->created_at, 'd/m/Y') }}
                                 </td>
                                 <td class="text-center">
                                     <form
-                                        action="{{ route('admin.salary.update', $user->pending_salary) }}" method="POST"
+                                        action="{{ route('admin.salary.update', $pendingSalary) }}" method="POST"
                                     >
                                         @method('PUT')
                                         @csrf
@@ -522,8 +528,8 @@
                 <div class="mt-container mx-auto">
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="timeline-line">
-                            @if ($user->all_approved_salary->count() > 0)
-                            @foreach ($user->all_approved_salary as $key => $item)
+                            @if ($allApprovedSalary->count() > 0)
+                            @foreach ($allApprovedSalary as $key => $item)
                                 <div class="item-timeline">
                                     <p class="t-time">
                                         {{ formatDate($item->approved_at, 'd/m/Y H:i:s') }}

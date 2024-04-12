@@ -48,11 +48,6 @@ class User extends Authenticatable
         'status' => UserStatus::class,
     ];
 
-    protected $with = [
-        'user_profile',
-        'salaries',
-    ];
-
     public function user_profile()
     {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');

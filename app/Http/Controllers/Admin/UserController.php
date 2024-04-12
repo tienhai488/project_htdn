@@ -90,6 +90,9 @@ class UserController extends Controller
         $departments = $this->departmentRepository->all();
         $genders = Gender::getGenders();
         $salaryStatuses = SalaryStatus::getSalaryStatuses();
+        $approvedSalary = $user->approved_salary;
+        $pendingSalary = $user->pending_salary;
+        $allApprovedSalary = $user->all_approved_salary;
 
         return view(
             'admin.user.edit',
@@ -101,6 +104,9 @@ class UserController extends Controller
                 'departments',
                 'genders',
                 'salaryStatuses',
+                'approvedSalary',
+                'pendingSalary',
+                'allApprovedSalary',
             )
         );
     }
