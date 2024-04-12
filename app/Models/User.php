@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\SalaryStatus;
 use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,5 +51,38 @@ class User extends Authenticatable
     public function user_profile()
     {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');
+    }
+
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class, 'user_id', 'id');
+    }
+
+    public function getApprovedSalaryAttribute()
+    {
+        return $this
+            ->salaries()
+            ->where('status', SalaryStatus::APPROVED)
+            ->orderByDesc('approved_at')
+            ->first();
+    }
+
+    public function getAllApprovedSalaryAttribute()
+    {
+        return $this
+            ->salaries()
+            ->where('status', SalaryStatus::APPROVED)
+            ->with(['user', 'approvedBy', 'position'])
+            ->orderByDesc('approved_at')
+            ->get();
+    }
+
+    public function getPendingSalaryAttribute()
+    {
+        return $this
+            ->salaries()
+            ->where('status', SalaryStatus::PENDING)
+            ->orderByDesc('created_at')
+            ->first();
     }
 }

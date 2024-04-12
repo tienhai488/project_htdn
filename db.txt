@@ -77,7 +77,6 @@ _ product_prices_id fk product_prices.id
 + user_profiles (ok)
 - id int auto_creament
 - user_id fk users.id
-- position_id fk positions.id
 - department_id fk departments.id
 - phone_number varchar(20)
 - gender int(11)
@@ -89,6 +88,7 @@ _ product_prices_id fk product_prices.id
 - id int auto_creament
 - user_id fk users.id
 - amount decimal(16, 4)
+- position_id fk positions.id
 - approved_at timestamp
 - approved_by fk users.id
 - status int(11) default(0)

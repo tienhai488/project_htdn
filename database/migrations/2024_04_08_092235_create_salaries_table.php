@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->decimal('amount', 16, 4)->nullable();
+            $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->integer('status')->default(0);
