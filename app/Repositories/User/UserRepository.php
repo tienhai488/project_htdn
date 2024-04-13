@@ -106,16 +106,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'address' => $data['address'],
         ];
 
-        $user->user_profile ?
-            $user->user_profile()->update($userProfileData)
-            :
-            $user->user_profile()->create($userProfileData);
+        if ($user->user_profile) {
+            $userProfile = $user->user_profile;
+            $user->user_profile()->update($userProfileData);
+        } else {
+            $userProfile = $user->user_profile()->create($userProfileData);
+        }
 
+        $userProfile->clearMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
 
-        $user->user_profile->clearMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
-
-        $user
-            ->user_profile
+        $userProfile
             ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
             ->usingFileName(json_decode($data['thumbnail'])->name)
             ->toMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
@@ -139,5 +139,41 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         }
 
         return $query->latest()->paginate($limit);
+    }
+
+    function updateProfile($user, $data)
+    {
+        $userData = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+        ];
+
+        $user->update($userData);
+
+        $userProfileData = [
+            'phone_number' => $data['phone_number'],
+            'gender' => $data['gender'],
+            'citizen_id' => $data['citizen_id'],
+            'birthday' => $data['birthday'],
+            'address' => $data['address'],
+        ];
+
+        if ($user->user_profile) {
+            $userProfile = $user->user_profile;
+            $user->user_profile()->update($userProfileData);
+        } else {
+            $userProfile = $user->user_profile()->create($userProfileData);
+        }
+
+        $userProfile->clearMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+
+        if ($data['filepond']) {
+            $userProfile
+                ->addMediaFromBase64(json_decode($data['filepond'])->data)
+                ->usingFileName(json_decode($data['filepond'])->name)
+                ->toMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+        }
+
+        return $user;
     }
 }

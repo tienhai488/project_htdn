@@ -28,7 +28,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar-container">
                         <div class="avatar avatar-sm avatar-indicators avatar-online">
-                            <img alt="avatar" src="{{ asset('src/assets/img/profile-30.png') }}"
+                            <img alt="avatar" src="{{ auth()->user()->thumbnail }}"
                                 class="rounded-circle">
                         </div>
                     </div>
@@ -40,13 +40,17 @@
                                 &#x1F44B;
                             </div>
                             <div class="media-body">
-                                <h5>Shaun Park</h5>
-                                <p>Project Leader</p>
+                                <h5>{{ auth()->user()->name }}</h5>
+                                <p>{{
+                                    auth()->user()->approved_salary ?
+                                    auth()->user()->approved_salary->position->name :
+                                    ''
+                                }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="dropdown-item">
-                        <a href="user-profile.html">
+                        <a href="{{ route('admin.profile.index') }}">
                             <i data-feather="user"></i><span>Profile</span>
                         </a>
                     </div>
