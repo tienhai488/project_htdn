@@ -13,4 +13,6 @@ interface UserRepositoryInterface extends RepositoryInterface
     function getAllUserWithSalaries($searchParams);
 
     function updateProfile($user, $data);
+
+    function udpatePassword($user, $password);
 }

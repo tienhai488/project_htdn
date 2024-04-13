@@ -176,4 +176,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    function udpatePassword($user, $password)
+    {
+        return $user->update(
+            ['password' => Hash::make($password)]
+        );
+    }
 }

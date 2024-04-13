@@ -69,13 +69,13 @@
                             <div class="col-md-12">
                                 <ul class="nav nav-pills" id="animateLine" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="animated-underline-home-tab" data-bs-toggle="tab" href="#animated-underline-home" role="tab" aria-controls="animated-underline-home" aria-selected="true">
+                                        <button class="nav-link @if (!session('tab_password')) active @endif" id="animated-underline-home-tab" data-bs-toggle="tab" href="#animated-underline-home" role="tab" aria-controls="animated-underline-home" aria-selected="@if (!session('tab_password')) true @else false @endif">
                                             <i data-feather="user"></i>
                                             Thông tin
                                         </button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="animated-underline--tab" data-bs-toggle="tab" href="#animated-underline-profile" role="tab" aria-controls="animated-underline-profile" aria-selected="false" tabindex="-1">
+                                    <li class="nav-item" role="presentation" id="">
+                                        <button class="nav-link @if (session('tab_password')) active @endif" id="animated-underline--tab" data-bs-toggle="tab" href="#animated-underline-profile" role="tab" aria-controls="animated-underline-profile" aria-selected="@if (session('tab_password')) true @else false @endif" tabindex="-1">
                                             <i data-feather="lock"></i>
                                             Mật khẩu
                                         </button>
@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="tab-content" id="animateLineContent-4">
-                            <div class="tab-pane fade active show" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
+                            <div class="tab-pane-profile tab-pane fade active show" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
                                         <form class="section general-info" action="{{ route('admin.profile.update', $user) }}" method="POST">
@@ -287,10 +287,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="animated-underline-profile" role="tabpanel" aria-labelledby="animated-underline-profile-tab">
+
+                            <div class="tab-pane-password tab-pane fade" id="animated-underline-profile" role="tabpanel" aria-labelledby="animated-underline-profile-tab">
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                                        <form class="section general-info" action="" method="POST">
+                                        <form class="section general-info" action="{{ route('admin.profile.update_password') }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="info">
@@ -301,7 +302,7 @@
                                                                 <label for="current_password">Mật khẩu hiện tại <strong class="text-danger">*</strong>
                                                                 </label>
                                                                 <input
-                                                                    type="current_password"
+                                                                    type="password"
                                                                     name="current_password"
                                                                     id="current_password"
                                                                     class="form-control @error('current_password') is-invalid @enderror"
@@ -393,6 +394,25 @@
         styleButtonRemoveItemPosition: 'left bottom',
         styleButtonProcessItemPosition: 'right bottom',
     });
+
+    let tabPaneProfile = document.querySelector('.tab-pane-profile');
+    let tabPanePassword = document.querySelector('.tab-pane-password');
+    let checkLoaded = false;
+
+    @if (session('tab_password'))
+        tabPaneProfile.classList.remove('active', 'show');
+        tabPanePassword.classList.add('active', 'show');
+
+        document.querySelector('#animated-underline-home-tab').onclick = () => {
+            tabPaneProfile.classList.add('active', 'show');
+            tabPanePassword.classList.remove('active', 'show');
+
+            if(!checkLoaded){
+                thumbnail.addFile(`{{ $user->thumbnail }}`);
+                checkLoaded = true;
+            }
+        }
+    @endif
 
     thumbnail.addFile(`{{ $user->thumbnail }}`);
 

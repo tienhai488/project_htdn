@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\Gender;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Profile\UpdatePasswordProfileRequest;
 use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Repositories\User\UserRepositoryInterface;
 
@@ -38,6 +39,16 @@ class ProfileController extends Controller
             session()->flash('success', 'Cập nhật thông tin cá nhân thành công')
             :
             session()->flash('error', 'Cập nhật thông tin cá nhân không thành công');
+
+        return back();
+    }
+
+    public function updatePassword(UpdatePasswordProfileRequest $request)
+    {
+        $this->userRepository->udpatePassword(auth()->user(), $request->password) ?
+            session()->flash('success', 'Cập nhật mật khẩu thành công')
+            :
+            session()->flash('error', 'Cập nhật mật khẩu không thành công');
 
         return back();
     }

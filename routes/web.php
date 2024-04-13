@@ -47,6 +47,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
         Route::get('', [ProfileController::class, 'index'])->name('index');
 
         Route::put('', [ProfileController::class, 'update'])->name('update');
+
+        Route::put('password', [ProfileController::class, 'updatePassword'])->middleware('check_tab')->name('update_password');
     });
 
     Route::resource('supplier', SupplierController::class)->except('show');
