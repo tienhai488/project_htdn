@@ -21,7 +21,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         parent::__construct($model);
     }
 
-    function getDataForDatatable(array $searchArr)
+    public function getDataForDatatable(array $searchArr)
     {
         $query = $this->model->query();
 

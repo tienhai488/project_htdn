@@ -20,7 +20,7 @@ class SalaryRepository extends BaseRepository implements SalaryRepositoryInterfa
         parent::__construct($model);
     }
 
-    function getDataForDatatable(array $searchArr)
+    public function getDataForDatatable(array $searchArr)
     {
         $query = $this->model->query();
 
@@ -56,7 +56,7 @@ class SalaryRepository extends BaseRepository implements SalaryRepositoryInterfa
         return $this->model->create($salaryData);
     }
 
-    function updateSalaryStatus($salary)
+    public function updateSalaryStatus($salary)
     {
         $dataUpdate = [
             'status' => SalaryStatus::APPROVED,

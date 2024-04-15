@@ -6,7 +6,7 @@ use App\Repositories\RepositoryInterface;
 
 interface SalaryRepositoryInterface extends RepositoryInterface
 {
-    function getDataForDatatable(array $searchArr);
+    public function getDataForDatatable(array $searchArr);
 
-    function updateSalaryStatus($salary);
+    public function updateSalaryStatus($salary);
 }
