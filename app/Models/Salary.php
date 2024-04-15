@@ -23,6 +23,16 @@ class Salary extends Model
         'status' => SalaryStatus::class,
     ];
 
+    public function scopeApproved($query)
+    {
+        return $query->where('status', SalaryStatus::APPROVED);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', SalaryStatus::PENDING);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

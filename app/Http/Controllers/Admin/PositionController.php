@@ -7,12 +7,14 @@ use App\Http\Requests\Positon\StorePositionRequest;
 use App\Http\Requests\Positon\UpdatePositionRequest;
 use App\Models\Position;
 use App\Repositories\Position\PositionRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
     public function __construct(
         protected PositionRepositoryInterface $positionRepository,
+        protected UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -21,10 +23,11 @@ class PositionController extends Controller
      */
     public function index(Request $request)
     {
+        $countList = $this->userRepository->getCountUsersInPosition();
         if ($request->ajax()) {
             return $this->positionRepository->getDataForDatatable($request->all());
         }
-        return view('admin.position.index');
+        return view('admin.position.index', compact('countList'));
     }
 
     /**

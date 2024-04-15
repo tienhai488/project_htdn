@@ -61,7 +61,8 @@
                             <tr role="row">
                                 <th>#</th>
                                 <th>Tên</th>
-                                <th>Số lượng thành viên</th>
+                                <th>SL thành viên hiện tại</th>
+                                <th>SL thành viên chờ duyệt</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -201,7 +202,15 @@
                     "class": "text-center",
                 },
                 {
-                    "data": "users_count",
+                    "data": "id",
+                    "class": "text-center",
+                    "render": function(data, type, full, meta) {
+                        let countList = {!! $countList !!};
+                        return countList[data] ? countList[data] : 0;
+                    },
+                },
+                {
+                    "data": "count_users_pending_salary",
                     "class": "text-center",
                 },
                 {

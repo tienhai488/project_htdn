@@ -141,6 +141,23 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $query->latest()->paginate($limit);
     }
 
+    function getCountUsersInPosition()
+    {
+        $users = $this->model->get();
+
+        return $users->map(function ($product) {
+            $approvedSalary = $product->approved_salary;
+            return $approvedSalary ? $approvedSalary->position->id : null;
+        })
+            ->filter()
+            ->groupBy(function ($positionId) {
+                return $positionId;
+            })
+            ->map(function ($group) {
+                return $group->count();
+            });
+    }
+  
     function updateProfile($user, $data)
     {
         $userData = [
