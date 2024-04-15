@@ -58,12 +58,12 @@ class UpdateProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'max' => 'Trường :attribute tối đa :max kí tự!',
-            'exists' => 'Trường :attribute không tồn tại!',
-            'min' => 'Trường :attribute có giá trị tối thiếu là :min!',
-            'numeric' => 'Trường :attribute phải là số!',
-            'unique' => 'Trường :attribute đã tồn tại trong CSDL!',
+            'required' => 'Trường :attribute không được để trống.',
+            'max' => 'Trường :attribute tối đa :max kí tự.',
+            'exists' => 'Trường :attribute không tồn tại.',
+            'min' => 'Trường :attribute có giá trị tối thiếu là :min.',
+            'numeric' => 'Trường :attribute phải là số.',
+            'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
         ];
     }
 

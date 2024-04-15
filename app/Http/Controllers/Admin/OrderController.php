@@ -23,6 +23,7 @@ class OrderController extends Controller
         protected ShippingUnitRepositoryInterface $shippingUnitRepository,
         protected ProductRepositoryInterface $productRepository,
     ) {
+        //
     }
 
     /**

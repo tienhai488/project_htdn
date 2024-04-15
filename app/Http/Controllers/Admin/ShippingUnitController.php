@@ -14,6 +14,7 @@ class ShippingUnitController extends Controller
     public function __construct(
         protected ShippingUnitRepositoryInterface $shippingUnitRepository,
     ) {
+        //
     }
     /**
      * Display a listing of the resource.

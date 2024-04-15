@@ -33,9 +33,9 @@ class UpdateProductCategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'max' => 'Trường :attribute tối đa :max kí tự!',
-            'unique' => 'Trường :attribute đã tồn tại trong CSDL!',
+            'required' => 'Trường :attribute không được để trống.',
+            'max' => 'Trường :attribute tối đa :max kí tự.',
+            'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
         ];
     }
 

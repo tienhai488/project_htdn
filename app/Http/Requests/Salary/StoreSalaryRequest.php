@@ -43,10 +43,10 @@ class StoreSalaryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'numeric' => 'Trường :attribute phải là số!',
-            'min' => 'Trường :attribute có giá trị tối thiếu là :min!',
-            'exists' => 'Trường :attribute không tồn tại!',
+            'required' => 'Trường :attribute không được để trống.',
+            'numeric' => 'Trường :attribute phải là số.',
+            'min' => 'Trường :attribute có giá trị tối thiếu là :min.',
+            'exists' => 'Trường :attribute không tồn tại.',
         ];
     }
 

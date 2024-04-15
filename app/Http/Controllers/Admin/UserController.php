@@ -22,6 +22,7 @@ class UserController extends Controller
         protected PositionRepositoryInterface $positionRepository,
         protected DepartmentRepositoryInterface $departmentRepository,
     ) {
+        //
     }
 
     /**
