@@ -11,4 +11,8 @@ interface UserRepositoryInterface extends RepositoryInterface
     function getUserProfile($model);
 
     function getAllUserWithSalaries($searchParams);
+
+    function updateProfile($user, $data);
+
+    function udpatePassword($user, $password);
 }

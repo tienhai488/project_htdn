@@ -29,6 +29,11 @@ class UserProfile extends Model implements HasMedia
         'gender' => Gender::class,
     ];
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id', 'id');
+    }
+
     protected function getThumbnailAttribute(): string
     {
         return $this->getFirstMediaUrl(self::USER_PROFILE_THUMBNAIL_COLLECTION) ?: asset('src/assets/img/user-default.jpg');
