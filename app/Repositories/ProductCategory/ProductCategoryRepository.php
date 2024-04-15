@@ -32,6 +32,20 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
+        $query->withCount('products');
+
         return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
+    }
+
+    public function destroy($model)
+    {
+        if ($model->products()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá danh mục sản phẩm không thành công. Dữ liệu đang tồn tại các sản phẩm.',
+            ];
+        }
+
+        return $model->delete();
     }
 }

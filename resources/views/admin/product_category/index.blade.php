@@ -61,6 +61,7 @@
                             <tr role="row">
                                 <th>#</th>
                                 <th>Tên</th>
+                                <th>Số lượng sản phẩm</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -113,9 +114,12 @@
                                     }
                                 });
 
+                                let icon = response.icon ? response.icon : 'success';
+                                let title = response.title ? response.title : 'Xóa dữ liệu thành công!';
+
                                 Toast.fire({
-                                    icon: 'success',
-                                    title: 'Xóa dữ liệu thành công!'
+                                    icon,
+                                    title
                                 });
                             }
                         },
@@ -194,6 +198,10 @@
                 },
                 {
                     "data": "name",
+                    "class": "text-center",
+                },
+                {
+                    "data": "products_count",
                     "class": "text-center",
                 },
                 {
