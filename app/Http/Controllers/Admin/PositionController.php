@@ -16,6 +16,7 @@ class PositionController extends Controller
         protected PositionRepositoryInterface $positionRepository,
         protected UserRepositoryInterface $userRepository,
     ) {
+        //
     }
 
     /**

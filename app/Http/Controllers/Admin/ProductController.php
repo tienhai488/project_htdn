@@ -17,6 +17,7 @@ class ProductController extends Controller
         protected ProductRepositoryInterface $productRepository,
         protected ProductCategoryRepositoryInterface $productCategoryRepository,
     ) {
+        //
     }
 
     /**

@@ -35,8 +35,8 @@ class StorePurchaseOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'exists' => 'Trường :attribute không tồn tại!',
+            'required' => 'Trường :attribute không được để trống.',
+            'exists' => 'Trường :attribute không tồn tại.',
         ];
     }
 

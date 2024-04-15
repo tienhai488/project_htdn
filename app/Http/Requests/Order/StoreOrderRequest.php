@@ -50,9 +50,9 @@ class StoreOrderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'exists' => 'Trường :attribute không tồn tại!',
-            'enum' => 'Trường :attribute đã chọn không hợp lệ!',
+            'required' => 'Trường :attribute không được để trống.',
+            'exists' => 'Trường :attribute không tồn tại.',
+            'enum' => 'Trường :attribute đã chọn không hợp lệ.',
         ];
     }
 

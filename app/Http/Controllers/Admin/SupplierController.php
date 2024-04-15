@@ -14,6 +14,7 @@ class SupplierController extends Controller
     public function __construct(
         protected SupplierRepositoryInterface $supplierRepository
     ) {
+        //
     }
 
     /**

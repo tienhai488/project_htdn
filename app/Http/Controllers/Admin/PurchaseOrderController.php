@@ -19,6 +19,7 @@ class PurchaseOrderController extends Controller
         protected SupplierRepositoryInterface $supplierRepository,
         protected ProductRepositoryInterface $productRepository,
     ) {
+        //
     }
 
     /**

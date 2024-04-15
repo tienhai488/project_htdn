@@ -13,6 +13,7 @@ class ProfileController extends Controller
     public function __construct(
         protected UserRepositoryInterface $userRepository,
     ) {
+        //
     }
 
     public function index()

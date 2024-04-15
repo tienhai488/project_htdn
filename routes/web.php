@@ -14,8 +14,6 @@ use App\Http\Controllers\Admin\ShippingUnitController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,5 +66,3 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 
     Route::resource('salary', SalaryController::class);
 });
-
-Route::post('upload', [UploadController::class, 'store'])->name('upload');

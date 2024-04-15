@@ -16,6 +16,7 @@ class SalaryController extends Controller
         protected UserRepositoryInterface $userRepository,
         protected SalaryRepositoryInterface $salaryRepository,
     ) {
+        //
     }
 
     /**
