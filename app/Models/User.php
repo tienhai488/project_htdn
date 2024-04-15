@@ -70,7 +70,7 @@ class User extends Authenticatable
             asset('src/assets/img/user-default.jpg');
     }
 
-    public function getApprovedSalaryAttriute()
+    public function getApprovedSalaryAttribute()
     {
         return $this
             ->salaries()
