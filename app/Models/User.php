@@ -62,7 +62,15 @@ class User extends Authenticatable
         return $this->hasMany(Salary::class, 'user_id', 'id');
     }
 
-    public function getApprovedSalaryAttribute()
+    public function getThumbnailAttribute()
+    {
+        return $this->user_profile ?
+            $this->user_profile->thumbnail
+            :
+            asset('src/assets/img/user-default.jpg');
+    }
+
+    public function getApprovedSalaryAttriute()
     {
         return $this
             ->salaries()

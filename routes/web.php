@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\ShippingUnitController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,14 @@ Route::prefix('')->middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('', [ProfileController::class, 'index'])->name('index');
+
+        Route::put('', [ProfileController::class, 'update'])->name('update');
+
+        Route::put('password', [ProfileController::class, 'updatePassword'])->middleware('check_tab')->name('update_password');
+    });
 
     Route::resource('supplier', SupplierController::class)->except('show');
 

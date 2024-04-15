@@ -33,13 +33,12 @@ class StoreUserRequest extends FormRequest
             'name' => [
                 'required',
                 'max:100',
-                'unique:suppliers',
             ],
             'email' => [
                 'required',
                 'max:255',
                 'email:rfc,dns',
-                'unique:suppliers',
+                'unique:users',
             ],
             'status' => [
                 'required',
@@ -86,14 +85,15 @@ class StoreUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'max' => 'Trường :attribute tối đa :max kí tự!',
-            'min' => 'Trường :attribute ít nhất :min kí tự!',
-            'email' => 'Trường :attribute không đúng định dạng!',
-            'unique' => 'Trường :attribute đã tồn tại trong CSDL!',
-            'exists' => 'Trường :attribute không tồn tại!',
-            'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp!',
-            'before' => 'Trường :attribute phải đủ 18 tuổi!',
+            'required' => 'Trường :attribute không được để trống.',
+            'max' => 'Trường :attribute tối đa :max kí tự.',
+            'min' => 'Trường :attribute ít nhất :min kí tự.',
+            'email' => 'Trường :attribute không đúng định dạng.',
+            'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
+            'exists' => 'Trường :attribute không tồn tại.',
+            'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp.',
+            'date' => 'Trường :attribute không phải là định dạng của ngày-tháng.',
+            'before' => 'Trường :attribute phải đủ 18 tuổi.',
         ];
     }
 

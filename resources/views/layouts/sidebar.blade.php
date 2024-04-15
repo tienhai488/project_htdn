@@ -8,7 +8,7 @@
                     </a>
                 </div>
                 <div class="nav-item theme-text">
-                    <a href="" class="nav-link">TienHai</a>
+                    <a href="" class="nav-link">HTTTDN</a>
                 </div>
             </div>
             <div class="nav-item sidebar-toggle">
@@ -20,12 +20,16 @@
 
         <div class="profile-info">
             <div class="user-info">
-                <div class="profile-img">
-                    <img src="{{ asset('src/assets/img/profile-30.png') }}" alt="avatar">
+                <div class="avatar avatar-sm me-2">
+                    <img src="{{ auth()->user()->thumbnail }}" alt="avatar" class="rounded-circle">
                 </div>
                 <div class="profile-content">
-                    <h6 class="">Shaun Park</h6>
-                    <p class="">Project Leader</p>
+                    <h6 class="text-dark">{{ auth()->user()->name }} </h6>
+                    <p class="">{{
+                    auth()->user()->approved_salary ?
+                    auth()->user()->approved_salary->position->name :
+                    ''
+                    }}</p>
                 </div>
             </div>
         </div>
@@ -33,7 +37,8 @@
         <ul class="list-unstyled menu-categories" id="accordionExample">
             <li
                 class="menu
-                @if (request()->routeIs('admin.dashboard'))
+                @if (request()->routeIs('admin.dashboard')
+                || request()->routeIs('admin.profile.*'))
                 active
                 @endif"
             >

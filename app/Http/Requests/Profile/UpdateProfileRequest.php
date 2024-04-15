@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Profile;
 
 use App\Enums\Gender;
-use App\Enums\UserStatus;
 use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
-class UpdateUserRequest extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +24,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'thumbnail' => [
-                'required',
-            ],
+        return [
             'name' => [
                 'required',
                 'max:100',
@@ -38,15 +33,7 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'max:255',
                 'email:rfc,dns',
-                'unique:users,email,' . $this->user->id,
-            ],
-            'status' => [
-                'required',
-                Rule::enum(UserStatus::class),
-            ],
-            'department_id' => [
-                'required',
-                'exists:departments,id',
+                'unique:users,email,' . auth()->id(),
             ],
             'phone_number' => [
                 'required',
@@ -71,20 +58,6 @@ class UpdateUserRequest extends FormRequest
                 'max:255',
             ],
         ];
-
-        if (request()->password || request()->password_confirmation) {
-            $rules['password'] = [
-                'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols(),
-                'confirmed',
-            ];
-        }
-
-        return $rules;
     }
 
     public function messages(): array
@@ -92,11 +65,9 @@ class UpdateUserRequest extends FormRequest
         return [
             'required' => 'Trường :attribute không được để trống.',
             'max' => 'Trường :attribute tối đa :max kí tự.',
-            'min' => 'Trường :attribute ít nhất :min kí tự.',
             'email' => 'Trường :attribute không đúng định dạng.',
             'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
             'exists' => 'Trường :attribute không tồn tại.',
-            'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp.',
             'date' => 'Trường :attribute không phải là định dạng của ngày-tháng.',
             'before' => 'Trường :attribute phải đủ 18 tuổi.',
         ];
@@ -105,12 +76,8 @@ class UpdateUserRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'thumbnail' => 'ảnh đại diện',
             'name' => 'tên',
             'email' => 'email',
-            'status' => 'trạng thái tài khoản',
-            'password' => 'mật khẩu',
-            'department_id' => 'phòng ban',
             'phone_number' => 'số điện thoại',
             'gender' => 'giới tính',
             'citizen_id' => 'CMND/CCCD',
