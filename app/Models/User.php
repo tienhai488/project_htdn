@@ -4,16 +4,20 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Enums\SalaryStatus;
 use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+
+    const USER_THUMBNAIL_COLLECTION = 'user_thumbnail';
 
     /**
      * The attributes that are mass assignable.
@@ -62,15 +66,7 @@ class User extends Authenticatable
         return $this->hasMany(Salary::class, 'user_id', 'id');
     }
 
-    public function getThumbnailAttribute()
-    {
-        return $this->user_profile ?
-            $this->user_profile->thumbnail
-            :
-            asset('src/assets/img/user-default.jpg');
-    }
-
-    public function getApprovedSalaryAttriute()
+    public function getApprovedSalaryAttribute()
     {
         return $this
             ->salaries()
@@ -96,5 +92,20 @@ class User extends Authenticatable
             ->pending()
             ->orderByDesc('created_at')
             ->first();
+    }
+
+    protected function getThumbnailAttribute(): string
+    {
+        return $this->getFirstMediaUrl(self::USER_THUMBNAIL_COLLECTION) ?: asset('src/assets/img/user-default.jpg');
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(config('media-library.media_model'), 'model');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::USER_THUMBNAIL_COLLECTION)->singleFile();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::ADMIN;
 
     /**
      * Create a new controller instance.
@@ -55,8 +56,8 @@ class LoginController extends Controller
     public function getMessages()
     {
         return [
-            'required' => 'Trường :attribute không được để trống!',
-            'email' => 'Trường :attribute không hợp lệ!',
+            'required' => 'Trường :attribute không được để trống.',
+            'email' => 'Trường :attribute không hợp lệ.',
         ];
     }
 
@@ -73,6 +74,21 @@ class LoginController extends Controller
         throw ValidationException::withMessages([
             $this->username() => ['Thông tin xác thực này không khớp.'],
         ]);
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : to_route('admin.dashboard');
     }
 
     public function logout(Request $request)

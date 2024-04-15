@@ -144,7 +144,11 @@
                                                                             type="text"
                                                                             id="position_id"
                                                                             class="form-control text-dark"
-                                                                            value="N/A"
+                                                                            value="{{ $approvedSalary ?
+                                                                            $approvedSalary->position->name
+                                                                            :
+                                                                            'N/A'
+                                                                            }}"
                                                                             readonly
                                                                         >
                                                                     </div>

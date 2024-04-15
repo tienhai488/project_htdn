@@ -55,7 +55,7 @@
                         </a>
                     </div>
                     <div class="dropdown-item">
-                        <a href="{{ route('logout') }}">
+                        <a href="{{ route('admin.logout') }}">
                             <i data-feather="log-out"></i>
                             <span>Log Out</span>
                         </a>

@@ -5,15 +5,10 @@ namespace App\Models;
 use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class UserProfile extends Model implements HasMedia
+class UserProfile extends Model
 {
-    use HasFactory, InteractsWithMedia;
-
-    const USER_PROFILE_THUMBNAIL_COLLECTION = 'user_profile_thumbnail';
+    use HasFactory;
 
     protected $fillable = [
         'user_id',
@@ -32,20 +27,5 @@ class UserProfile extends Model implements HasMedia
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');
-    }
-
-    protected function getThumbnailAttribute(): string
-    {
-        return $this->getFirstMediaUrl(self::USER_PROFILE_THUMBNAIL_COLLECTION) ?: asset('src/assets/img/user-default.jpg');
-    }
-
-    public function media(): MorphMany
-    {
-        return $this->morphMany(config('media-library.media_model'), 'model');
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection(self::USER_PROFILE_THUMBNAIL_COLLECTION)->singleFile();
     }
 }
