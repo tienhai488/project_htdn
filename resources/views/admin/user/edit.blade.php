@@ -587,8 +587,8 @@
             }
         );
 
-        @if(!empty($user->user_profile))
-            thumbnail.addFile(`{{ $user->user_profile->thumbnail }}`);
+        @if(!empty($user->thumbnail))
+            thumbnail.addFile(`{{ $user->thumbnail }}`);
         @endif
 
         let dt = flatpickr(document.getElementById('birthday'));

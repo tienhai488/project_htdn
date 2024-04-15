@@ -3,7 +3,6 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
-use App\Models\UserProfile;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -75,10 +74,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user->user_profile()->create($userProfileData);
 
         $user
-            ->user_profile
             ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
             ->usingFileName(json_decode($data['thumbnail'])->name)
-            ->toMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+            ->toMediaCollection(User::USER_THUMBNAIL_COLLECTION);
 
         return $user;
     }
@@ -106,19 +104,17 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'address' => $data['address'],
         ];
 
-        if ($user->user_profile) {
-            $userProfile = $user->user_profile;
-            $user->user_profile()->update($userProfileData);
-        } else {
-            $userProfile = $user->user_profile()->create($userProfileData);
-        }
+        $user->user_profile ?
+            $user->user_profile()->update($userProfileData)
+            :
+            $user->user_profile()->create($userProfileData);
 
-        $userProfile->clearMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+        $user->clearMediaCollection(User::USER_THUMBNAIL_COLLECTION);
 
-        $userProfile
+        $user
             ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
             ->usingFileName(json_decode($data['thumbnail'])->name)
-            ->toMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+            ->toMediaCollection(User::USER_THUMBNAIL_COLLECTION);
 
         return $user;
     }
@@ -157,7 +153,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 return $group->count();
             });
     }
-  
+
     function updateProfile($user, $data)
     {
         $userData = [
@@ -175,20 +171,18 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'address' => $data['address'],
         ];
 
-        if ($user->user_profile) {
-            $userProfile = $user->user_profile;
-            $user->user_profile()->update($userProfileData);
-        } else {
-            $userProfile = $user->user_profile()->create($userProfileData);
-        }
+        $user->user_profile ?
+            $user->user_profile()->update($userProfileData)
+            :
+            $user->user_profile()->create($userProfileData);
 
-        $userProfile->clearMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+        $user->clearMediaCollection(User::USER_THUMBNAIL_COLLECTION);
 
         if ($data['filepond']) {
-            $userProfile
+            $user
                 ->addMediaFromBase64(json_decode($data['filepond'])->data)
                 ->usingFileName(json_decode($data['filepond'])->name)
-                ->toMediaCollection(UserProfile::USER_PROFILE_THUMBNAIL_COLLECTION);
+                ->toMediaCollection(User::USER_THUMBNAIL_COLLECTION);
         }
 
         return $user;
