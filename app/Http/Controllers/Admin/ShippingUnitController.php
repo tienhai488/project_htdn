@@ -44,7 +44,7 @@ class ShippingUnitController extends Controller
             session()->flash('success', 'Thêm đơn vị vận chuyển thành công')
             :
             session()->flash('error', 'Thêm đơn vị vận chuyển không thành công');
-        return to_route('admin.shipping-unit.index');
+        return to_route('admin.shipping_unit.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class ShippingUnitController extends Controller
             session()->flash('success', 'Cập nhật đơn vị vận chuyển thành công')
             :
             session()->flash('error', 'Cập nhật đơn vị vận chuyển không thành công');
-        return to_route('admin.shipping-unit.index');
+        return to_route('admin.shipping_unit.index');
     }
 
     /**

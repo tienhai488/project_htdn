@@ -75,7 +75,7 @@
             <li
                 class="menu
                 @if (request()->routeIs('admin.product.*')
-                || request()->routeIs('admin.product-category.*'))
+                || request()->routeIs('admin.product_category.*'))
                 active
                 @endif"
             >
@@ -96,14 +96,14 @@
                 <ul
                     class="collapse submenu list-unstyled
                     @if (request()->routeIs('admin.product.*')
-                    || request()->routeIs('admin.product-category.*'))
+                    || request()->routeIs('admin.product_category.*'))
                     show
                     @endif"
                     id="product"
                     data-bs-parent="#accordionExample"
                 >
-                    <li class="@if (request()->routeIs('admin.product-category.*')) active @endif">
-                        <a href="{{ route('admin.product-category.index') }}">Danh mục sản phẩm</a>
+                    <li class="@if (request()->routeIs('admin.product_category.*')) active @endif">
+                        <a href="{{ route('admin.product_category.index') }}">Danh mục sản phẩm</a>
                     </li>
                     <li class="@if (request()->routeIs('admin.product.*')) active @endif">
                         <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
@@ -114,7 +114,7 @@
             <li
                 class="menu
                 @if (request()->routeIs('admin.supplier.*')
-                || request()->routeIs('admin.purchase-order.*'))
+                || request()->routeIs('admin.purchase_order.*'))
                 active
                 @endif"
             >
@@ -135,13 +135,13 @@
                 <ul
                     class="collapse submenu list-unstyled
                     @if (request()->routeIs('admin.supplier.*')
-                    || request()->routeIs('admin.purchase-order.*'))
+                    || request()->routeIs('admin.purchase_order.*'))
                     show
                     @endif" id="supplier"
                     data-bs-parent="#accordionExample"
                 >
-                    <li class="@if (request()->routeIs('admin.purchase-order.*')) active @endif">
-                        <a href="{{ route('admin.purchase-order.index') }}">Hóa đơn nhập</a>
+                    <li class="@if (request()->routeIs('admin.purchase_order.*')) active @endif">
+                        <a href="{{ route('admin.purchase_order.index') }}">Hóa đơn nhập</a>
                     </li>
                     <li class="@if (request()->routeIs('admin.supplier.*')) active @endif">
                         <a href="{{ route('admin.supplier.index') }}">Nhà cung cấp</a>
@@ -185,7 +185,7 @@
 
             <li
                 class="menu
-                @if (request()->routeIs('admin.shipping-unit.*')
+                @if (request()->routeIs('admin.shipping_unit.*')
                 || request()->routeIs('admin.order.*'))
                 active
                 @endif"
@@ -205,7 +205,7 @@
                 </a>
                 <ul
                     class="collapse submenu list-unstyled
-                    @if (request()->routeIs('admin.shipping-unit.*')
+                    @if (request()->routeIs('admin.shipping_unit.*')
                     || request()->routeIs('admin.order.*'))
                     show
                     @endif"
@@ -214,8 +214,8 @@
                     <li class="@if (request()->routeIs('admin.order.*')) active @endif">
                         <a href="{{ route('admin.order.index') }}">Hoá đơn bán</a>
                     </li>
-                    <li class="@if (request()->routeIs('admin.shipping-unit.*')) active @endif">
-                        <a href="{{ route('admin.shipping-unit.index') }}">Đơn vị vận chuyển</a>
+                    <li class="@if (request()->routeIs('admin.shipping_unit.*')) active @endif">
+                        <a href="{{ route('admin.shipping_unit.index') }}">Đơn vị vận chuyển</a>
                     </li>
                 </ul>
             </li>

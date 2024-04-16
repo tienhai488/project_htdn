@@ -50,7 +50,7 @@
                 </div>
                 <div class="widget-content widget-content-area">
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
-                        <a href="{{ route('admin.product-category.create') }}"
+                        <a href="{{ route('admin.product_category.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
                             Thêm mới danh mục sản phẩm
                         </a>
@@ -175,7 +175,7 @@
             "serverSide": true,
             "ordering": false,
             "ajax": {
-                "url": "{{ route('admin.product-category.index') }}",
+                "url": "{{ route('admin.product_category.index') }}",
                 "data": function(d) {
                     let searchParams = new URLSearchParams(window.location.search);
                     drawDT = d.draw;
@@ -211,9 +211,9 @@
                         //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         // </a>
 
-                        let urlEdit = `{{ route('admin.product-category.edit', ':id') }}`.replace(':id',
+                        let urlEdit = `{{ route('admin.product_category.edit', ':id') }}`.replace(':id',
                             data);
-                        let urlDestroy = `{{ route('admin.product-category.destroy', ':id') }}`.replace(
+                        let urlDestroy = `{{ route('admin.product_category.destroy', ':id') }}`.replace(
                             ':id',
                             data);
 

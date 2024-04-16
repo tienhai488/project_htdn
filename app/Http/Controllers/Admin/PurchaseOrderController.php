@@ -53,7 +53,7 @@ class PurchaseOrderController extends Controller
             session()->flash('success', 'Thêm hóa đơn nhập thành công')
             :
             session()->flash('error', 'Thêm hóa đơn nhập không thành công');
-        return to_route('admin.purchase-order.index');
+        return to_route('admin.purchase_order.index');
     }
 
     /**
@@ -92,7 +92,7 @@ class PurchaseOrderController extends Controller
             session()->flash('success', 'Cập nhật hóa đơn nhập thành công')
             :
             session()->flash('error', 'Cập nhật hóa đơn nhập không thành công');
-        return to_route('admin.purchase-order.index');
+        return to_route('admin.purchase_order.index');
     }
 
     /**

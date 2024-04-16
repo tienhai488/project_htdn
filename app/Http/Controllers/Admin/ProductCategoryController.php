@@ -44,7 +44,7 @@ class ProductCategoryController extends Controller
             session()->flash('success', 'Thêm danh mục sản phẩm thành công')
             :
             session()->flash('error', 'Thêm danh mục sản phẩm không thành công');
-        return to_route('admin.product-category.index');
+        return to_route('admin.product_category.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class ProductCategoryController extends Controller
             session()->flash('success', 'Cập nhật danh mục sản phẩm thành công')
             :
             session()->flash('error', 'Cập nhật danh mục sản phẩm không thành công');
-        return to_route('admin.product-category.index');
+        return to_route('admin.product_category.index');
     }
 
     /**
