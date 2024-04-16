@@ -50,7 +50,7 @@
                 </div>
                 <div class="widget-content widget-content-area">
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
-                        <a href="{{ route('admin.shipping-unit.create') }}"
+                        <a href="{{ route('admin.shipping_unit.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
                             Thêm mới đơn vị vận chuyển
                         </a>
@@ -171,7 +171,7 @@
             "serverSide": true,
             "ordering": false,
             "ajax": {
-                "url": "{{ route('admin.shipping-unit.index') }}",
+                "url": "{{ route('admin.shipping_unit.index') }}",
                 "data": function(d) {
                     let searchParams = new URLSearchParams(window.location.search);
                     drawDT = d.draw;
@@ -204,9 +204,9 @@
                         //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         // </a>
 
-                        let urlEdit = `{{ route('admin.shipping-unit.edit', ':id') }}`.replace(':id',
+                        let urlEdit = `{{ route('admin.shipping_unit.edit', ':id') }}`.replace(':id',
                             data);
-                        let urlDestroy = `{{ route('admin.shipping-unit.destroy', ':id') }}`.replace(
+                        let urlDestroy = `{{ route('admin.shipping_unit.destroy', ':id') }}`.replace(
                             ':id',
                             data);
 

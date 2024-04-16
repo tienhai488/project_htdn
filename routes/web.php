@@ -36,25 +36,25 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 
     Route::get('', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('', [ProfileController::class, 'index'])->name('index');
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('', 'index')->name('index');
 
-        Route::put('', [ProfileController::class, 'update'])->name('update');
+        Route::put('', 'update')->name('update');
 
-        Route::put('password', [ProfileController::class, 'updatePassword'])->middleware('check_tab')->name('update_password');
+        Route::put('password', 'updatePassword')->middleware('check_tab')->name('update_password');
     });
 
     Route::resource('supplier', SupplierController::class)->except('show');
 
-    Route::resource('product-category', ProductCategoryController::class)->except('show');
+    Route::resource('product-category', ProductCategoryController::class)->except('show')->names('product_category');
 
     Route::resource('product', ProductController::class);
 
     Route::resource('customer', CustomerController::class);
 
-    Route::resource('purchase-order', PurchaseOrderController::class);
+    Route::resource('purchase-order', PurchaseOrderController::class)->names('purchase_order');
 
-    Route::resource('shipping-unit', ShippingUnitController::class);
+    Route::resource('shipping-unit', ShippingUnitController::class)->names('shipping_unit');
 
     Route::resource('order', OrderController::class);
 

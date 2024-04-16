@@ -50,7 +50,7 @@
                 </div>
                 <div class="widget-content widget-content-area">
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
-                        <a href="{{ route('admin.purchase-order.create') }}"
+                        <a href="{{ route('admin.purchase_order.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
                             Thêm mới hóa đơn nhập
                         </a>
@@ -175,7 +175,7 @@
             "serverSide": true,
             "ordering": false,
             "ajax": {
-                "url": "{{ route('admin.purchase-order.index') }}",
+                "url": "{{ route('admin.purchase_order.index') }}",
                 "data": function(d) {
                     let searchParams = new URLSearchParams(window.location.search);
                     drawDT = d.draw;
@@ -239,8 +239,8 @@
                         //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         // </a>
 
-                        let urlEdit = `{{ route('admin.purchase-order.edit', ':id') }}`.replace(':id', data);
-                        let urlDestroy = `{{ route('admin.purchase-order.destroy', ':id') }}`.replace(':id',
+                        let urlEdit = `{{ route('admin.purchase_order.edit', ':id') }}`.replace(':id', data);
+                        let urlDestroy = `{{ route('admin.purchase_order.destroy', ':id') }}`.replace(':id',
                             data);
 
                         return `

@@ -30,7 +30,7 @@
 
 @section('content')
     <div class="layout-top-spacing col-12">
-        <a href="{{ route('admin.purchase-order.index') }}" class="btn btn-default _effect--ripple waves-effect waves-light">
+        <a href="{{ route('admin.purchase_order.index') }}" class="btn btn-default _effect--ripple waves-effect waves-light">
             Trở lại
         </a>
     </div>
@@ -47,7 +47,7 @@
 
                 <div class="widget-content widget-content-area" style="padding: 20px !important;">
                     <div class="col-lg-12">
-                        <form id="general-settings" method="POST" action="{{ route('admin.purchase-order.store') }}">
+                        <form id="general-settings" method="POST" action="{{ route('admin.purchase_order.store') }}">
                             @csrf
                             <div class="form-group mb-4">
                                 <label for="supplier_id">Nhà cung cấp <strong class="text-danger">*</strong>
