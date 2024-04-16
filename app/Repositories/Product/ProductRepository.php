@@ -3,7 +3,6 @@
 namespace App\Repositories\Product;
 
 use App\Models\Product;
-use App\Models\ProductPrice;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Arr;
 
@@ -49,7 +48,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         $product = $this->model->create($productData);
 
-        ProductPrice::create([
+        $product->product_prices()->create([
             'product_id' => $product->id,
             'sale_price' => $data['sale_price'],
             'regular_price' => $data['regular_price'],
@@ -81,8 +80,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         $product->update($productData);
 
-        ProductPrice::firstOrCreate([
-            'product_id' => $product->id,
+        $product->product_prices()->firstOrCreate([
             'sale_price' => $data['sale_price'],
             'regular_price' => $data['regular_price'],
         ]);
