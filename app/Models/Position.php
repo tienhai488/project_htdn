@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,12 +24,17 @@ class Position extends Model
         return $this->hasMany(Salary::class, 'position_id', 'id');
     }
 
-    public function getCountUsersPendingSalaryAttribute()
+    /**
+     * Count the number of users in the position waiting for approval
+     */
+    protected function countUsersPendingSalary(): Attribute
     {
-        return $this
-            ->salaries()
-            ->pending()
-            ->distinct('user_id')
-            ->count();
+        return Attribute::make(
+            get: fn () => $this
+                ->salaries()
+                ->pending()
+                ->distinct('user_id')
+                ->count(),
+        );
     }
 }
