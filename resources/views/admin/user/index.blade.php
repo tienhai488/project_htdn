@@ -203,11 +203,10 @@
                 },
                 {
                     "data": "status",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        return `<button class="btn btn-${data.button_type} btn-rounded btn-sm">
+                        return `<span class="badge badge-${data.button_type} mb-2 me-4">
                             ${data.description}
-                        </button>`;
+                        </span>`;
                     },
                 },
                 {

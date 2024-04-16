@@ -198,7 +198,6 @@
                 },
                 {
                     "data": "name",
-                    "class": "text-center",
                 },
                 {
                     "data": "products_count",

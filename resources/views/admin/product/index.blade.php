@@ -218,11 +218,11 @@
                 },
                 {
                     "data": "regular_price",
-                    "class": "text-center",
+                    "class": "text-end",
                 },
                 {
                     "data": "sale_price",
-                    "class": "text-center",
+                    "class": "text-end",
                 },
                 {
                     "data": "quantity",
@@ -230,14 +230,12 @@
                 },
                 {
                     "data": "category",
-                    "class": "text-center",
                     "render": function(data, type, full) {
                         return data.name;
                     },
                 },
                 {
                     "data": "description",
-                    "class": "text-center",
                     "render": function(data, type, full) {
                         return `<p style="max-width:200px;" class="text-truncate">${data}</p>`
                     },
