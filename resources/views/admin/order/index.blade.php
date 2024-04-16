@@ -197,14 +197,12 @@
                 },
                 {
                     "data": "customer",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return data.name;
                     },
                 },
                 {
                     "data": "approved_by",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return data ?
                             `
@@ -222,16 +220,15 @@
                     },
                 },
                 {
-                    "data": "payment_status_description",
-                    "class": "text-center",
+                    "data": "payment_status",
                     "render": function(data, type, full, meta) {
                         return `
                             <div style="display: flex; justify-content: space-between;">
                                 <p class="text-start">Trạng thái:</p>
                                 <p>
-                                    <button class="btn btn-outline-${full.payment_status_type}">
-                                        ${data}
-                                    </button>
+                                    <span class="badge badge-light-${data['button_type']} mb-2">
+                                        ${data['description']}
+                                    </span>
                                 </p>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
@@ -243,12 +240,15 @@
                 },
                 {
                     "data": "shipping_unit",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return `
                             <div style="display: flex; justify-content: space-between;">
                                 <p class="text-start">Trạng thái:</p>
-                                <p>${full.delivery_status_description}</p>
+                                <p>
+                                    <span class="badge badge-${full.delivery_status['button_type']} mb-2">
+                                        ${full.delivery_status['description']}
+                                    </span>
+                                </p>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <p class="text-start">Đ/v vận chuyển:</p>

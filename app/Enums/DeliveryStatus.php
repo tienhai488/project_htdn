@@ -37,4 +37,26 @@ enum DeliveryStatus: int
             self::CANCEL => 'Đã hủy đơn',
         };
     }
+
+    public function getButtonType(): string
+    {
+        return match ($this) {
+            self::PENDING => 'warning',
+            self::APPROVED => 'primary',
+            self::PREPARING => 'info',
+            self::DELIVERING => 'secondary',
+            self::SUCCESS => 'success',
+            self::FAILED => 'danger',
+            self::CANCEL => 'dark',
+        };
+    }
+
+    public function getStatus()
+    {
+        return [
+            'value' => $this,
+            'description' => $this->getDescription(),
+            'button_type' => $this->getButtonType(),
+        ];
+    }
 }

@@ -23,11 +23,20 @@ enum PaymentStatus: int
         };
     }
 
-    public function getTypeButton(): string
+    public function getButtonType(): string
     {
         return match ($this) {
             self::UNPAID => 'danger',
             self::PAID => 'primary',
         };
+    }
+
+    public function getStatus()
+    {
+        return [
+            'value' => $this,
+            'description' => $this->getDescription(),
+            'button_type' => $this->getButtonType(),
+        ];
     }
 }

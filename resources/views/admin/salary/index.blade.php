@@ -54,8 +54,8 @@
                             <tr role="row">
                                 <th>#</th>
                                 <th>Tên người nhận</th>
-                                <th>Tiền lương</th>
                                 <th>Vị trí</th>
+                                <th>Tiền lương</th>
                                 <th>Duyệt bởi</th>
                                 <th>Lương chờ duyệt</th>
                                 <th>Hành động</th>
@@ -192,6 +192,13 @@
                 {
                     "data": "name",
                 },
+
+                {
+                    "data": "approved_salary",
+                    "render": function(data, type, full, meta) {
+                        return data ? data.position.name : 'N/A';
+                    },
+                },
                 {
                     "data": "approved_salary",
                     "class": "text-end",
@@ -201,14 +208,6 @@
                 },
                 {
                     "data": "approved_salary",
-                    "class": "text-center",
-                    "render": function(data, type, full, meta) {
-                        return data ? data.position.name : 'N/A';
-                    },
-                },
-                {
-                    "data": "approved_salary",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return data ?
                             `
@@ -227,7 +226,6 @@
                 },
                 {
                     "data": "pending_salary",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         let form = '';
                         let url = data ?

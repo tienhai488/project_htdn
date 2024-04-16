@@ -191,21 +191,18 @@
             },
             "columns": [{
                     "data": "id",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return meta.row + 1;
                     },
                 },
                 {
                     "data": "supplier",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return data.name;
                     },
                 },
                 {
                     "data": "approved_by",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return data.name;
                     },
@@ -219,14 +216,13 @@
                 },
                 {
                     "data": "total_amount",
-                    "class": "text-center",
+                    "class": "text-end",
                     "render": function(data, type, full, meta) {
                         return data;
                     },
                 },
                 {
                     "data": "note",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
                         return `<p style="max-width:200px;" class="text-truncate">${data}</p>`;
                     },

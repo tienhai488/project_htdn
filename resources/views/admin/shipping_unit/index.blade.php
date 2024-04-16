@@ -194,7 +194,6 @@
                 },
                 {
                     "data": "name",
-                    "class": "text-center",
                 },
                 {
                     "data": "id",

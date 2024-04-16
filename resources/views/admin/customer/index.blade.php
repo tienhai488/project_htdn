@@ -197,19 +197,15 @@
                 },
                 {
                     "data": "name",
-                    "class": "text-center",
                 },
                 {
                     "data": "phone_number",
-                    "class": "text-center",
                 },
                 {
                     "data": "email",
-                    "class": "text-center",
                 },
                 {
                     "data": "address",
-                    "class": "text-center",
                     "render": function(data, type, full) {
                         return `<span style="white-space: normal;">${data}</span>`;
                     },
