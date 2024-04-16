@@ -7,5 +7,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface SupplierRepositoryInterface extends RepositoryInterface
 {
-    function getDataForDatatable(array $searchArr);
+    public function getDataForDatatable(array $searchArr);
 }

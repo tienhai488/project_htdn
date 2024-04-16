@@ -6,5 +6,5 @@ use App\Repositories\RepositoryInterface;
 
 interface PurchaseOrderRepositoryInterface extends RepositoryInterface
 {
-    function getDataForDatatable(array $searchArr);
+    public function getDataForDatatable(array $searchArr);
 }

@@ -19,7 +19,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct($model);
     }
 
-    function getDataForDatatable(array $searchArr)
+    public function getDataForDatatable(array $searchArr)
     {
         $query = $this->model->query();
 
@@ -36,7 +36,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
     }
 
-    function getUserProfile($model)
+    public function getUserProfile($model)
     {
         return $model->user_profile
             ?:
@@ -51,7 +51,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ];
     }
 
-    function create($data)
+    public function create($data)
     {
         $userData = [
             'name' => $data['name'],
@@ -81,7 +81,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $user;
     }
 
-    function update($user, $data)
+    public function update($user, $data)
     {
         $userData = [
             'name' => $data['name'],
@@ -137,7 +137,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $query->latest()->paginate($limit);
     }
 
-    function getCountUsersInPosition()
+    public function getCountUsersInPosition()
     {
         $users = $this->model->get();
 
@@ -154,7 +154,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             });
     }
 
-    function updateProfile($user, $data)
+    public function updateProfile($user, $data)
     {
         $userData = [
             'name' => $data['name'],
@@ -188,7 +188,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $user;
     }
 
-    function udpatePassword($user, $password)
+    public function udpatePassword($user, $password)
     {
         return $user->update(
             ['password' => Hash::make($password)]

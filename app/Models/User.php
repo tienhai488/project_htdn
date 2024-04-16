@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +55,8 @@ class User extends Authenticatable implements HasMedia
 
     protected $appends = [
         'approved_salary',
+        'pending_salary',
+        'thumbnail',
     ];
 
     public function user_profile()
@@ -66,37 +69,47 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Salary::class, 'user_id', 'id');
     }
 
-    public function getApprovedSalaryAttribute()
+    protected function approvedSalary(): Attribute
     {
-        return $this
-            ->salaries()
-            ->approved()
-            ->orderByDesc('approved_at')
-            ->first();
+        return Attribute::make(
+            get: fn () => $this
+                ->salaries()
+                ->approved()
+                ->orderByDesc('approved_at')
+                ->first(),
+        );
     }
 
-    public function getAllApprovedSalaryAttribute()
+    protected function allApprovedSalary(): Attribute
     {
-        return $this
-            ->salaries()
-            ->approved()
-            ->with(['user', 'approvedBy', 'position'])
-            ->orderByDesc('approved_at')
-            ->get();
+        return Attribute::make(
+            get: fn () => $this
+                ->salaries()
+                ->approved()
+                ->with(['user', 'approvedBy', 'position'])
+                ->orderByDesc('approved_at')
+                ->get(),
+        );
     }
 
-    public function getPendingSalaryAttribute()
+    protected function pendingSalary(): Attribute
     {
-        return $this
-            ->salaries()
-            ->pending()
-            ->orderByDesc('created_at')
-            ->first();
+        return Attribute::make(
+            get: fn () => $this
+                ->salaries()
+                ->pending()
+                ->orderByDesc('created_at')
+                ->first(),
+        );
     }
 
-    protected function getThumbnailAttribute(): string
+    protected function thumbnail(): Attribute
     {
-        return $this->getFirstMediaUrl(self::USER_THUMBNAIL_COLLECTION) ?: asset('src/assets/img/user-default.jpg');
+        return Attribute::make(
+            get: fn () => $this->getFirstMediaUrl(self::USER_THUMBNAIL_COLLECTION)
+                ?:
+                asset('src/assets/img/user-default.jpg'),
+        );
     }
 
     public function media(): MorphMany

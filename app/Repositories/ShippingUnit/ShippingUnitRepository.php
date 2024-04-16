@@ -18,7 +18,7 @@ class ShippingUnitRepository extends BaseRepository implements ShippingUnitRepos
         parent::__construct($model);
     }
 
-    function getDataForDatatable(array $searchArr)
+    public function getDataForDatatable(array $searchArr)
     {
         $query = $this->model->query();
 

@@ -6,15 +6,15 @@ use App\Repositories\RepositoryInterface;
 
 interface UserRepositoryInterface extends RepositoryInterface
 {
-    function getDataForDatatable(array $searchArr);
+    public function getDataForDatatable(array $searchArr);
 
-    function getUserProfile($model);
+    public function getUserProfile($model);
 
-    function getAllUserWithSalaries($searchParams);
+    public function getAllUserWithSalaries($searchParams);
 
-    function getCountUsersInPosition();
+    public function getCountUsersInPosition();
 
-    function updateProfile($user, $data);
+    public function updateProfile($user, $data);
 
-    function udpatePassword($user, $password);
+    public function udpatePassword($user, $password);
 }

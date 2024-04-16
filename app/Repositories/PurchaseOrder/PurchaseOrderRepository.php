@@ -20,7 +20,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
         parent::__construct($model);
     }
 
-    function getDataForDatatable(array $searchArr)
+    public function getDataForDatatable(array $searchArr)
     {
         $query = $this->model->query();
 
