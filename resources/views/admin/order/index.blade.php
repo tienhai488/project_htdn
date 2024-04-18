@@ -235,6 +235,10 @@
                                 <p class="text-start">Tổng tiền:</p>
                                 <p>${full.total_amount}</p>
                             </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p class="text-start">Số sản phẩm:</p>
+                                <p>${full.count_quantity_products}</p>
+                            </div>
                             `;
                     },
                 },

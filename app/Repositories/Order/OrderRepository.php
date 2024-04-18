@@ -36,6 +36,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             });
         }
 
+        $query->with('products');
+
         return $query->latest()->paginate(self::PER_PAGE);
     }
 
@@ -137,5 +139,56 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $order->products()->sync($detailData);
 
         return $order;
+    }
+
+    public function getDataForOrderStatistic($startDate, $endDate, $filter, $range)
+    {
+        $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfYear();
+        $endDate = $endDate ? Carbon::parse($endDate)->addDays() : Carbon::now();
+        $orders = $this->model->with(['products', 'product_prices'])->get();
+
+        $orders = $orders->map(function ($order) use ($startDate, $endDate) {
+            $checkDeliveryStatus = $order->delivery_status->isAccept();
+            $approvedAt = Carbon::parse($order->approved_at);
+
+            $checkDate = $checkDeliveryStatus ?
+                $approvedAt->greaterThan($startDate) && $approvedAt->lessThan($endDate)
+                :
+                false;
+
+            return $checkDate ? $order : null;
+        })
+            ->filter();
+
+        return collect($range)->map(function ($time) use ($orders, $filter) {
+            $value = [];
+            switch ($filter) {
+                case 'month':
+                    $month = explode('/', explode(" ", $time)[1])[0];
+                    $year = explode('/', explode(" ", $time)[1])[1];
+                    $value = $orders->where(function ($order) use ($month, $year) {
+                        $approvedAt = Carbon::parse($order->approved_at);
+                        return $approvedAt->month == $month && $approvedAt->year == $year;
+                    });
+                    break;
+                case 'quarter':
+                    $quarter = explode('/', explode(" ", $time)[1])[0];
+                    $year = explode('/', explode(" ", $time)[1])[1];
+                    $value = $orders->where(function ($order) use ($quarter, $year) {
+                        $approvedAt = Carbon::parse($order->approved_at);
+                        return ceil($approvedAt->month / 3) == $quarter && $approvedAt->year == $year;
+                    });
+                    break;
+                case 'year':
+                    $value = $orders->where(function ($order) use ($time) {
+                        $approvedAt = Carbon::parse($order->approved_at);
+                        return $approvedAt->year == $time;
+                    });
+                    break;
+                default:
+                    return null;
+            }
+            return getOrderStatistic($value);
+        })->filter();
     }
 }

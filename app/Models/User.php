@@ -59,6 +59,10 @@ class User extends Authenticatable implements HasMedia
         'thumbnail',
     ];
 
+    protected $with = [
+        'media',
+    ];
+
     public function user_profile()
     {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');

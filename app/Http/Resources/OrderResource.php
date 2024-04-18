@@ -26,6 +26,7 @@ class OrderResource extends JsonResource
             'shipping_unit' => $this->shippingUnit,
             'note' => $this->note,
             'total_amount' => number_format(getTotalOrderAmount($order)),
+            'count_quantity_products' => getCountQuantityProductInOrder($order),
         ];
     }
 }

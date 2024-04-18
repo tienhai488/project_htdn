@@ -34,10 +34,10 @@
             </div>
         </div>
 
-        <ul class="list-unstyled menu-categories" id="accordionExample">
+        <ul class="list-unstyled menu-categories" id="dashboard">
             <li
                 class="menu
-                @if (request()->routeIs('admin.dashboard')
+                @if (request()->routeIs('admin.dashboard.*')
                 || request()->routeIs('admin.profile.*'))
                 active
                 @endif"
@@ -45,7 +45,8 @@
                 <a
                     href="#dashboard"
                     data-bs-toggle="collapse"
-                    aria-expanded="false" class="dropdown-toggle collapsed"
+                    aria-expanded="false"
+                    class="dropdown-toggle collapsed"
                 >
                     <div>
                         <i data-feather="home"></i>
@@ -57,17 +58,17 @@
                 </a>
                 <ul
                     class="collapse submenu list-unstyled
-                    @if (request()->routeIs('admin.dashboard'))
+                    @if (request()->routeIs('admin.dashboard.*'))
                     show
                     @endif"
                     id="dashboard"
-                    data-bs-parent="#accordionExample"
+                    data-bs-parent="#dashboard"
                 >
-                    <li class="@if (request()->routeIs('admin.dashboard')) active @endif">
+                    <li class="@if (request()->routeIs('admin.dashboard.index')) active @endif">
                         <a href=""> Analytics </a>
                     </li>
-                    <li>
-                        <a href=""> Sales </a>
+                    <li class="@if (request()->routeIs('admin.dashboard.order_statistic')) active @endif">
+                        <a href="{{ route('admin.dashboard.order_statistic') }}">Thống kê kinh doanh</a>
                     </li>
                 </ul>
             </li>
