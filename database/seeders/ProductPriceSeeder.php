@@ -20,10 +20,10 @@ class ProductPriceSeeder extends Seeder
 
         ProductPrice::factory()->count(200)->create();
 
-        $products = Product::withCount('product_prices')->get();
+        $products = Product::withCount('productPrices')->get();
 
         foreach ($products as $product) {
-            if ($product->product_prices_count == 0) {
+            if ($product->productPrices_count == 0) {
                 $regular_price = fake()->randomFloat(4, 100, 200);
                 $sale_price = fake()->randomFloat(4, 50, $regular_price);
                 ProductPrice::create([

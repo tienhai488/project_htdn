@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 function getTotalOrderAmount(Order $order)
 {
-    $data = $order->product_prices;
+    $data = $order->productPrices;
 
     return $data->sum(function ($productPrice) {
         $salePrice = $productPrice->sale_price;
@@ -33,7 +33,7 @@ function getOrderStatistic($orders)
 
         $revenue = getTotalOrderAmount($order);
 
-        $data = $order->product_prices;
+        $data = $order->productPrices;
 
         $profit = $revenue - $data->sum(function ($productPrice) {
             $quantity = $productPrice->pivot->quantity;

@@ -10,5 +10,5 @@ interface ProductRepositoryInterface extends RepositoryInterface
 
     public function getProductListForOrder();
 
-    public function getDataForPurchaseOrderStatistic();
+    public function getDataForPurchaseOrderStatistic(array $searchArr);
 }

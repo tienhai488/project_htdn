@@ -63,7 +63,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         foreach ($data['product_id'] as $key => $product_id) {
             $quantity = $data['product_quantity'][$key];
             $product = Product::find($product_id);
-            $productPriceId = $product->product_prices()->orderByDesc('created_at')->first()->id;
+            $productPriceId = $product->productPrices()->orderByDesc('created_at')->first()->id;
 
             $detailData[$product_id] = [
                 'quantity' => $quantity,
@@ -122,7 +122,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         foreach ($data['product_id'] as $key => $product_id) {
             $quantity = $data['product_quantity'][$key];
             $product = Product::find($product_id);
-            $productPriceId = $product->product_prices()->orderByDesc('created_at')->first()->id;
+            $productPriceId = $product->productPrices()->orderByDesc('created_at')->first()->id;
 
             $detailData[$product_id] = [
                 'quantity' => $quantity,
@@ -145,7 +145,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now()->startOfYear();
         $endDate = $endDate ? Carbon::parse($endDate)->addDays() : Carbon::now();
-        $orders = $this->model->with(['products', 'product_prices'])->get();
+        $orders = $this->model->with(['products', 'productPrices'])->get();
 
         $orders = $orders->map(function ($order) use ($startDate, $endDate) {
             $checkDeliveryStatus = $order->delivery_status->isAccept();

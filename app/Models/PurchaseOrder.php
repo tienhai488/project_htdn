@@ -16,12 +16,6 @@ class PurchaseOrder extends Model
         'note',
     ];
 
-    protected $with = [
-        'approvedBy',
-        'supplier',
-        'products',
-    ];
-
     protected $casts = [
         'approved_at' => 'datetime',
     ];

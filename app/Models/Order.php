@@ -21,14 +21,6 @@ class Order extends Model
         'note',
     ];
 
-    protected $with = [
-        'approvedBy',
-        'customer',
-        'shippingUnit',
-        'products',
-        'product_prices',
-    ];
-
     protected $casts = [
         'payment_status' => PaymentStatus::class,
         'delivery_status' => DeliveryStatus::class,
@@ -59,7 +51,7 @@ class Order extends Model
         )->withPivot('quantity');
     }
 
-    public function product_prices()
+    public function productPrices()
     {
         return $this->belongsToMany(
             ProductPrice::class,

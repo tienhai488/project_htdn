@@ -54,7 +54,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
         foreach ($data['product_id'] as $key => $product_id) {
             $quantity = $data['product_quantity'][$key];
             $product = Product::find($product_id);
-            $productPriceId = $product->product_prices()->orderByDesc('created_at')->first()->id;
+            $productPriceId = $product->productPrices()->orderByDesc('created_at')->first()->id;
 
             $detailData[$product_id] = [
                 'quantity' => $quantity,
@@ -100,7 +100,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
         foreach ($data['product_id'] as $key => $product_id) {
             $quantity = $data['product_quantity'][$key];
             $product = Product::find($product_id);
-            $productPriceId = $product->product_prices()->orderByDesc('created_at')->first()->id;
+            $productPriceId = $product->productPrices()->orderByDesc('created_at')->first()->id;
 
             $detailData[$product_id] = [
                 'quantity' => $quantity,
