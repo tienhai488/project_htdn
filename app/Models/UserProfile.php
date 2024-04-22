@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserProfile extends Model
 {
@@ -24,7 +25,7 @@ class UserProfile extends Model
         'gender' => Gender::class,
     ];
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');
     }

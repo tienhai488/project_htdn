@@ -6,6 +6,8 @@ use App\Enums\DeliveryStatus;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -21,35 +23,27 @@ class Order extends Model
         'note',
     ];
 
-    protected $with = [
-        'approvedBy',
-        'customer',
-        'shippingUnit',
-        'products',
-        'product_prices',
-    ];
-
     protected $casts = [
         'payment_status' => PaymentStatus::class,
         'delivery_status' => DeliveryStatus::class,
     ];
 
-    public function approvedBy()
+    public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
     }
 
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
-    public function shippingUnit()
+    public function shippingUnit(): BelongsTo
     {
         return $this->belongsTo(ShippingUnit::class, 'shipping_unit_id', 'id');
     }
 
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(
             Product::class,
@@ -59,7 +53,7 @@ class Order extends Model
         )->withPivot('quantity');
     }
 
-    public function product_prices()
+    public function productPrices(): BelongsToMany
     {
         return $this->belongsToMany(
             ProductPrice::class,

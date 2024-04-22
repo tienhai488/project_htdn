@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -28,6 +29,7 @@ class Product extends Model implements HasMedia
 
     protected $with = [
         'media',
+        'productPrices',
     ];
 
     protected $appends = [
@@ -62,13 +64,11 @@ class Product extends Model implements HasMedia
             }
         );
     }
-
     protected function salePrice(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->product_prices()->latest()->first() ?
-                $this->product_prices()->latest()->first()['sale_price']
-                :
+            get: fn () => $this->productPrices->count() ?
+                $this->productPrices->sortByDesc('created_at')->first()->sale_price :
                 0,
         );
     }
@@ -76,14 +76,13 @@ class Product extends Model implements HasMedia
     protected function regularPrice(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->product_prices()->latest()->first() ?
-                $this->product_prices()->latest()->first()['regular_price']
-                :
+            get: fn () => $this->productPrices->count() ?
+                $this->productPrices->sortByDesc('created_at')->first()->regular_price :
                 0,
         );
     }
 
-    public function product_prices(): HasMany
+    public function productPrices(): HasMany
     {
         return $this->hasMany(ProductPrice::class, 'product_id', 'id');
     }
@@ -105,43 +104,43 @@ class Product extends Model implements HasMedia
         $this->addMediaCollection('images');
     }
 
-    public function purchaseOrders()
+    public function purchaseOrders(): BelongsToMany
     {
         return $this->belongsToMany(
             PurchaseOrder::class,
             'purchase_order_details',
             'product_id',
             'purchase_order_id',
-        )->withPivot('quantity');
+        );
     }
 
-    public function purchaseOrderProductPrices()
+    public function purchaseOrderProductPrices(): BelongsToMany
     {
         return $this->belongsToMany(
             ProductPrice::class,
             'purchase_order_details',
             'product_id',
             'product_price_id',
-        )->withPivot('quantity');
+        );
     }
 
-    public function orders()
+    public function orders(): BelongsToMany
     {
         return $this->belongsToMany(
             Order::class,
             'order_details',
             'product_id',
             'order_id',
-        )->withPivot('quantity');
+        );
     }
 
-    public function orderProductPrices()
+    public function orderProductPrices(): BelongsToMany
     {
         return $this->belongsToMany(
             ProductPrice::class,
             'order_details',
             'product_id',
             'product_price_id',
-        )->withPivot('quantity');
+        );
     }
 }

@@ -19,8 +19,6 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'status' => $this->status->getStatus(),
-            'approved_salary' => new SalaryResource($this->approved_salary),
-            'pending_salary' => new SalaryResource($this->pending_salary),
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\PurchaseOrderStatisticResource;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $productCategories = $this->productCategoryRepository->all();
         if ($request->ajax()) {
             $products = $this->productRepository->getDataForDatatable($request->all());
-            return ProductResource::collection($products);
+            return PurchaseOrderStatisticResource::collection($products);
         }
         return view('admin.dashboard.purchase_order_statistic', compact('productCategories'));
     }

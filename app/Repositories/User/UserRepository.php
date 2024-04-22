@@ -33,12 +33,36 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
-        return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
+        return $query->latest()->paginate(self::PER_PAGE);
+    }
+
+    public function getDataForSalaryDatatable(array $searchArr)
+    {
+        $query = $this->model->query();
+
+        $keyword = Arr::get($searchArr, 'search', '');
+
+        if ($keyword) {
+            if (is_array($keyword)) {
+                $keyword = $keyword['value'];
+            }
+
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        $query->with([
+            'salaries',
+            'salaries.position',
+            'salaries.user',
+            'salaries.approvedBy',
+        ]);
+
+        return $query->latest()->paginate(self::PER_PAGE);
     }
 
     public function getUserProfile($model)
     {
-        return $model->user_profile
+        return $model->userProfile
             ?:
             [
                 'user_id' => $model->id,
@@ -71,7 +95,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'address' => $data['address'],
         ];
 
-        $user->user_profile()->create($userProfileData);
+        $user->userProfile()->create($userProfileData);
 
         $user
             ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
@@ -104,10 +128,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'address' => $data['address'],
         ];
 
-        $user->user_profile ?
-            $user->user_profile()->update($userProfileData)
+        $user->userProfile ?
+            $user->userProfile()->update($userProfileData)
             :
-            $user->user_profile()->create($userProfileData);
+            $user->userProfile()->create($userProfileData);
 
         $user->clearMediaCollection(User::USER_THUMBNAIL_COLLECTION);
 
@@ -171,10 +195,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'address' => $data['address'],
         ];
 
-        $user->user_profile ?
-            $user->user_profile()->update($userProfileData)
+        $user->userProfile ?
+            $user->userProfile()->update($userProfileData)
             :
-            $user->user_profile()->create($userProfileData);
+            $user->userProfile()->create($userProfileData);
 
         $user->clearMediaCollection(User::USER_THUMBNAIL_COLLECTION);
 
@@ -193,5 +217,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $user->update(
             ['password' => Hash::make($password)]
         );
+    }
+
+    public function getAllApprovedSalaryUser(User $user)
+    {
+        return $user->salaries()->approved()->with([
+            'user',
+            'approvedBy',
+            'position',
+        ])->orderByDesc('approved_at')->get();
     }
 }

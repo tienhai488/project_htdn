@@ -20,8 +20,8 @@ class PurchaseOrderResource extends JsonResource
         return [
             'id' => $this->id,
             'approved_at' => Carbon::parse($this->approved_at)->format('d/m/Y'),
-            'approved_by' => $this->approvedBy,
-            'supplier' => $this->supplier,
+            'approved_by' => $this->whenLoaded('approvedBy'),
+            'supplier' => $this->whenLoaded('supplier'),
             'note' => $this->note,
             'products' => ProductResource::collection($this->whenLoaded('products')),
             'total_amount' => number_format(getTotalPurchaseOrderAmount($purchaseOrder)),
