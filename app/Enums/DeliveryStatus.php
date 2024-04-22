@@ -51,6 +51,19 @@ enum DeliveryStatus: int
         };
     }
 
+    public function isAccept()
+    {
+        return match ($this) {
+            self::PENDING => false,
+            self::FAILED => false,
+            self::CANCEL => false,
+            self::APPROVED => true,
+            self::PREPARING => true,
+            self::DELIVERING => true,
+            self::SUCCESS => true,
+        };
+    }
+
     public function getStatus()
     {
         return [

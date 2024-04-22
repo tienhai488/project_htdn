@@ -34,7 +34,13 @@ Route::post('/login', [LoginController::class, 'login'])->name('post_login');
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('', [DashboardController::class, 'index'])->name('dashboard');
+    Route::controller(DashboardController::class)->prefix('')->name('dashboard.')->group(function () {
+        Route::get('', 'index')->name('index');
+
+        Route::get('order-statistic', 'orderStatistic')->name('order_statistic');
+
+        Route::get('purchase-order-statistic', 'purchaseOrderStatistic')->name('purchase_order_statistic');
+    });
 
     Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
         Route::get('', 'index')->name('index');

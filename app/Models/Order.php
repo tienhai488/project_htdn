@@ -26,6 +26,7 @@ class Order extends Model
         'customer',
         'shippingUnit',
         'products',
+        'product_prices',
     ];
 
     protected $casts = [
@@ -55,6 +56,16 @@ class Order extends Model
             'order_details',
             'order_id',
             'product_id'
-        );
+        )->withPivot('quantity');
+    }
+
+    public function product_prices()
+    {
+        return $this->belongsToMany(
+            ProductPrice::class,
+            'order_details',
+            'order_id',
+            'product_price_id'
+        )->withPivot('quantity');
     }
 }
