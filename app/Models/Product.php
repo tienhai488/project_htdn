@@ -27,8 +27,6 @@ class Product extends Model implements HasMedia
     ];
 
     protected $with = [
-        'product_prices',
-        'category',
         'media',
     ];
 
@@ -105,5 +103,45 @@ class Product extends Model implements HasMedia
         $this->addMediaCollection('thumbnail')->singleFile();
 
         $this->addMediaCollection('images');
+    }
+
+    public function purchaseOrders()
+    {
+        return $this->belongsToMany(
+            PurchaseOrder::class,
+            'purchase_order_details',
+            'product_id',
+            'purchase_order_id',
+        )->withPivot('quantity');
+    }
+
+    public function purchaseOrderProductPrices()
+    {
+        return $this->belongsToMany(
+            ProductPrice::class,
+            'purchase_order_details',
+            'product_id',
+            'product_price_id',
+        )->withPivot('quantity');
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(
+            Order::class,
+            'order_details',
+            'product_id',
+            'order_id',
+        )->withPivot('quantity');
+    }
+
+    public function orderProductPrices()
+    {
+        return $this->belongsToMany(
+            ProductPrice::class,
+            'order_details',
+            'product_id',
+            'product_price_id',
+        )->withPivot('quantity');
     }
 }

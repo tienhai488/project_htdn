@@ -38,6 +38,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
         Route::get('', 'index')->name('index');
 
         Route::get('order-statistic', 'orderStatistic')->name('order_statistic');
+
+        Route::get('purchase-order-statistic', 'purchaseOrderStatistic')->name('purchase_order_statistic');
     });
 
     Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {

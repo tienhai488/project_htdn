@@ -22,6 +22,10 @@ class PurchaseOrder extends Model
         'products',
     ];
 
+    protected $casts = [
+        'approved_at' => 'datetime',
+    ];
+
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
@@ -39,6 +43,16 @@ class PurchaseOrder extends Model
             'purchase_order_details',
             'purchase_order_id',
             'product_id',
-        );
+        )->withPivot('quantity');
+    }
+
+    public function productPrices()
+    {
+        return $this->belongsToMany(
+            ProductPrice::class,
+            'purchase_order_details',
+            'purchase_order_id',
+            'product_price_id',
+        )->withPivot('quantity');
     }
 }

@@ -32,7 +32,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
-        $query->with(['category']);
+        $query->with([
+            'category',
+            'product_prices',
+            'purchaseOrders',
+            'purchaseOrderProductPrices',
+            'orders',
+            'orderProductPrices',
+        ]);
 
         return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
     }
@@ -105,5 +112,51 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getProductListForOrder()
     {
         return $this->model::where('quantity', '>', 0)->latest()->get();
+    }
+
+    public function getDataForPurchaseOrderStatistic()
+    {
+        $products =  $this->model->with([
+            'purchaseOrders',
+            'purchaseOrderProductPrices',
+            'orders',
+            'orderProductPrices',
+        ])->latest()->get();
+
+        $data = [];
+
+        foreach ($products as $product) {
+            $purchaseOrders = $product->purchaseOrders;
+            $purchaseOrderProductPrices = $product->purchaseOrderProductPrices;
+            $orders = $product->orders;
+            $orderProductPrices =  $product->orderProductPrices;
+
+            $data[$product->id] = [
+                'start_import_quantity' => 0,
+                'start_import_total' => 0,
+                'start_export_quantity' => 0,
+                'start_export_total' => 0,
+                'end_quantity' => 0,
+                'end_total' => 0,
+            ];
+
+            foreach ($purchaseOrders as $key => $purchaseOrder) {
+                $quantity = $purchaseOrder->pivot->quantity;
+                $regularPrice = $purchaseOrderProductPrices[$key]->regular_price;
+                $data[$product->id]['start_import_quantity'] +=  $quantity;
+                $data[$product->id]['start_import_total'] += $quantity * $regularPrice;
+                $data[$product->id]['end_quantity'] +=  $quantity;
+                $data[$product->id]['end_total'] += $quantity * $regularPrice;
+            }
+
+            foreach ($orders as $key => $order) {
+                $quantity = $order->pivot->quantity;
+                $salePrice = $orderProductPrices[$key]->sale_price;
+                $data[$product->id]['start_export_quantity'] +=  $quantity;
+                $data[$product->id]['start_export_total'] += $quantity * $salePrice;
+            }
+        }
+
+        return collect($data)->pagination(10);
     }
 }

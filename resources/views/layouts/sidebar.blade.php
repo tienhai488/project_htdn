@@ -65,10 +65,19 @@
                     data-bs-parent="#dashboard"
                 >
                     <li class="@if (request()->routeIs('admin.dashboard.index')) active @endif">
-                        <a href=""> Analytics </a>
+                        <a href="{{ route('admin.dashboard.index') }}">
+                            Tổng quan
+                        </a>
+                    </li>
+                    <li class="@if (request()->routeIs('admin.dashboard.purchase_order_statistic')) active @endif">
+                        <a href="{{ route('admin.dashboard.purchase_order_statistic') }}">
+                            Thống kê kho
+                        </a>
                     </li>
                     <li class="@if (request()->routeIs('admin.dashboard.order_statistic')) active @endif">
-                        <a href="{{ route('admin.dashboard.order_statistic') }}">Thống kê kinh doanh</a>
+                        <a href="{{ route('admin.dashboard.order_statistic') }}">
+                            Thống kê kinh doanh
+                        </a>
                     </li>
                 </ul>
             </li>

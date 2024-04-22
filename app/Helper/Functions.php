@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
@@ -85,4 +86,39 @@ function formatDate($datetime, $format = 'd/m/Y H:i:s')
 function getNow()
 {
     return Carbon::now()->format('Y-m-d');
+}
+
+function getDataForPurchaseOrderStatistic(Product $product)
+{
+    $purchaseOrders = $product->purchaseOrders;
+    $purchaseOrderProductPrices = $product->purchaseOrderProductPrices;
+    $orders = $product->orders;
+    $orderProductPrices =  $product->orderProductPrices;
+
+    $data = [
+        'start_import_quantity' => 0,
+        'start_import_total' => 0,
+        'start_export_quantity' => 0,
+        'start_export_total' => 0,
+        'end_quantity' => 0,
+        'end_total' => 0,
+    ];
+
+    foreach ($purchaseOrders as $key => $purchaseOrder) {
+        $quantity = $purchaseOrder->pivot->quantity;
+        $regularPrice = $purchaseOrderProductPrices[$key]->regular_price;
+        $data['start_import_quantity'] +=  $quantity;
+        $data['start_import_total'] += $quantity * $regularPrice;
+        $data['end_quantity'] +=  $quantity;
+        $data['end_total'] += $quantity * $regularPrice;
+    }
+
+    foreach ($orders as $key => $order) {
+        $quantity = $order->pivot->quantity;
+        $salePrice = $orderProductPrices[$key]->sale_price;
+        $data['start_export_quantity'] +=  $quantity;
+        $data['start_export_total'] += $quantity * $salePrice;
+    }
+
+    return $data;
 }

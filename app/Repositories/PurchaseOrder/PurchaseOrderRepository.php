@@ -118,4 +118,40 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
 
         return $purchaseOrder;
     }
+
+    public function getDataForPurchaseOrderStatistic(string $product_category_id, string $startDate, string $endDate)
+    {
+        $purchaseOrders = $this->model->with(['products', 'productPrices'])->get();
+
+        $productsList = [];
+
+        foreach ($purchaseOrders as $purchaseOrder) {
+            $products = $purchaseOrder->products;
+            $productPrices = $purchaseOrder->productPrices;
+
+            foreach ($products as $index => $product) {
+                $found = false;
+                $quantity = $product->pivot->quantity;
+                $regularPrice = $productPrices[$index]->regular_price;
+
+                foreach ($productsList as &$item) {
+                    if ($item['product']->id == $product->id) {
+                        $item['total'] += $quantity * $regularPrice;
+                        $found = true;
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    $quantity =
+                        $productsList[$product->id] = [
+                            'product' => $product,
+                            'total' => $quantity * $regularPrice,
+                        ];
+                }
+            }
+        }
+
+        return $productsList;
+    }
 }
