@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Position extends Model
 {
@@ -19,7 +20,7 @@ class Position extends Model
     ];
 
     // Get the list of salaries belonging to the position
-    public function salaries()
+    public function salaries(): HasMany
     {
         return $this->hasMany(Salary::class, 'position_id', 'id');
     }

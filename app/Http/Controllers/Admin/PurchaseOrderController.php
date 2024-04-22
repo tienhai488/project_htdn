@@ -71,14 +71,14 @@ class PurchaseOrderController extends Controller
     {
         $suppliers = $this->supplierRepository->all();
         $products = $this->productRepository->all();
-        $purchaseOrderProducts = $purchaseOrder->products()->withPivot('quantity')->get();
+        $purchaseOrderProducts = $purchaseOrder->products;
         return view(
             'admin.purchase_order.edit',
             compact(
                 'suppliers',
                 'products',
                 'purchaseOrder',
-                'purchaseOrderProducts'
+                'purchaseOrderProducts',
             )
         );
     }

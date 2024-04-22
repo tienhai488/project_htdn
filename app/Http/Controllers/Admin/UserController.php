@@ -93,7 +93,7 @@ class UserController extends Controller
         $salaryStatuses = SalaryStatus::getSalaryStatuses();
         $approvedSalary = $user->approved_salary;
         $pendingSalary = $user->pending_salary;
-        $allApprovedSalary = $user->all_approved_salary;
+        $allApprovedSalary = $this->userRepository->getAllApprovedSalaryUser($user);
 
         return view(
             'admin.user.edit',

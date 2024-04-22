@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Salary\StoreSalaryRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\UserSalaryResource;
 use App\Models\Salary;
 use App\Repositories\Salary\SalaryRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -25,8 +25,8 @@ class SalaryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = $this->userRepository->getDataForDatatable($request->all());
-            return UserResource::collection($users);
+            $users = $this->userRepository->getDataForSalaryDatatable($request->all());
+            return UserSalaryResource::collection($users);
         }
         return view('admin.salary.index');
     }

@@ -36,7 +36,13 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             });
         }
 
-        $query->with('products');
+        $query->with([
+            'approvedBy',
+            'customer',
+            'shippingUnit',
+            'products',
+            'productPrices',
+        ]);
 
         return $query->latest()->paginate(self::PER_PAGE);
     }

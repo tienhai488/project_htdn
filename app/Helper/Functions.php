@@ -63,11 +63,10 @@ function getOrderStatistic($orders)
 
 function getTotalPurchaseOrderAmount(PurchaseOrder $purchaseOrder)
 {
-    $data = $purchaseOrder->products()->withPivot(['quantity', 'product_price_id'])->get();
+    $data = $purchaseOrder->productPrices;
 
-    $totalAmount = $data->sum(function ($purchaseOrderDetail) {
-        $productPrice = ProductPrice::find($purchaseOrderDetail->pivot->product_price_id);
-        $quantity = $purchaseOrderDetail->pivot->quantity;
+    $totalAmount = $data->sum(function ($productPrice) {
+        $quantity = $productPrice->pivot->quantity;
         $regularPrice = $productPrice->regular_price;
         return $quantity * $regularPrice;
     });

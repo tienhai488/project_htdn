@@ -26,8 +26,8 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Human Resources Manager',
-            'email' => 'human_resources_manager@gmail.com',
+            'name' => 'HR Manager',
+            'email' => 'hr_manager@gmail.com',
             'password' => Hash::make('12345678'),
             'status' => 1,
         ]);

@@ -35,7 +35,13 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
             });
         }
 
-        return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
+        $query->with([
+            'approvedBy',
+            'supplier',
+            'productPrices',
+        ]);
+
+        return $query->latest()->paginate(self::PER_PAGE);
     }
 
     public function create($data)

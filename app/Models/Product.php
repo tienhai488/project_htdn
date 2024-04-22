@@ -29,6 +29,7 @@ class Product extends Model implements HasMedia
 
     protected $with = [
         'media',
+        'productPrices',
     ];
 
     protected $appends = [

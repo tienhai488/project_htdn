@@ -4,9 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\SalaryStatus;
 use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -54,21 +57,20 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $appends = [
-        'approved_salary',
-        'pending_salary',
         'thumbnail',
     ];
 
     protected $with = [
         'media',
+        'salaries',
     ];
 
-    public function user_profile()
+    public function userProfile(): HasOne
     {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');
     }
 
-    public function salaries()
+    public function salaries(): HasMany
     {
         return $this->hasMany(Salary::class, 'user_id', 'id');
     }
@@ -77,22 +79,10 @@ class User extends Authenticatable implements HasMedia
     {
         return Attribute::make(
             get: fn () => $this
-                ->salaries()
-                ->approved()
-                ->orderByDesc('approved_at')
+                ->salaries
+                ->where('status', SalaryStatus::APPROVED)
+                ->sortByDesc('approved_at')
                 ->first(),
-        );
-    }
-
-    protected function allApprovedSalary(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this
-                ->salaries()
-                ->approved()
-                ->with(['user', 'approvedBy', 'position'])
-                ->orderByDesc('approved_at')
-                ->get(),
         );
     }
 
@@ -100,9 +90,9 @@ class User extends Authenticatable implements HasMedia
     {
         return Attribute::make(
             get: fn () => $this
-                ->salaries()
-                ->pending()
-                ->orderByDesc('created_at')
+                ->salaries
+                ->where('status', SalaryStatus::PENDING)
+                ->sortByDesc('created_at')
                 ->first(),
         );
     }
