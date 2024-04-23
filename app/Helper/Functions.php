@@ -87,12 +87,20 @@ function getNow()
     return Carbon::now()->format('Y-m-d');
 }
 
-function getDataForPurchaseOrderStatistic(Product $product)
+function getNowFormat($format = 'd/m/Y')
 {
-    $purchaseOrders = $product->purchaseOrders;
-    $purchaseOrderProductPrices = $product->purchaseOrderProductPrices;
-    $orders = $product->orders;
-    $orderProductPrices =  $product->orderProductPrices;
+    return Carbon::now()->format($format);
+}
+
+function getStartOfYearFormat($format = 'd/m/Y')
+{
+    return Carbon::now()->startOfYear()->format($format);
+}
+
+function getDataForPurchaseOrderStatistic(Product $product, $startDate, $endDate)
+{
+    $startDate = $startDate ? Carbon::createFromFormat('d/m/Y', $startDate) : Carbon::now()->startOfYear();
+    $endDate = $endDate ? Carbon::createFromFormat('d/m/Y', $endDate)->addDays() : Carbon::now();
 
     $data = [
         'start_import_quantity' => 0,
@@ -103,21 +111,51 @@ function getDataForPurchaseOrderStatistic(Product $product)
         'end_total' => 0,
     ];
 
+    if ($startDate->greaterThan($endDate)) {
+        return $data;
+    }
+
+    $purchaseOrders = $product->purchaseOrders;
+    $purchaseOrderProductPrices = $product->purchaseOrderProductPrices;
+    $orders = $product->orders;
+    $orderProductPrices =  $product->orderProductPrices;
+
     foreach ($purchaseOrders as $key => $purchaseOrder) {
         $quantity = $purchaseOrder->pivot->quantity;
         $regularPrice = $purchaseOrderProductPrices[$key]->regular_price;
-        $data['start_import_quantity'] +=  $quantity;
-        $data['start_import_total'] += $quantity * $regularPrice;
-        $data['end_quantity'] +=  $quantity;
-        $data['end_total'] += $quantity * $regularPrice;
+
+        if ($purchaseOrder->approved_at->greaterThan($startDate) && $purchaseOrder->approved_at->lessThan($endDate)) {
+            $data['start_import_quantity'] +=  $quantity;
+            $data['start_import_total'] += $quantity * $regularPrice;
+        }
+
+        if ($purchaseOrder->approved_at->lessThan($endDate)) {
+            $data['end_quantity'] +=  $quantity;
+        }
     }
 
     foreach ($orders as $key => $order) {
         $quantity = $order->pivot->quantity;
         $salePrice = $orderProductPrices[$key]->sale_price;
-        $data['start_export_quantity'] +=  $quantity;
-        $data['start_export_total'] += $quantity * $salePrice;
+
+        if ($order->delivery_status->isAccept() && $order->approved_at->greaterThan($startDate) && $order->approved_at->lessThan($endDate)) {
+            $data['start_export_quantity'] +=  $quantity;
+            $data['start_export_total'] += $quantity * $salePrice;
+        }
+
+        if ($order->delivery_status->isAccept() && $order->approved_at->lessThan($endDate)) {
+            $data['end_quantity'] -=  $quantity;
+        }
     }
+
+    $data['end_total'] = $data['end_quantity'] * $product->sale_price;
+
+    $data['start_import_quantity'] = number_format($data['start_import_quantity']);
+    $data['start_import_total'] = number_format($data['start_import_total']);
+    $data['start_export_quantity'] = number_format($data['start_export_quantity']);
+    $data['start_export_total'] = number_format($data['start_export_total']);
+    $data['end_quantity'] = number_format($data['end_quantity']);
+    $data['end_total'] = number_format($data['end_total']);
 
     return $data;
 }

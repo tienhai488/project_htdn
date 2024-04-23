@@ -64,7 +64,6 @@
                                 <th>Giá nhập</th>
                                 <th>Giá bán</th>
                                 <th>Số lượng tồn</th>
-                                <th>Thể loại</th>
                                 <th>Mô tả</th>
                                 <th>Hành động</th>
                             </tr>
@@ -210,6 +209,7 @@
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold">
                                         <p style="max-width:200px;" class="text-truncate">${data}</p>
+                                        <p style="max-width:200px; opacity:0.8;" class="text-truncate">${full.category.name}</p>
                                     </span>
                                 </div>
                             </div>
@@ -227,12 +227,6 @@
                 {
                     "data": "quantity",
                     "class": "text-center",
-                },
-                {
-                    "data": "category",
-                    "render": function(data, type, full) {
-                        return data.name;
-                    },
                 },
                 {
                     "data": "description",

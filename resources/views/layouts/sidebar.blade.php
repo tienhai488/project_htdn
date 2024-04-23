@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <ul class="list-unstyled menu-categories" id="dashboard">
+        <ul class="list-unstyled menu-categories">
             <li
                 class="menu
                 @if (request()->routeIs('admin.dashboard.*')

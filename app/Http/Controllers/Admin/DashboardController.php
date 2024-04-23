@@ -7,7 +7,6 @@ use App\Http\Resources\PurchaseOrderStatisticResource;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
-use App\Repositories\PurchaseOrder\PurchaseOrderRepositoryInterface;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,7 +14,6 @@ class DashboardController extends Controller
     public function __construct(
         protected OrderRepositoryInterface $orderRepository,
         protected ProductCategoryRepositoryInterface $productCategoryRepository,
-        protected PurchaseOrderRepositoryInterface $purchaseOrderRepository,
         protected ProductRepositoryInterface $productRepository,
     ) {
         //
@@ -38,8 +36,10 @@ class DashboardController extends Controller
     {
         $productCategories = $this->productCategoryRepository->all();
         if ($request->ajax()) {
-            $products = $this->productRepository->getDataForDatatable($request->all());
-            return PurchaseOrderStatisticResource::collection($products);
+            $products = $this->productRepository->getDataForPurchaseOrderStatistic($request->all());
+            $productsCollection = PurchaseOrderStatisticResource::collection($products);
+
+            return $productsCollection;
         }
         return view('admin.dashboard.purchase_order_statistic', compact('productCategories'));
     }
