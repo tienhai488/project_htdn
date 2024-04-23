@@ -8,13 +8,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+
     <link rel="stylesheet" type="text/css"
         href="{{ asset('src/plugins/css/light/table/datatable/custom_dt_miscellaneous.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('src/plugins/css/dark/table/datatable/custom_dt_miscellaneous.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/custom_dt_custom.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/custom_dt_custom.css') }}">
-    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
 
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
@@ -48,6 +46,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="widget-content widget-content-area">
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
                         <div class="row d-flex align-items-end">
@@ -62,7 +61,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="start-date">Thời gian bắt đầu</label>
                                     <input
@@ -73,7 +72,7 @@
                                     >
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="end-date">Thời gian kết thúc</label>
                                     <input
@@ -84,22 +83,15 @@
                                     >
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <a
-                                    href="{{ route('admin.department.create') }}"
-                                    class="btn btn-primary btn-block w-100"
-                                >
-                                    In báo cáo
-                                </a>
-                            </div>
                         </div>
                     </div>
 
-                    <table id="datatable" class="table style-3 dt-table-hover" style="width:100%">
+                    <table id="html5-extension" class="table style-3 dt-table-hover" style="width:100%">
                         <thead>
                             <tr role="row">
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">Tên sản phẩm</th>
+                                <th rowspan="2">Danh mục</th>
                                 <th colspan="2" class="text-center">Nhập trong kỳ</th>
                                 <th colspan="2" class="text-center">Xuất trong kỳ</th>
                                 <th colspan="2" class="text-center">Tồn cuối kỳ</th>
@@ -120,16 +112,45 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="now" value="{{ getNowFormat() }}">
+    <input type="hidden" id="start_of_year" value="{{ getStartOfYearFormat() }}">
 @endsection
 
 @section('script')
     <script>
         let drawDT = 0;
 
-        const c1 = $('#datatable').DataTable({
-            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'>>>" +
+        let c1 = $('#html5-extension').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center'B><'col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3'f>>>" +
                 "<'table-responsive'tr>" +
                 "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            buttons: {
+                buttons: [
+                    {
+                        extend: 'excel',
+                        className: 'btn',
+                        title: function () {
+                            let startDate = $('#start-date').val() ? $('#start-date').val() : $('#start_of_year').val();
+                            let endDate = $('#end-date').val() ?  $('#end-date').val(): $('#now').val();
+                            return `Thống kê nhập xuất kho (${startDate} - ${endDate})`;
+                        },
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn',
+                        title: function () {
+                            return ``;
+                        },
+                        customize: function (win) {
+                            let startDate = $('#start-date').val() ? $('#start-date').val() : $('#start_of_year').val();
+                            let endDate = $('#end-date').val() ?  $('#end-date').val(): $('#now').val();
+                            $(win.document.body).prepend(`<h1 class="text-center pt-3">
+                                Thống kê nhập xuất kho (${startDate} - ${endDate})
+                            </h1>`);
+                        }
+                    }
+                ]
+            },
             "oLanguage": {
                 "oPaginate": {
                     "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
@@ -146,10 +167,11 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 10,
+            "pageLength": 100,
+            "searching" : false,
+            "ordering" : false,
             "processing": true,
             "serverSide": true,
-            "ordering": false,
             "ajax": {
                 "url": "{{ route('admin.dashboard.purchase_order_statistic') }}",
                 "data": function(d) {
@@ -157,6 +179,10 @@
                     drawDT = d.draw;
                     d.limit = d.length;
                     d.page = d.start / d.length + 1;
+                    d.keyword = $('.search-bar .search-form-control').val();
+                    d.product_category_id = $('#product_category_id').val();
+                    d.start_date = $('#start-date').val();
+                    d.end_date = $('#end-date').val();
                 },
                 "dataSrc": function(res) {
                     res.draw = drawDT;
@@ -174,6 +200,30 @@
                 },
                 {
                     "data": "name",
+                    "render": function(data, type, full, meta) {
+                        let thumbnail = full.thumbnail;
+                        return `
+                        <div class="d-flex justify-content-left align-items-center">
+                                <div class="avatar  me-3">
+                                    <img src="${thumbnail}" alt="Thumbnail" style="border-radius: 18px; width:48px !important; height:48px !important;">
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bold">
+                                        <p style="max-width:200px;" class="text-truncate">${data}</p>
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    },
+                },
+                {
+                    "data": "category.name",
+                    "render": function(data, type, full, meta) {
+                        let thumbnail = full.thumbnail;
+                        return `
+                        <p style="max-width:200px;" class="text-truncate">${data}</p>
+                        `;
+                    },
                 },
                 {
                     "data": "statistic.start_import_quantity",
@@ -202,11 +252,44 @@
             ]
         });
 
-        multiCheck(c1);
+        let searchBar = document.querySelector('.search-bar .search-form-control');
+        let startDate = document.getElementById('start-date');
+        let endDate = document.getElementById('end-date');
+        let productCategoryId = document.getElementById('product_category_id');
+        let sortBy = document.getElementById('sort_by');
+
+        let dt1 = flatpickr(startDate, {
+            dateFormat: "d/m/Y",
+            maxDate: $('#now').val(),
+        });
+
+        let dt2 = flatpickr(endDate, {
+            dateFormat: "d/m/Y",
+            maxDate: $('#now').val(),
+        });
+
+        productCategoryId.onchange = () => {
+            processChange();
+        }
+
+        startDate.onchange = () => {
+            processChange();
+        }
+
+        endDate.onchange = () => {
+            processChange();
+        }
 
         $(document).on('keyup', '.search-bar .search-form-control', function() {
             processChange();
         });
+
+        $('.search-bar .search-close').on('click', function(e) {
+            searchBar.value = '';
+            processChange();
+        });
+
+        const processChange = debounce(() => searchDT());
 
         function debounce(func, timeout = 500) {
             let timer;
@@ -218,28 +301,8 @@
             };
         }
 
-        function searchDT() {
-            c1.search($('.search-bar .search-form-control').val()).draw();
+        const searchDT = () => {
+            c1.ajax.reload();
         }
-
-        const processChange = debounce(() => searchDT());
-
-        $('.search-bar .search-close').on('click', function(e) {
-            c1.search('').draw();
-        });
-
-        let startDate = document.getElementById('start-date');
-        let endDate = document.getElementById('end-date');
-        let productCategoryId = document.getElementById('product_category_id');
-
-        let dt1 = flatpickr(startDate, {
-            dateFormat: "Y-m-d",
-            maxDate: "{{ getNow() }}",
-        });
-
-        let dt2 = flatpickr(endDate, {
-            dateFormat: "Y-m-d",
-            maxDate: "{{ getNow() }}",
-        });
     </script>
 @endsection

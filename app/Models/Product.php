@@ -111,7 +111,7 @@ class Product extends Model implements HasMedia
             'purchase_order_details',
             'product_id',
             'purchase_order_id',
-        );
+        )->withPivot('quantity');
     }
 
     public function purchaseOrderProductPrices(): BelongsToMany
@@ -121,7 +121,7 @@ class Product extends Model implements HasMedia
             'purchase_order_details',
             'product_id',
             'product_price_id',
-        );
+        )->withPivot('quantity');
     }
 
     public function orders(): BelongsToMany
@@ -131,7 +131,7 @@ class Product extends Model implements HasMedia
             'order_details',
             'product_id',
             'order_id',
-        );
+        )->withPivot('quantity');
     }
 
     public function orderProductPrices(): BelongsToMany
@@ -141,6 +141,6 @@ class Product extends Model implements HasMedia
             'order_details',
             'product_id',
             'product_price_id',
-        );
+        )->withPivot('quantity');
     }
 }
