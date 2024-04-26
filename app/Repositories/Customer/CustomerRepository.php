@@ -34,4 +34,16 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 
         return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
     }
+
+    public function destroy($model)
+    {
+        if ($model->orders()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá khách hàng không thành công. Dữ liệu đang tồn tại các hóa đơn bán.',
+            ];
+        }
+
+        return $model->delete();
+    }
 }

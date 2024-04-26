@@ -25,13 +25,13 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- datatable --}}
+
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.print.min.js') }}"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
 
     @include('includes.toast')
@@ -90,6 +90,19 @@
                 cancelButtonText: "Hủy",
             }).then((result) => {
                 if (result.isConfirmed) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal
+                                .stopTimer)
+                            toast.addEventListener('mouseleave', Swal
+                                .resumeTimer)
+                        }
+                    });
                     $.ajax({
                         type: 'DELETE',
                         url: url,
@@ -99,20 +112,6 @@
                         success: function(response) {
                             if (response) {
                                 $('#datatable').DataTable().ajax.reload();
-
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal
-                                            .stopTimer)
-                                        toast.addEventListener('mouseleave', Swal
-                                            .resumeTimer)
-                                    }
-                                });
 
                                 let icon = response.icon ? response.icon : 'success';
                                 let title = response.title ? response.title : 'Xóa dữ liệu thành công!';
@@ -124,20 +123,6 @@
                             }
                         },
                         error: function(response) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            });
-
                             Toast.fire({
                                 icon: 'error',
                                 title: 'Xóa dữ liệu không thành công!'
@@ -207,10 +192,6 @@
                     "data": "id",
                     "class": "text-center",
                     "render": function(data, type, full) {
-                        // <a href="${urlShow}" class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="View" data-bs-original-title="View">
-                        //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        // </a>
-
                         let urlEdit = `{{ route('admin.product_category.edit', ':id') }}`.replace(':id',
                             data);
                         let urlDestroy = `{{ route('admin.product_category.destroy', ':id') }}`.replace(

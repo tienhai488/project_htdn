@@ -34,4 +34,16 @@ class ShippingUnitRepository extends BaseRepository implements ShippingUnitRepos
 
         return $query->latest()->paginate(self::PER_PAGE);
     }
+
+    public function destroy($model)
+    {
+        if ($model->orders()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá đơn vị vận chuyển không thành công. Dữ liệu đang tồn tại các hóa đơn bán.',
+            ];
+        }
+
+        return $model->delete();
+    }
 }

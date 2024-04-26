@@ -93,6 +93,19 @@
                 cancelButtonText: "Hủy",
             }).then((result) => {
                 if (result.isConfirmed) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal
+                                .stopTimer)
+                            toast.addEventListener('mouseleave', Swal
+                                .resumeTimer)
+                        }
+                    });
                     $.ajax({
                         type: 'DELETE',
                         url: url,
@@ -103,41 +116,16 @@
                             if (response) {
                                 $('#datatable').DataTable().ajax.reload();
 
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal
-                                            .stopTimer)
-                                        toast.addEventListener('mouseleave', Swal
-                                            .resumeTimer)
-                                    }
-                                });
+                                let icon = response.icon ? response.icon : 'success';
+                                let title = response.title ? response.title : 'Xóa dữ liệu thành công!';
 
                                 Toast.fire({
-                                    icon: 'success',
-                                    title: 'Xóa dữ liệu thành công!'
+                                    icon,
+                                    title
                                 });
                             }
                         },
                         error: function(response) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            });
-
                             Toast.fire({
                                 icon: 'error',
                                 title: 'Xóa dữ liệu không thành công!'
@@ -208,8 +196,8 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold">
-                                        <p style="max-width:200px;" class="text-truncate">${data}</p>
-                                        <p style="max-width:200px; opacity:0.8;" class="text-truncate">${full.category.name}</p>
+                                        <p style="max-width:200px; margin-bottom:0;" class="text-truncate">${data}</p>
+                                        <p style="max-width:200px; margin-bottom:0; opacity:0.8;" class="text-truncate">${full.category.name}</p>
                                     </span>
                                 </div>
                             </div>
@@ -231,17 +219,13 @@
                 {
                     "data": "description",
                     "render": function(data, type, full) {
-                        return `<p style="max-width:200px;" class="text-truncate">${data}</p>`
+                        return `<p style="max-width:200px; margin-bottom:0;" class="text-truncate">${data}</p>`
                     },
                 },
                 {
                     "data": "id",
                     "class": "text-center",
                     "render": function(data, type, full) {
-                        // <a href="${urlShow}" class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="View" data-bs-original-title="View">
-                        //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        // </a>
-
                         let urlEdit = `{{ route('admin.product.edit', ':id') }}`.replace(':id', data);
                         let urlDestroy = `{{ route('admin.product.destroy', ':id') }}`.replace(':id',
                             data);

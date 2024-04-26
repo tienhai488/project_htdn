@@ -133,8 +133,20 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $product;
     }
 
+    public function destroy($model)
+    {
+        if ($model->purchaseOrders()->count() || $model->orders()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá sản phẩm không thành công. Dữ liệu đang tồn tại các hóa đơn.',
+            ];
+        }
+
+        return $model->delete();
+    }
+
     public function getProductListForOrder()
     {
-        return $this->model::where('quantity', '>', 0)->latest()->get();
+        return $this->model->where('quantity', '>', 0)->latest()->get();
     }
 }

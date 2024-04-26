@@ -79,75 +79,6 @@
 
 @section('script')
     <script>
-        $(document).on('click', '.btn-delete', function(e) {
-            e.preventDefault();
-            let url = this.href;
-            Swal.fire({
-                title: "Bạn có chắc chắn muốn xóa?",
-                text: "Bạn sẽ không thể khôi phục lại dữ liệu đã xóa!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Đồng ý",
-                cancelButtonText: "Hủy",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: url,
-                        data: {
-                            _token: @json(@csrf_token())
-                        },
-                        success: function(response) {
-                            if (response) {
-                                $('#datatable').DataTable().ajax.reload();
-
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal
-                                            .stopTimer)
-                                        toast.addEventListener('mouseleave', Swal
-                                            .resumeTimer)
-                                    }
-                                });
-
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: 'Xóa dữ liệu thành công!'
-                                });
-                            }
-                        },
-                        error: function(response) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            });
-
-                            Toast.fire({
-                                icon: 'error',
-                                title: 'Xóa dữ liệu không thành công!'
-                            });
-                        }
-                    });
-                }
-            });
-        });
-
         let drawDT = 0;
 
         const c1 = $('#datatable').DataTable({
@@ -224,17 +155,13 @@
                 {
                     "data": "note",
                     "render": function(data, type, full, meta) {
-                        return `<p style="max-width:200px;" class="text-truncate">${data}</p>`;
+                        return `<p style="max-width:200px; margin-bottom:0;" class="text-truncate">${data}</p>`;
                     },
                 },
                 {
                     "data": "id",
                     "class": "text-center",
                     "render": function(data, type, full) {
-                        // <a href="${urlShow}" class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="View" data-bs-original-title="View">
-                        //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        // </a>
-
                         let urlEdit = `{{ route('admin.purchase_order.edit', ':id') }}`.replace(':id', data);
                         let urlDestroy = `{{ route('admin.purchase_order.destroy', ':id') }}`.replace(':id',
                             data);

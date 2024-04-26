@@ -81,6 +81,6 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        // return $this->customerRepository->destroy($customer);
+        return $this->customerRepository->destroy($customer);
     }
 }
