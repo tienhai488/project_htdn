@@ -88,7 +88,7 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : to_route('admin.dashboard');
+            : to_route('admin.dashboard.index');
     }
 
     public function logout(Request $request)
