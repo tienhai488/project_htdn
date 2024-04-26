@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
     const PER_PAGE = 10;
+    const STATISTIC_PER_PAGE = 100;
 
     protected $model;
 
@@ -37,45 +38,34 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             'productPrices',
         ]);
 
-        return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
+        return $query->latest()->paginate(self::PER_PAGE);
     }
 
     public function getDataForPurchaseOrderStatistic(array $searchArr)
     {
         $query = $this->model->query();
 
-        $keyword = Arr::get($searchArr, 'search', '');
+        $keyword = Arr::get($searchArr, 'keyword', '');
+        $product_category_id = Arr::get($searchArr, 'product_category_id', '');
 
         if ($keyword) {
-            if (is_array($keyword)) {
-                $keyword = $keyword['value'];
-            }
-
             $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        if ($product_category_id) {
+            $query->where('category_id', $product_category_id);
         }
 
         $query->with([
             'category',
             'productPrices',
-            // 'purchaseOrders',
-            // 'purchaseOrderProductPrices',
-            // 'orders',
-            // 'orderProductPrices',
-            // // 'purchaseOrders' => function ($query) {
-            // //     $query->withPivot('quantity');
-            // // },
-            // // 'purchaseOrderProductPrices' => function ($query) {
-            // //     $query->withPivot('quantity');
-            // // },
-            // // 'orders' => function ($query) {
-            // //     $query->withPivot('quantity');
-            // // },
-            // // 'orderProductPrices' => function ($query) {
-            // //     $query->withPivot('quantity');
-            // // },
+            'purchaseOrders',
+            'purchaseOrderProductPrices',
+            'orders',
+            'orderProductPrices',
         ]);
 
-        return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
+        return $query->latest()->paginate(self::STATISTIC_PER_PAGE);
     }
 
     public function create($data)

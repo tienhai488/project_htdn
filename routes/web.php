@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\PurchaseOrderController;
+use App\Http\Controllers\Admin\RecruitmentController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\ShippingUnitController;
 use App\Http\Controllers\Admin\SupplierController;
@@ -71,4 +72,6 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('user', UserController::class);
 
     Route::resource('salary', SalaryController::class);
+
+    Route::resource('recruitment', RecruitmentController::class);
 });

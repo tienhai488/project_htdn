@@ -26,6 +26,7 @@ class Order extends Model
     protected $casts = [
         'payment_status' => PaymentStatus::class,
         'delivery_status' => DeliveryStatus::class,
+        'approved_at' => 'datetime',
     ];
 
     public function approvedBy(): BelongsTo

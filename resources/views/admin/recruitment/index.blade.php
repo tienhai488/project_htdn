@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách sản phẩm
+    Danh sách tuyển dụng
 @endsection
 
 @section('style-plugins')
@@ -25,13 +25,13 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- datatable --}}
+
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.print.min.js') }}"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
 
     @include('includes.toast')
@@ -44,15 +44,15 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Quản lý sản phẩm</h4>
+                            <h4>Quản lý tuyển dụng</h4>
                         </div>
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
-                        <a href="{{ route('admin.product.create') }}"
+                        <a href="{{ route('admin.recruitment.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
-                            Thêm mới sản phẩm
+                            Thêm mới tuyển dụng
                         </a>
                     </div>
 
@@ -60,11 +60,12 @@
                         <thead>
                             <tr role="row">
                                 <th>#</th>
-                                <th>Sản phẩm</th>
-                                <th>Giá nhập</th>
-                                <th>Giá bán</th>
-                                <th>Số lượng tồn</th>
-                                <th>Mô tả</th>
+                                <th>Tiêu đề</th>
+                                <th>Phòng ban</th>
+                                <th>Vị trí</th>
+                                <th>Số lượng</th>
+                                <th>Thời hạn</th>
+                                <th>Lương</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -93,6 +94,20 @@
                 cancelButtonText: "Hủy",
             }).then((result) => {
                 if (result.isConfirmed) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal
+                                .stopTimer)
+                            toast.addEventListener('mouseleave', Swal
+                                .resumeTimer)
+                        }
+                    });
+
                     $.ajax({
                         type: 'DELETE',
                         url: url,
@@ -103,20 +118,6 @@
                             if (response) {
                                 $('#datatable').DataTable().ajax.reload();
 
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal
-                                            .stopTimer)
-                                        toast.addEventListener('mouseleave', Swal
-                                            .resumeTimer)
-                                    }
-                                });
-
                                 Toast.fire({
                                     icon: 'success',
                                     title: 'Xóa dữ liệu thành công!'
@@ -124,20 +125,6 @@
                             }
                         },
                         error: function(response) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal
-                                        .stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            });
-
                             Toast.fire({
                                 icon: 'error',
                                 title: 'Xóa dữ liệu không thành công!'
@@ -175,7 +162,7 @@
             "serverSide": true,
             "ordering": false,
             "ajax": {
-                "url": "{{ route('admin.product.index') }}",
+                "url": "{{ route('admin.recruitment.index') }}",
                 "data": function(d) {
                     let searchParams = new URLSearchParams(window.location.search);
                     drawDT = d.draw;
@@ -197,41 +184,27 @@
                     },
                 },
                 {
-                    "data": "name",
-                    "class": "right-center",
-                    "render": function(data, type, full, meta) {
-                        let thumbnail = full.thumbnail;
-                        return `
-                        <div class="d-flex justify-content-left align-items-center">
-                                <div class="avatar  me-3">
-                                    <img src="${thumbnail}" alt="Thumbnail" style="border-radius: 18px; width:48px !important; height:48px !important;">
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <span class="fw-bold">
-                                        <p style="max-width:200px;" class="text-truncate">${data}</p>
-                                        <p style="max-width:200px; opacity:0.8;" class="text-truncate">${full.category.name}</p>
-                                    </span>
-                                </div>
-                            </div>
-                        `;
-                    },
+                    "data": "title",
                 },
                 {
-                    "data": "regular_price",
-                    "class": "text-end",
+                    "data": "department.name",
                 },
                 {
-                    "data": "sale_price",
-                    "class": "text-end",
+                    "data": "position.name",
                 },
                 {
                     "data": "quantity",
                     "class": "text-center",
                 },
                 {
-                    "data": "description",
-                    "render": function(data, type, full) {
-                        return `<p style="max-width:200px;" class="text-truncate">${data}</p>`
+                    "data": "expired_time",
+                    "class": "text-center",
+                },
+                {
+                    "data": "maximum_salary",
+                    "class": "text-center",
+                    "render": function(data, type, full, meta) {
+                        return `${full.minimum_salary} - ${data}`;
                     },
                 },
                 {
@@ -242,17 +215,14 @@
                         //     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         // </a>
 
-                        let urlEdit = `{{ route('admin.product.edit', ':id') }}`.replace(':id', data);
-                        let urlDestroy = `{{ route('admin.product.destroy', ':id') }}`.replace(':id',
+                        let urlEdit = `{{ route('admin.recruitment.edit', ':id') }}`.replace(':id', data);
+                        let urlDestroy = `{{ route('admin.recruitment.destroy', ':id') }}`.replace(':id',
                             data);
 
                         return `
                             <div class="action-btns">
                                 <a href="${urlEdit}" class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="Edit" data-bs-original-title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                </a>
-                                <a href="${urlDestroy}" class="action-btn btn-delete bs-tooltip" data-toggle="tooltip" data-placement="top" title="Delete" data-bs-original-title="Delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                 </a>
                             </div>
                         `;
