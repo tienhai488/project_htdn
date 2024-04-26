@@ -97,7 +97,7 @@
                 >
                     <div class="">
                         <i data-feather="layers"></i>
-                        <span>Quản lý sản phẩm</span>
+                        <span>Sản phẩm</span>
                     </div>
                     <div>
                         <i data-feather="chevron-right"></i>
@@ -116,7 +116,7 @@
                         <a href="{{ route('admin.product_category.index') }}">Danh mục sản phẩm</a>
                     </li>
                     <li class="@if (request()->routeIs('admin.product.*')) active @endif">
-                        <a href="{{ route('admin.product.index') }}">Sản phẩm</a>
+                        <a href="{{ route('admin.product.index') }}">Danh sách sản phẩm</a>
                     </li>
                 </ul>
             </li>
@@ -159,38 +159,13 @@
                 </ul>
             </li>
 
-            <li
-                class="menu
-                @if (request()->routeIs('admin.customer.*'))
-                active
-                @endif"
-            >
-                <a
-                    href="#customer"
-                    data-bs-toggle="collapse"
-                    aria-expanded="false" class="dropdown-toggle
-                    collapsed"
-                >
+            <li class="menu @if (request()->routeIs('admin.customer.*')) active @endif">
+                <a href="{{ route('admin.customer.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i data-feather="users"></i>
-                        <span>Quản lý khách hàng</span>
-                    </div>
-                    <div>
-                        <i data-feather="chevron-right"></i>
+                        <span>Khách hàng</span>
                     </div>
                 </a>
-                <ul
-                    class="collapse submenu list-unstyled
-                    @if (request()->routeIs('admin.customer.*'))
-                    show
-                    @endif"
-                    id="customer"
-                    data-bs-parent="#accordionExample"
-                >
-                    <li class="@if (request()->routeIs('admin.customer.*')) active @endif">
-                        <a href="{{ route('admin.customer.index') }}">Khách hàng</a>
-                    </li>
-                </ul>
             </li>
 
             <li
@@ -245,7 +220,7 @@
                 >
                     <div class="">
                         <i data-feather="user"></i>
-                        <span>Quản lý nguời dùng</span>
+                        <span>Nguời dùng</span>
                     </div>
                     <div>
                         <i data-feather="chevron-right"></i>
@@ -261,13 +236,13 @@
                     id="users" data-bs-parent="#accordionExample"
                 >
                     <li class="@if (request()->routeIs('admin.user.*')) active @endif">
-                        <a href="{{ route('admin.user.index') }}">Người dùng</a>
+                        <a href="{{ route('admin.user.index') }}">Danh sách người dùng</a>
                     </li>
                     <li class="@if (request()->routeIs('admin.position.*')) active @endif">
-                        <a href="{{ route('admin.position.index') }}">Vị trí</a>
+                        <a href="{{ route('admin.position.index') }}">Danh sách vị trí</a>
                     </li>
                     <li class="@if (request()->routeIs('admin.department.*')) active @endif">
-                        <a href="{{ route('admin.department.index') }}">Phòng ban</a>
+                        <a href="{{ route('admin.department.index') }}">Danh sách phòng ban</a>
                     </li>
                 </ul>
             </li>
@@ -285,7 +260,7 @@
                 >
                     <div class="">
                         <i data-feather="dollar-sign"></i>
-                        <span>Quản lý lương</span>
+                        <span>Lương</span>
                     </div>
                     <div>
                         <i data-feather="chevron-right"></i>
@@ -299,7 +274,7 @@
                     id="salaries" data-bs-parent="#accordionExample"
                 >
                     <li class="@if (request()->routeIs('admin.salary.*')) active @endif">
-                        <a href="{{ route('admin.salary.index') }}">Lương</a>
+                        <a href="{{ route('admin.salary.index') }}">Danh sách lương</a>
                     </li>
                 </ul>
             </li>
@@ -317,7 +292,7 @@
                 >
                     <div class="">
                         <i data-feather="user-plus"></i>
-                        <span>Quản lý tuyển dụng</span>
+                        <span>Tuyển dụng</span>
                     </div>
                     <div>
                         <i data-feather="chevron-right"></i>
