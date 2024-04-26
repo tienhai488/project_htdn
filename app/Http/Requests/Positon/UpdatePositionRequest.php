@@ -35,7 +35,7 @@ class UpdatePositionRequest extends FormRequest
         return [
             'required' => 'Trường :attribute không được để trống.',
             'max' => 'Trường :attribute tối đa :max kí tự.',
-            'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
+            'unique' => 'Trường :attribute đã tồn tại.',
         ];
     }
 

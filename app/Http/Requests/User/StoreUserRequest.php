@@ -89,7 +89,7 @@ class StoreUserRequest extends FormRequest
             'max' => 'Trường :attribute tối đa :max kí tự.',
             'min' => 'Trường :attribute ít nhất :min kí tự.',
             'email' => 'Trường :attribute không đúng định dạng.',
-            'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
+            'unique' => 'Trường :attribute đã tồn tại.',
             'exists' => 'Trường :attribute không tồn tại.',
             'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp.',
             'date' => 'Trường :attribute không phải là định dạng của ngày-tháng.',

@@ -34,4 +34,16 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
 
         return $query->orderByDesc('created_at')->paginate(self::PER_PAGE);
     }
+
+    public function destroy($model)
+    {
+        if ($model->purchaseOrders()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá nhà cung cấp không thành công. Dữ liệu đang tồn tại các hóa đơn nhập.',
+            ];
+        }
+
+        return $model->delete();
+    }
 }

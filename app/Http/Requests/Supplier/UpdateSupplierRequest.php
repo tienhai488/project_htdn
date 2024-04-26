@@ -52,7 +52,7 @@ class UpdateSupplierRequest extends FormRequest
             'required' => 'Trường :attribute không được để trống.',
             'max' => 'Trường :attribute tối đa :max kí tự.',
             'email' => 'Trường :attribute không đúng định dạng.',
-            'unique' => 'Trường :attribute đã tồn tại trong CSDL.',
+            'unique' => 'Trường :attribute đã tồn tại.',
         ];
     }
 

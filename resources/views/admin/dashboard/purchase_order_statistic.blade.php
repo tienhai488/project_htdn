@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold">
-                                        <p style="max-width:200px;" class="text-truncate">${data}</p>
+                                        <p style="max-width:200px; margin-bottom:0;" class="text-truncate">${data}</p>
                                     </span>
                                 </div>
                             </div>
@@ -221,7 +221,7 @@
                     "render": function(data, type, full, meta) {
                         let thumbnail = full.thumbnail;
                         return `
-                        <p style="max-width:200px;" class="text-truncate">${data}</p>
+                        <p style="max-width:200px; margin-bottom:0;" class="text-truncate">${data}</p>
                         `;
                     },
                 },
