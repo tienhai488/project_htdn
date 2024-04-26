@@ -122,7 +122,7 @@
 
                 <div class="row mb-4">
                     <div class="col-sm-12">
-                        <label for="descriptilon">Mô tả <strong class="text-danger">*</strong>
+                        <label for="descriptionTextarea">Mô tả <strong class="text-danger">*</strong>
                         </label>
                         <div id="description"></div>
                         <textarea id="descriptionTextarea" name="description" style="display:none;">{{ old('description') }}</textarea>
@@ -265,22 +265,5 @@
                 labelIdle: 'Kéo & thả hoặc <span class="filepond--label-action">chọn từ thiết bị</span>',
             }
         );
-
-        // FilePond.setOptions({
-        //     server: {
-        //         url: '/upload',
-        //         headers: {
-        //             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-        //         }
-        //     }
-        // });
-
-        // @if (old('thumbnail'))
-        //     thumbnail.addFile('{{ getImageInStorage('thumbnail') }}');
-        // @endif
-
-        // @if (old('images'))
-        //     images.addFiles({!! json_encode(getImageListInStorage('images')) !!});
-        // @endif
     </script>
 @endsection

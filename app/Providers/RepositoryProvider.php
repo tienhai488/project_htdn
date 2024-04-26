@@ -16,6 +16,8 @@ use App\Repositories\ProductCategory\ProductCategoryRepository;
 use App\Repositories\ProductCategory\ProductCategoryRepositoryInterface;
 use App\Repositories\PurchaseOrder\PurchaseOrderRepository;
 use App\Repositories\PurchaseOrder\PurchaseOrderRepositoryInterface;
+use App\Repositories\Recruitment\RecruitmentRepository;
+use App\Repositories\Recruitment\RecruitmentRepositoryInterface;
 use App\Repositories\Salary\SalaryRepository;
 use App\Repositories\Salary\SalaryRepositoryInterface;
 use App\Repositories\ShippingUnit\ShippingUnitRepository;
@@ -44,6 +46,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton(DepartmentRepositoryInterface::class, DepartmentRepository::class);
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
         $this->app->singleton(SalaryRepositoryInterface::class, SalaryRepository::class);
+        $this->app->singleton(RecruitmentRepositoryInterface::class, RecruitmentRepository::class);
     }
 
     /**

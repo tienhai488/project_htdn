@@ -303,6 +303,38 @@
                     </li>
                 </ul>
             </li>
+
+            <li
+            class="menu
+                @if (request()->routeIs('admin.recruitment.*'))
+                active
+                @endif"
+            >
+                <a
+                    href="#recruitment"
+                    data-bs-toggle="collapse"
+                    aria-expanded="false" class="dropdown-toggle collapsed"
+                >
+                    <div class="">
+                        <i data-feather="user-plus"></i>
+                        <span>Quản lý tuyển dụng</span>
+                    </div>
+                    <div>
+                        <i data-feather="chevron-right"></i>
+                    </div>
+                </a>
+                <ul
+                    class="collapse submenu list-unstyled
+                    @if (request()->routeIs('admin.recruitment.*'))
+                    show
+                    @endif"
+                    id="recruitment" data-bs-parent="#accordionExample"
+                >
+                    <li class="@if (request()->routeIs('admin.recruitment.*')) active @endif">
+                        <a href="{{ route('admin.recruitment.index') }}">Danh sách tuyển dụng</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </div>
