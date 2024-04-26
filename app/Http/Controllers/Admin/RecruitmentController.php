@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recruitment\StoreRecruitmentRequest;
+use App\Http\Requests\Recruitment\UpdateRecruitmentRequest;
 use App\Http\Resources\RecruitmentResource;
+use App\Models\Recruitment;
 use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\Position\PositionRepositoryInterface;
 use App\Repositories\Recruitment\RecruitmentRepositoryInterface;
@@ -65,17 +67,23 @@ class RecruitmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Recruitment $recruitment)
     {
-        //
+        $departments = $this->departmentRepository->all();
+        $positions = $this->positionRepository->all();
+        return view('admin.recruitment.edit', compact('departments', 'positions', 'recruitment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRecruitmentRequest $request, Recruitment $recruitment)
     {
-        //
+        $this->recruitmentRepository->update($recruitment, $request->validated()) ?
+            session()->flash('success', 'Cập nhật tuyển dụng thành công')
+            :
+            session()->flash('error', 'Cập nhật tuyển dụng không thành công');
+        return to_route('admin.recruitment.index');
     }
 
     /**
