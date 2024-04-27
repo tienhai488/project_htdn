@@ -112,11 +112,11 @@
                     id="product"
                     data-bs-parent="#accordionExample"
                 >
-                    <li class="@if (request()->routeIs('admin.product_category.*')) active @endif">
-                        <a href="{{ route('admin.product_category.index') }}">Danh mục sản phẩm</a>
-                    </li>
                     <li class="@if (request()->routeIs('admin.product.*')) active @endif">
                         <a href="{{ route('admin.product.index') }}">Danh sách sản phẩm</a>
+                    </li>
+                    <li class="@if (request()->routeIs('admin.product_category.*')) active @endif">
+                        <a href="{{ route('admin.product_category.index') }}">Danh mục sản phẩm</a>
                     </li>
                 </ul>
             </li>
