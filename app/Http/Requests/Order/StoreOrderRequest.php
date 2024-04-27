@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Acl\Acl;
 use App\Enums\DeliveryStatus;
 use App\Enums\PaymentStatus;
 use Illuminate\Foundation\Http\FormRequest;
@@ -14,7 +15,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_ORDER_ADD_BUSINESS);
     }
 
     /**

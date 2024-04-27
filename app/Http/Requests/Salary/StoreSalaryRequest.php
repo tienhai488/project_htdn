@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Salary;
 
+use App\Acl\Acl;
 use App\Enums\SalaryStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -13,7 +14,7 @@ class StoreSalaryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_SALARY_ADD_HR);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\ProductCategory;
 
+use App\Acl\Acl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductCategoryRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreProductCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_PRODUCT_CATEGORY_ADD_WAREHOUSE);
     }
 
     /**

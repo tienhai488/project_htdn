@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Department;
 
+use App\Acl\Acl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateDepartmentRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_DEPARTMENT_EDIT_HR);
     }
 
     /**

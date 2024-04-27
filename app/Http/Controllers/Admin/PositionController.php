@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Positon\StorePositionRequest;
 use App\Http\Requests\Positon\UpdatePositionRequest;
@@ -16,7 +17,10 @@ class PositionController extends Controller
         protected PositionRepositoryInterface $positionRepository,
         protected UserRepositoryInterface $userRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_POSITION_LIST_HR)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_POSITION_ADD_HR)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_POSITION_EDIT_HR)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_POSITION_DELETE_HR)->only('destroy');
     }
 
     /**

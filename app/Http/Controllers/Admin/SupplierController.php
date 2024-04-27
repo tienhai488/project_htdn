@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Supplier\StoreSupplierRequest;
 use App\Http\Requests\Supplier\UpdateSupplierRequest;
@@ -14,7 +15,10 @@ class SupplierController extends Controller
     public function __construct(
         protected SupplierRepositoryInterface $supplierRepository
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_SUPPLIER_LIST_WAREHOUSE)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_SUPPLIER_ADD_WAREHOUSE)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_SUPPLIER_EDIT_WAREHOUSE)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_SUPPLIER_DELETE_WAREHOUSE)->only('destroy');
     }
 
     /**

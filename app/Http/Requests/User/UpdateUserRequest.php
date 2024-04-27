@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Acl\Acl;
 use App\Enums\Gender;
 use App\Enums\UserStatus;
 use App\Rules\PhoneNumber;
@@ -16,7 +17,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_USER_EDIT_HR);
     }
 
     /**

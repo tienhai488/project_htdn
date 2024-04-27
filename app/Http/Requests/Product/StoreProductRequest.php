@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Acl\Acl;
 use App\Rules\CheckFileUploadFileMultiple;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,7 +13,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_PRODUCT_ADD_WAREHOUSE);
     }
 
     /**

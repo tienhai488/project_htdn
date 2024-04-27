@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Salary\StoreSalaryRequest;
 use App\Http\Resources\UserSalaryResource;
@@ -16,7 +17,10 @@ class SalaryController extends Controller
         protected UserRepositoryInterface $userRepository,
         protected SalaryRepositoryInterface $salaryRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_SALARY_LIST_HR)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_SALARY_ADD_HR)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_SALARY_EDIT_HR)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_SALARY_DELETE_HR)->only('destroy');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Enums\Gender;
 use App\Enums\SalaryStatus;
 use App\Enums\UserStatus;
@@ -22,7 +23,10 @@ class UserController extends Controller
         protected PositionRepositoryInterface $positionRepository,
         protected DepartmentRepositoryInterface $departmentRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_USER_LIST_HR)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_USER_ADD_HR)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_EDIT_HR)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_DELETE_HR)->only('destroy');
     }
 
     /**

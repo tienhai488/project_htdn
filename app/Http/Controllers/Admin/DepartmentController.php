@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Department\StoreDepartmentRequest;
 use App\Http\Requests\Department\UpdateDepartmentRequest;
@@ -14,7 +15,10 @@ class DepartmentController extends Controller
     public function __construct(
         protected DepartmentRepositoryInterface $departmentRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_LIST_HR)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_ADD_HR)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_EDIT_HR)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_DEPARTMENT_DELETE_HR)->only('destroy');
     }
 
     /**

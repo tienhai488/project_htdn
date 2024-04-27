@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Customer;
 
+use App\Acl\Acl;
 use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,7 +13,7 @@ class UpdateCustomerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_CUSTOMER_EDIT_BUSINESS);
     }
 
     /**

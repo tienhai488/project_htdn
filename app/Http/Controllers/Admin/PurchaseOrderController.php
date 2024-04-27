@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseOrder\StorePurchaseOrderRequest;
 use App\Http\Requests\PurchaseOrder\UpdatePurchaseOrderRequest;
@@ -19,7 +20,10 @@ class PurchaseOrderController extends Controller
         protected SupplierRepositoryInterface $supplierRepository,
         protected ProductRepositoryInterface $productRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_PURCHASE_ORDER_LIST_WAREHOUSE)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_PURCHASE_ORDER_ADD_WAREHOUSE)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_PURCHASE_ORDER_EDIT_WAREHOUSE)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_PURCHASE_ORDER_DELETE_WAREHOUSE)->only('destroy');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\ShippingUnit;
 
+use App\Acl\Acl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateShippingUnitRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateShippingUnitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_SHIPPING_UNIT_EDIT_BUSINESS);
     }
 
     /**
