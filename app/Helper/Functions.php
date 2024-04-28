@@ -163,3 +163,8 @@ function checkPermission($permission)
 {
     return auth()->user()->hasPermissionTo($permission);
 }
+
+function checkPermissions($permissions)
+{
+    return auth()->user()->hasAnyPermission($permissions);
+}

@@ -5,14 +5,14 @@
 @endsection
 
 @section('style-plugins')
-    <link href="../src/plugins/src/apex/apexcharts.css" rel="stylesheet" type="text/css">
-    <link href="../src/assets/css/light/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
-    <link href="../src/assets/css/dark/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('script-plugins')
-    <script src="../src/plugins/src/apex/apexcharts.min.js"></script>
-    <script src="../src/assets/js/dashboard/dash_1.js"></script>
+    <script src="{{ asset('src/plugins/src/apex/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('src/assets/js/dashboard/dash_1.js') }}"></script>
 @endsection
 
 @section('content')
