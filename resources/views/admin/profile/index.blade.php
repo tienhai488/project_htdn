@@ -277,7 +277,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-12 mt-1">
-                                                                        <div class="form-group text-end">
+                                                                        <div class="form-group">
                                                                             <button class="btn btn-secondary _effect--ripple waves-effect waves-light">Hoàn tất</button>
                                                                         </div>
                                                                     </div>

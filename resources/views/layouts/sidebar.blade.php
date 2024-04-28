@@ -143,6 +143,14 @@
                 />
             </x-menu.vertical.drop-down>
 
+            <x-menu.vertical.single
+                :title="'Vai trò'"
+                :url="route('admin.role.index')"
+                :active="request()->routeIs('admin.role.*')"
+                :icon="'shield'"
+                :show="checkPermissions([Acl::PERMISSION_ROLE_MANAGE_HR])"
+            />
+
             <x-menu.vertical.drop-down
                 :id="'users'"
                 :title="'Người dùng'"
