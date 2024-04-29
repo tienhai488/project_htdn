@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Thêm mới ứng viên
+    Cập nhật ứng viên
 @endsection
 
 @section('style-plugins')
@@ -55,15 +55,16 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Thêm mới ứng viên</h4>
+                            <h4>Cập nhật ứng viên</h4>
                         </div>
                     </div>
                 </div>
 
                 <div class="widget-content widget-content-area" style="padding: 20px !important;">
                     <div class="col-lg-12">
-                        <form id="general-settings" method="POST" action="{{ route('admin.candidate.store') }}">
+                        <form id="general-settings" method="POST" action="{{ route('admin.candidate.update', $candidate) }}">
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <div class="form-group mb-4 col-md-6">
                                     <label for="recruitment_id">Đợt tuyển dụng <strong class="text-danger">*</strong>
@@ -72,7 +73,7 @@
                                         <option value="">Lựa chọn</option>
                                         @foreach ($recruitments as $recruitment)
                                             <option
-                                                @selected(old('recruitment_id') == $recruitment->id)
+                                                @selected((old('recruitment_id') ?? $candidate->recruitment_id) == $recruitment->id)
                                                 value="{{ $recruitment->id }}"
                                             >
                                                 {{ $recruitment->title }}
@@ -93,7 +94,7 @@
                                         id="name"
                                         class="form-control @error('name') is-invalid @enderror"
                                         placeholder="Tên"
-                                        value="{{ old('name') }}"
+                                        value="{{ old('name') ?? $candidate->name }}"
                                         spellcheck="false"
                                     >
                                     @error('name')
@@ -112,7 +113,7 @@
                                         id="email"
                                         class="form-control @error('email') is-invalid @enderror"
                                         placeholder="Email"
-                                        value="{{ old('email') }}"
+                                        value="{{ old('email') ?? $candidate->email }}"
                                         spellcheck="false"
                                     >
                                     @error('email')
@@ -131,7 +132,7 @@
                                         class="form-control @error('phone_number') is-invalid @enderror"
                                         id="phone_number"
                                         placeholder="Số điện thoại"
-                                        value="{{ old('phone_number') }}"
+                                        value="{{ old('phone_number') ?? $candidate->phone_number }}"
                                         spellcheck="false"
                                         @error('phone_number') is-invalid @enderror
                                     >
@@ -151,7 +152,7 @@
                                         id="birthday"
                                         class="form-control @error('birthday') is-invalid @enderror"
                                         placeholder="Ngày sinh"
-                                        value="{{ old('birthday') }}"
+                                        value="{{ old('birthday') ?? $candidate->birthday }}"
                                         spellcheck="false"
                                     >
                                     @error('birthday')
@@ -168,7 +169,12 @@
                                         <option value="">Lựa chọn</option>
                                         @foreach ($genders as $gender)
                                             <option
-                                                @selected(old('gender') != '' && old('gender') == $gender['case']->value)
+                                                @selected(
+                                                    old('gender') != '' ?
+                                                    old('gender') == $gender['case']->value
+                                                    :
+                                                    $candidate->gender == $gender['case']
+                                                )
                                                 value="{{ $gender['case']->value }}"
                                             >
                                                 {{ $gender['description'] }}
@@ -189,7 +195,7 @@
                                         id="desired_salary"
                                         class="form-control @error('desired_salary') is-invalid @enderror"
                                         placeholder="Mức lương mong muốn"
-                                        value="{{ old('desired_salary') }}"
+                                        value="{{ old('desired_salary') ?? round($candidate->desired_salary, 4) }}"
                                         spellcheck="false"
                                     >
                                     @error('desired_salary')
@@ -206,7 +212,12 @@
                                         <option value="">Lựa chọn</option>
                                         @foreach ($candidateStatuses as $status)
                                             <option
-                                                @selected(old('status') != '' && old('status') == $status['case']->value)
+                                                @selected(
+                                                    old('status') != '' ?
+                                                    old('status') == $status['case']->value
+                                                    :
+                                                    $candidate->status == $status['case']
+                                                )
                                                 value="{{ $status['case']->value }}"
                                             >
                                                 {{ $status['description'] }}
@@ -243,7 +254,7 @@
                                     rows="3"
                                     placeholder="Ghi chú"
                                     spellcheck="false"
-                                    @error('note') is-invalid @enderror>{{ old('note') }}</textarea>
+                                    @error('note') is-invalid @enderror>{{ old('note') ?? $candidate->note }}</textarea>
                                 @error('note')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -259,6 +270,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="candidate-cv" value="{{ $candidate->cv }}">
 @endsection
 
 @section('script')
@@ -284,6 +297,10 @@
             }
         );
 
-        let dt = flatpickr(document.getElementById('birthday'));
+        if($('#candidate-cv').val()) {
+            cv.addFile($('#candidate-cv').val());
+        }
+
+        let dt = flatpickr($('#birthday'));
     </script>
 @endsection

@@ -33,7 +33,7 @@ enum CandidateStatus: int
             self::PENDING => 'warning',
             self::INTERVIEW => 'primary',
             self::ACCEPT => 'success',
-            self::REFUSE => 'danger',
+            self::REFUSE => 'dark',
         };
     }
 
@@ -44,5 +44,15 @@ enum CandidateStatus: int
             'description' => $this->getDescription(),
             'button_type' => $this->getButtonType(),
         ];
+    }
+
+    public function isAllowDelete(): bool
+    {
+        return match ($this) {
+            self::PENDING =>  true,
+            self::REFUSE =>  true,
+            self::INTERVIEW =>  false,
+            self::ACCEPT =>  false,
+        };
     }
 }

@@ -52,4 +52,30 @@ class CandidateRepository extends BaseRepository implements CandidateRepositoryI
 
         return $candidate;
     }
+
+    public function update($candidate, $data)
+    {
+        $candidate->update($data);
+
+        $candidate->clearMediaCollection(Candidate::CANDIDATE_CV_COLLECTION);
+
+        $candidate
+            ->addMediaFromBase64(json_decode($data['cv'])->data)
+            ->usingFileName(json_decode($data['cv'])->name)
+            ->toMediaCollection(Candidate::CANDIDATE_CV_COLLECTION);
+
+        return $candidate;
+    }
+
+    public function destroy($model)
+    {
+        if (!$model->status->isAllowDelete()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá ứng viên không thành công. Chỉ được xóa khi ở trạng thái chờ duyệt và từ chối.',
+            ];
+        }
+
+        return $model->delete();
+    }
 }

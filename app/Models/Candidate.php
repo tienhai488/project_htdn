@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CandidateStatus;
+use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,8 @@ class Candidate extends Model implements HasMedia
 
     protected $casts = [
         'status' => CandidateStatus::class,
+        'gender' => Gender::class,
+        'birthday' => 'datetime',
     ];
 
     protected $appends = [

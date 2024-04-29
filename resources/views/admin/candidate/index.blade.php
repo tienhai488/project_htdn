@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
-                    @can(Acl::PERMISSION_USER_ADD_HR)
+                    @can(Acl::PERMISSION_CANDIDATE_ADD_HR)
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
                         <a href="{{ route('admin.candidate.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
@@ -81,6 +81,63 @@
 
 @section('script')
     <script>
+        $(document).on('click', '.btn-delete', function(e) {
+            e.preventDefault();
+            let url = this.href;
+            Swal.fire({
+                title: "Bạn có chắc chắn muốn xóa?",
+                text: "Bạn sẽ không thể khôi phục lại dữ liệu đã xóa!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đồng ý",
+                cancelButtonText: "Hủy",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal
+                                .stopTimer)
+                            toast.addEventListener('mouseleave', Swal
+                                .resumeTimer)
+                        }
+                    });
+                    $.ajax({
+                        type: 'DELETE',
+                        url: url,
+                        data: {
+                            _token: @json(@csrf_token())
+                        },
+                        success: function(response) {
+                            if (response) {
+                                $('#datatable').DataTable().ajax.reload();
+
+                                let icon = response.icon ? response.icon : 'success';
+                                let title = response.title ? response.title : 'Xóa dữ liệu thành công!';
+
+                                Toast.fire({
+                                    icon,
+                                    title
+                                });
+                            }
+                        },
+                        error: function(response) {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Xóa dữ liệu không thành công!'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
         let drawDT = 0;
 
         const c1 = $('#datatable').DataTable({
@@ -176,14 +233,21 @@
                         let urlDestroy = `{{ route('admin.candidate.destroy', ':id') }}`.replace(':id',
                             data);
 
-                        return `
-                            <div class="action-btns">
-                                <x-table.actions.edit-action
-                                    :permission="Acl::PERMISSION_USER_EDIT_HR"
-                                    :url="'${urlEdit}'"
-                                />
-                            </div>
-                        `;
+                            return `
+                                <div class="action-btns">
+                                    <a target="_blank" href="${full.cv}" class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="View" data-bs-original-title="View">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    </a>
+                                    <x-table.actions.edit-action
+                                        :permission="Acl::PERMISSION_CANDIDATE_EDIT_HR"
+                                        :url="'${urlEdit}'"
+                                    />
+                                    <x-table.actions.delete-action
+                                        :permission="Acl::PERMISSION_CANDIDATE_DELETE_HR"
+                                        :url="'${urlDestroy}'"
+                                    />
+                                </div>
+                            `;
                     }
                 },
             ]

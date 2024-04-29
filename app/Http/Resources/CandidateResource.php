@@ -21,6 +21,7 @@ class CandidateResource extends JsonResource
             'email' => $this->email,
             'desired_salary' => number_format($this->desired_salary),
             'status' => $this->status->getStatus(),
+            'cv' => $this->cv,
         ];
     }
 }

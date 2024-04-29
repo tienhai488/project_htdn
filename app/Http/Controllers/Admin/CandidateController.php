@@ -7,7 +7,9 @@ use App\Enums\CandidateStatus;
 use App\Enums\Gender;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Candidate\StoreCandidateRequest;
+use App\Http\Requests\Candidate\UpdateCandidateRequest;
 use App\Http\Resources\CandidateResource;
+use App\Models\Candidate;
 use App\Repositories\Candidate\CandidateRepositoryInterface;
 use App\Repositories\Recruitment\RecruitmentRepositoryInterface;
 use Illuminate\Http\Request;
@@ -78,24 +80,40 @@ class CandidateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Candidate $candidate)
     {
-        //
+        $recruitments = $this->recruitmentRepository->all();
+        $candidateStatuses = CandidateStatus::getCandidateStatuses();
+        $genders = Gender::getGenders();
+
+        return view(
+            'admin.candidate.edit',
+            compact(
+                'candidate',
+                'recruitments',
+                'candidateStatuses',
+                'genders',
+            )
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCandidateRequest $request, Candidate $candidate)
     {
-        //
+        $this->candidateRepository->update($candidate, $request->validated()) ?
+            session()->flash('success', 'Cập nhật ứng viên thành công')
+            :
+            session()->flash('error', 'Cập nhật ứng viên không thành công');
+        return to_route('admin.candidate.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Candidate $candidate)
     {
-        //
+        return $this->candidateRepository->destroy($candidate);
     }
 }
