@@ -64,6 +64,7 @@ class UpdateUserRequest extends FormRequest
             'citizen_id' => [
                 'required',
                 'max:50',
+                'unique:user_profiles,citizen_id,' . $this->user->userProfile->id,
             ],
             'birthday' => [
                 'required',

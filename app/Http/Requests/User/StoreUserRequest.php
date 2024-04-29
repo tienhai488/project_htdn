@@ -73,6 +73,7 @@ class StoreUserRequest extends FormRequest
             'citizen_id' => [
                 'required',
                 'max:50',
+                'unique:user_profiles',
             ],
             'birthday' => [
                 'required',

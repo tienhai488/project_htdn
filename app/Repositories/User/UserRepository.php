@@ -97,17 +97,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function update($user, $data)
     {
-        $userData = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'status' => $data['status'],
-        ];
-
         if (!empty($data['password'])) {
-            $userData['password'] = Hash::make($data['password']);
+            $data['password'] = Hash::make($data['password']);
         }
 
-        $user->update($userData);
+        $user->update($data);
 
         $userProfileData = [
             'department_id' => $data['department_id'],
