@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Enums\DeliveryStatus;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
@@ -23,7 +24,10 @@ class OrderController extends Controller
         protected ShippingUnitRepositoryInterface $shippingUnitRepository,
         protected ProductRepositoryInterface $productRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_ORDER_LIST_BUSINESS)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_ORDER_ADD_BUSINESS)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_ORDER_EDIT_BUSINESS)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_ORDER_DELETE_BUSINESS)->only('destroy');
     }
 
     /**

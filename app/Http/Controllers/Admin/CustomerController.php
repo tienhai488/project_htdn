@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
@@ -14,7 +15,10 @@ class CustomerController extends Controller
     public function __construct(
         protected CustomerRepositoryInterface $customerRepository
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_CUSTOMER_LIST_BUSINESS)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_CUSTOMER_ADD_BUSINESS)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_CUSTOMER_EDIT_BUSINESS)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_CUSTOMER_DELETE_BUSINESS)->only('destroy');
     }
 
     /**

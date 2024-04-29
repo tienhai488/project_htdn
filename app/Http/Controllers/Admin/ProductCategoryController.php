@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductCategory\StoreProductCategoryRequest;
 use App\Http\Requests\ProductCategory\UpdateProductCategoryRequest;
@@ -14,7 +15,10 @@ class ProductCategoryController extends Controller
     public function __construct(
         protected ProductCategoryRepositoryInterface $productCategoryRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_PRODUCT_CATEGORY_LIST_WAREHOUSE)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_PRODUCT_CATEGORY_ADD_WAREHOUSE)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_PRODUCT_CATEGORY_EDIT_WAREHOUSE)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_PRODUCT_CATEGORY_DELETE_WAREHOUSE)->only('destroy');
     }
     /**
      * Display a listing of the resource.

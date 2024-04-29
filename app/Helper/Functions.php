@@ -2,7 +2,6 @@
 
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\ProductPrice;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 
@@ -158,4 +157,14 @@ function getDataForPurchaseOrderStatistic(Product $product, $startDate, $endDate
     $data['end_total'] = number_format($data['end_total']);
 
     return $data;
+}
+
+function checkPermission($permission)
+{
+    return auth()->user()->hasPermissionTo($permission);
+}
+
+function checkPermissions($permissions)
+{
+    return auth()->user()->hasAnyPermission($permissions);
 }

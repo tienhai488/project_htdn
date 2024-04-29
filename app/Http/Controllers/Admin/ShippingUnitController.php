@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShippingUnit\StoreShippingUnitRequest;
 use App\Http\Requests\ShippingUnit\UpdateShippingUnitRequest;
@@ -14,7 +15,10 @@ class ShippingUnitController extends Controller
     public function __construct(
         protected ShippingUnitRepositoryInterface $shippingUnitRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_SHIPPING_UNIT_LIST_BUSINESS)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_SHIPPING_UNIT_ADD_BUSINESS)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_SHIPPING_UNIT_EDIT_BUSINESS)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_SHIPPING_UNIT_DELETE_BUSINESS)->only('destroy');
     }
     /**
      * Display a listing of the resource.

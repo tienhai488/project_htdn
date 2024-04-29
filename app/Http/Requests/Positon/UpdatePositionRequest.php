@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Positon;
 
+use App\Acl\Acl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePositionRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdatePositionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_POSITION_EDIT_HR);
     }
 
     /**

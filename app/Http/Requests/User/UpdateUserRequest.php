@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Acl\Acl;
 use App\Enums\Gender;
 use App\Enums\UserStatus;
 use App\Rules\PhoneNumber;
@@ -16,7 +17,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_USER_EDIT_HR);
     }
 
     /**
@@ -43,6 +44,9 @@ class UpdateUserRequest extends FormRequest
             'status' => [
                 'required',
                 Rule::enum(UserStatus::class),
+            ],
+            'roles' => [
+                'required',
             ],
             'department_id' => [
                 'required',
@@ -109,6 +113,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'tên',
             'email' => 'email',
             'status' => 'trạng thái tài khoản',
+            'roles' => 'vai trò tài khoản',
             'password' => 'mật khẩu',
             'department_id' => 'phòng ban',
             'phone_number' => 'số điện thoại',

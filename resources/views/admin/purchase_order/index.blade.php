@@ -49,12 +49,14 @@
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
+                    @can(Acl::PERMISSION_PURCHASE_ORDER_ADD_WAREHOUSE)
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
                         <a href="{{ route('admin.purchase_order.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
                             Thêm mới hóa đơn nhập
                         </a>
                     </div>
+                    @endcan
 
                     <table id="datatable" class="table style-3 dt-table-hover" style="width:100%">
                         <thead>
@@ -168,9 +170,10 @@
 
                         return `
                             <div class="action-btns">
-                                <a href="${urlEdit}" class="action-btn btn-edit bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="Edit" data-bs-original-title="Edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                </a>
+                                <x-table.actions.edit-action
+                                    :permission="Acl::PERMISSION_PURCHASE_ORDER_EDIT_WAREHOUSE"
+                                    :url="'${urlEdit}'"
+                                />
                             </div>
                         `;
                     }

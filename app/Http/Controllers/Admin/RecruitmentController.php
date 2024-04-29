@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Recruitment\StoreRecruitmentRequest;
 use App\Http\Requests\Recruitment\UpdateRecruitmentRequest;
@@ -19,7 +20,10 @@ class RecruitmentController extends Controller
         protected DepartmentRepositoryInterface $departmentRepository,
         protected PositionRepositoryInterface $positionRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_RECRUITMENT_LIST_HR)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_RECRUITMENT_ADD_HR)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_RECRUITMENT_EDIT_HR)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_RECRUITMENT_DELETE_HR)->only('destroy');
     }
 
     /**

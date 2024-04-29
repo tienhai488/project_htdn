@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acl\Acl;
 use App\Enums\Gender;
 use App\Enums\SalaryStatus;
 use App\Enums\UserStatus;
@@ -12,6 +13,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\Department\DepartmentRepositoryInterface;
 use App\Repositories\Position\PositionRepositoryInterface;
+use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -21,8 +23,12 @@ class UserController extends Controller
         protected UserRepositoryInterface $userRepository,
         protected PositionRepositoryInterface $positionRepository,
         protected DepartmentRepositoryInterface $departmentRepository,
+        protected RoleRepositoryInterface $roleRepository,
     ) {
-        //
+        $this->middleware('permission:' . Acl::PERMISSION_USER_LIST_HR)->only('index');
+        $this->middleware('permission:' . Acl::PERMISSION_USER_ADD_HR)->only(['create', 'store']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_EDIT_HR)->only(['edit', 'update']);
+        $this->middleware('permission:' . Acl::PERMISSION_USER_DELETE_HR)->only('destroy');
     }
 
     /**
@@ -47,6 +53,7 @@ class UserController extends Controller
         $positions = $this->positionRepository->all();
         $departments = $this->departmentRepository->all();
         $genders = Gender::getGenders();
+        $roles = $this->roleRepository->all();
 
         return view(
             'admin.user.create',
@@ -55,6 +62,7 @@ class UserController extends Controller
                 'positions',
                 'departments',
                 'genders',
+                'roles',
             )
         );
     }
@@ -64,7 +72,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $this->userRepository->create($request->except('_token')) ?
+        $this->userRepository->create($request->validated()) ?
             session()->flash('success', 'Thêm người dùng thành công')
             :
             session()->flash('error', 'Thêm người dùng không thành công');
@@ -85,6 +93,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $roles = $this->roleRepository->all();
+        $userRoles = $user->roles->pluck('id')->toArray();
         $userProfile = $this->userRepository->getUserProfile($user);
         $userStatuses = UserStatus::getUserStatuses();
         $positions = $this->positionRepository->all();
@@ -98,7 +108,9 @@ class UserController extends Controller
         return view(
             'admin.user.edit',
             compact(
+                'roles',
                 'user',
+                'userRoles',
                 'userProfile',
                 'userStatuses',
                 'positions',
@@ -117,7 +129,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->userRepository->update($user, $request->except('_token')) ?
+        $this->userRepository->update($user, $request->validated()) ?
             session()->flash('success', 'Cập nhật người dùng thành công')
             :
             session()->flash('error', 'Cập nhật người dùng không thành công');

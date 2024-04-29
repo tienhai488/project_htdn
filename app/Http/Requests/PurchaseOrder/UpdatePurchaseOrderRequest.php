@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PurchaseOrder;
 
+use App\Acl\Acl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePurchaseOrderRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdatePurchaseOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_PURCHASE_ORDER_EDIT_WAREHOUSE);
     }
 
     /**

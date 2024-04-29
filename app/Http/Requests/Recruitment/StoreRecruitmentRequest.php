@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Recruitment;
 
+use App\Acl\Acl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRecruitmentRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreRecruitmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_RECRUITMENT_ADD_HR);
     }
 
     /**
