@@ -200,7 +200,10 @@
             <x-menu.vertical.drop-down
                 :id="'recruitments'"
                 :title="'Tuyển dụng'"
-                :active="request()->routeIs('admin.recruitment.*')"
+                :active="
+                request()->routeIs('admin.recruitment.*')
+                || request()->routeIs('admin.candidate.*')
+                "
                 :icon="'user-plus'"
                 :show="checkPermissions([Acl::PERMISSION_RECRUITMENT_MANAGE_HR])"
             >
@@ -209,6 +212,12 @@
                     :active="request()->routeIs('admin.recruitment.*')"
                     :url="route('admin.recruitment.index')"
                     :show="checkPermissions([Acl::PERMISSION_RECRUITMENT_MANAGE_HR])"
+                />
+                <x-menu.vertical.drop-down-item
+                    :title="'Danh sách ứng viên'"
+                    :active="request()->routeIs('admin.candidate.*')"
+                    :url="route('admin.candidate.index')"
+                    :show="checkPermissions([Acl::PERMISSION_CANDIDATE_MANAGE_HR])"
                 />
             </x-menu.vertical.drop-down>
         </ul>

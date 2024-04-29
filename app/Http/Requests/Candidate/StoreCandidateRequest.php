@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Http\Requests\Profile;
+namespace App\Http\Requests\Candidate;
 
+use App\Acl\Acl;
+use App\Enums\CandidateStatus;
 use App\Enums\Gender;
 use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateProfileRequest extends FormRequest
+class StoreCandidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return checkPermission(Acl::PERMISSION_CANDIDATE_ADD_HR);
     }
 
     /**
@@ -25,6 +27,10 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'recruitment_id' => [
+                'required',
+                'exists:recruitments,id',
+            ],
             'name' => [
                 'required',
                 'max:100',
@@ -33,29 +39,34 @@ class UpdateProfileRequest extends FormRequest
                 'required',
                 'max:255',
                 'email:rfc,dns',
-                'unique:users,email,' . auth()->id(),
             ],
             'phone_number' => [
                 'required',
                 'max:20',
                 new PhoneNumber,
             ],
-            'gender' => [
-                'required',
-                Rule::enum(Gender::class),
-            ],
-            'citizen_id' => [
-                'required',
-                'numeric',
-                'max:50',
-                'unique:user_profiles,citizen_id,' . auth()->id(),
-            ],
             'birthday' => [
                 'required',
                 'date',
                 'before:-18 years',
             ],
-            'address' => [
+            'gender' => [
+                'required',
+                Rule::enum(Gender::class),
+            ],
+            'desired_salary' => [
+                'required',
+                'numeric',
+                'min:1',
+            ],
+            'status' => [
+                'required',
+                Rule::enum(CandidateStatus::class),
+            ],
+            'cv' => [
+                'required',
+            ],
+            'note' => [
                 'required',
                 'max:255',
             ],
@@ -67,9 +78,11 @@ class UpdateProfileRequest extends FormRequest
         return [
             'required' => 'Trường :attribute không được để trống.',
             'max' => 'Trường :attribute tối đa :max kí tự.',
+            'min' => 'Trường :attribute ít nhất :min kí tự.',
             'email' => 'Trường :attribute không đúng định dạng.',
             'unique' => 'Trường :attribute đã tồn tại.',
             'exists' => 'Trường :attribute không tồn tại.',
+            'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp.',
             'date' => 'Trường :attribute không phải là định dạng của ngày-tháng.',
             'before' => 'Trường :attribute phải đủ 18 tuổi.',
             'numeric' => 'Trường :attribute phải là số.',
@@ -79,13 +92,16 @@ class UpdateProfileRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'recruitment_id' => 'đợt tuyển dụng',
             'name' => 'tên',
             'email' => 'email',
             'phone_number' => 'số điện thoại',
-            'gender' => 'giới tính',
-            'citizen_id' => 'CMND/CCCD',
             'birthday' => 'ngày sinh',
-            'address' => 'địa chỉ',
+            'gender' => 'giới tính',
+            'desired_salary' => 'mức lương mong muốn',
+            'status' => 'trạng thái ứng viên',
+            'cv' => 'CV',
+            'note' => 'ghi chú',
         ];
     }
 }
