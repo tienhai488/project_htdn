@@ -30,6 +30,22 @@
 
     <link href="{{ asset('src/assets/css/light/components/accordions.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/assets/css/dark/components/accordions.css') }}" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+    <style>
+        .form-group .ts-wrapper {
+            height: 48px !important;
+        }
+        .ts-wrapper .ts-control {
+            font-size: 15px !important;
+        }
+
+        .ts-wrapper .ts-dropdown {
+            font-size: 15px !important;
+        }
+    </style>
 @endsection
 
 @section('script-plugins')
@@ -51,6 +67,9 @@
 
     <script src="{{ asset('src/plugins/src/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('src/plugins/src/flatpickr/custom-flatpickr.js') }}"></script>
+
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
 @endsection
 
 @section('content')
@@ -301,12 +320,24 @@
                                 <div class="form-group mb-4 col-md-6">
                                     <label for="role">Vai trò của tài khoản <strong class="text-danger">*</strong>
                                     </label>
-                                    <input
-                                        type="text"
-                                        id="role"
-                                        class="form-control"
-                                        placeholder="Vai trò của tài khoản"
+                                    <select
+                                        id="roles"
+                                        name="roles[]"
+                                        multiple placeholder="Lựa chọn..."
+                                        autocomplete="off"
                                     >
+                                    @foreach ($roles as $role)
+                                    <option
+                                        value="{{ $role->id }}"
+                                        @selected(in_array($role->id, (old('roles') ?? $userRoles)))
+                                    >
+                                        {{ $role->name }}
+                                    </option>
+                                    @endforeach
+                                    </select>
+                                    @error('roles')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group mb-4 col-md-6">
@@ -586,6 +617,8 @@
                 labelIdle: 'Kéo & thả hoặc <span class="filepond--label-action">chọn từ thiết bị</span>',
             }
         );
+
+        let tomSelectRoles = new TomSelect("#roles");
 
         @if(!empty($user->thumbnail))
             thumbnail.addFile(`{{ $user->thumbnail }}`);

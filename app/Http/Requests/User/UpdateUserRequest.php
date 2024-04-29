@@ -45,6 +45,9 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 Rule::enum(UserStatus::class),
             ],
+            'roles' => [
+                'required',
+            ],
             'department_id' => [
                 'required',
                 'exists:departments,id',
@@ -110,6 +113,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'tên',
             'email' => 'email',
             'status' => 'trạng thái tài khoản',
+            'roles' => 'vai trò tài khoản',
             'password' => 'mật khẩu',
             'department_id' => 'phòng ban',
             'phone_number' => 'số điện thoại',

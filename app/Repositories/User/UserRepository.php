@@ -33,6 +33,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             $query->where('name', 'LIKE', '%' . $keyword . '%');
         }
 
+        $query->with('roles');
+
         return $query->latest()->paginate(self::PER_PAGE);
     }
 
@@ -77,25 +79,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function create($data)
     {
-        $userData = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'status' => $data['status'],
-            'password' => Hash::make($data['password']),
-        ];
+        $data['password'] = Hash::make($data['password']);
 
-        $user = $this->model->create($userData);
+        $user = $this->model->create($data);
 
-        $userProfileData = [
-            'department_id' => $data['department_id'],
-            'phone_number' => $data['phone_number'],
-            'gender' => $data['gender'],
-            'citizen_id' => $data['citizen_id'],
-            'birthday' => $data['birthday'],
-            'address' => $data['address'],
-        ];
+        $user->syncRoles(Arr::map($data['roles'], fn ($role) => (int)$role));
 
-        $user->userProfile()->create($userProfileData);
+        $user->userProfile()->create($data);
 
         $user
             ->addMediaFromBase64(json_decode($data['thumbnail'])->data)
@@ -127,6 +117,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'birthday' => $data['birthday'],
             'address' => $data['address'],
         ];
+
+        $user->syncRoles(Arr::map($data['roles'], fn ($role) => (int)$role));
 
         $user->userProfile ?
             $user->userProfile()->update($userProfileData)

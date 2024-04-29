@@ -143,10 +143,14 @@
                     },
                 },
                 {
-                    "data": "id",
-                    "class": "text-center",
+                    "data": "roles",
+                    "class": "d-flex flex-wrap",
                     "render": function(data, type, full) {
-                        return `N/A`;
+                        let td = '';
+
+                        data.forEach(role => td += `<span class="badge badge-info mb-2 me-2">${role.name}</span>`);
+
+                        return td;
                     },
                 },
                 {

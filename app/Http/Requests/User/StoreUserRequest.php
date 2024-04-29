@@ -45,6 +45,9 @@ class StoreUserRequest extends FormRequest
                 'required',
                 Rule::enum(UserStatus::class),
             ],
+            'roles' => [
+                'required',
+            ],
             'password' => [
                 'required',
                 Password::min(8)
@@ -105,6 +108,7 @@ class StoreUserRequest extends FormRequest
             'name' => 'tên',
             'email' => 'email',
             'status' => 'trạng thái tài khoản',
+            'roles' => 'vai trò tài khoản',
             'password' => 'mật khẩu',
             'department_id' => 'phòng ban',
             'phone_number' => 'số điện thoại',
