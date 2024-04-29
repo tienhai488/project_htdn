@@ -33,8 +33,20 @@ class RecruitmentRepository extends BaseRepository implements RecruitmentReposit
             $query->where('title', 'LIKE', '%' . $keyword . '%');
         }
 
-        $query->with(['department', 'position']);
+        $query->with(['department', 'position', 'candidates']);
 
         return $query->latest()->paginate(self::PER_PAGE);
+    }
+
+    public function destroy($model)
+    {
+        if ($model->candidates()->count()) {
+            return [
+                'icon' => 'error',
+                'title' => 'Xoá tuyển dụng không thành công. Dữ liệu đang tồn tại các ứng viên.',
+            ];
+        }
+
+        return $model->delete();
     }
 }

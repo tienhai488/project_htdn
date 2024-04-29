@@ -66,6 +66,7 @@
                                 <th>Phòng ban</th>
                                 <th>Vị trí</th>
                                 <th>Số lượng</th>
+                                <th>SL ứng viên</th>
                                 <th>Thời hạn</th>
                                 <th>Lương</th>
                                 <th>Hành động</th>
@@ -109,7 +110,6 @@
                                 .resumeTimer)
                         }
                     });
-
                     $.ajax({
                         type: 'DELETE',
                         url: url,
@@ -120,9 +120,12 @@
                             if (response) {
                                 $('#datatable').DataTable().ajax.reload();
 
+                                let icon = response.icon ? response.icon : 'success';
+                                let title = response.title ? response.title : 'Xóa dữ liệu thành công!';
+
                                 Toast.fire({
-                                    icon: 'success',
-                                    title: 'Xóa dữ liệu thành công!'
+                                    icon,
+                                    title
                                 });
                             }
                         },
@@ -187,6 +190,15 @@
                 },
                 {
                     "data": "title",
+                    "class": "right-center",
+                    "render": function(data, type, full, meta) {
+                        let thumbnail = full.thumbnail;
+                        return `
+                        <p style="max-width:200px; margin-bottom:0;" class="text-truncate">
+                            ${data}
+                        </p>
+                        `;
+                    },
                 },
                 {
                     "data": "department.name",
@@ -197,6 +209,37 @@
                 {
                     "data": "quantity",
                     "class": "text-center",
+                },
+                {
+                    "data": "id",
+                    "render": function(data, type, full, meta) {
+                        return `
+                            <div style="display: flex; justify-content: space-between;">
+                                <p class="text-start">Chờ duyệt:</p>
+                                <p>
+                                    <b>${full.pending_candidates_count}</b>
+                                </p>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p class="text-start">Phỏng vấn:</p>
+                                <p>
+                                    <b>${full.interview_candidates_count}</b>
+                                </p>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p class="text-start">Chấp nhận:</p>
+                                <p>
+                                    <b>${full.accept_candidates_count}</b>
+                                </p>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p class="text-start">Từ chối:</p>
+                                <p>
+                                    <b>${full.refuse_candidates_count}</b>
+                                </p>
+                            </div>
+                        `;
+                    },
                 },
                 {
                     "data": "expired_time",
@@ -222,6 +265,10 @@
                                 <x-table.actions.edit-action
                                     :permission="Acl::PERMISSION_RECRUITMENT_EDIT_HR"
                                     :url="'${urlEdit}'"
+                                />
+                                <x-table.actions.delete-action
+                                    :permission="Acl::PERMISSION_RECRUITMENT_DELETE_HR"
+                                    :url="'${urlDestroy}'"
                                 />
                             </div>
                         `;
