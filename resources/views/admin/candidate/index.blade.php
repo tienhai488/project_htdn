@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách tuyển dụng
+    Danh sách ứng viên
 @endsection
 
 @section('style-plugins')
@@ -25,13 +25,13 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+    {{-- datatable --}}
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('src/plugins/src/table/datatable/button-ext/buttons.print.min.js') }}"></script>
-
+    {{-- sweatalert2 --}}
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
 
     @include('includes.toast')
@@ -44,16 +44,16 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Quản lý tuyển dụng</h4>
+                            <h4>Quản lý ứng viên</h4>
                         </div>
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
-                    @can(Acl::PERMISSION_RECRUITMENT_ADD_HR)
+                    @can(Acl::PERMISSION_CANDIDATE_ADD_HR)
                     <div class="layout-top-spacing ps-3 pe-3 col-12">
-                        <a href="{{ route('admin.recruitment.create') }}"
+                        <a href="{{ route('admin.candidate.create') }}"
                             class="btn btn-primary _effect--ripple waves-effect waves-light">
-                            Thêm mới tuyển dụng
+                            Thêm mới ứng viên
                         </a>
                     </div>
                     @endcan
@@ -62,13 +62,11 @@
                         <thead>
                             <tr role="row">
                                 <th>#</th>
-                                <th>Tiêu đề</th>
-                                <th>Phòng ban</th>
-                                <th>Vị trí</th>
-                                <th>Số lượng</th>
-                                <th>SL ứng viên</th>
-                                <th>Thời hạn</th>
-                                <th>Lương</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>Đợt tuyển dụng</th>
+                                <th>Mức lương mong muốn</th>
+                                <th>T/t ứng viên</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -167,7 +165,7 @@
             "serverSide": true,
             "ordering": false,
             "ajax": {
-                "url": "{{ route('admin.recruitment.index') }}",
+                "url": "{{ route('admin.candidate.index') }}",
                 "data": function(d) {
                     let searchParams = new URLSearchParams(window.location.search);
                     drawDT = d.draw;
@@ -189,89 +187,67 @@
                     },
                 },
                 {
-                    "data": "title",
-                    "class": "right-center",
-                    "render": function(data, type, full, meta) {
-                        let thumbnail = full.thumbnail;
-                        return `
-                        <p style="max-width:200px; margin-bottom:0;" class="text-truncate">
-                            ${data}
-                        </p>
-                        `;
-                    },
+                    "data": "name",
                 },
                 {
-                    "data": "department.name",
+                    "data": "email",
                 },
                 {
-                    "data": "position.name",
-                },
-                {
-                    "data": "quantity",
-                    "class": "text-center",
-                },
-                {
-                    "data": "id",
+                    "data": "recruitment",
                     "render": function(data, type, full, meta) {
                         return `
                             <div style="display: flex; justify-content: space-between;">
-                                <p class="text-start">Chờ duyệt:</p>
-                                <p>
-                                    <b>${full.pending_candidates_count}</b>
+                                <p class="text-start">Đợt:</p>
+                                <p style="max-width:200px" class="text-truncate">
+                                    ${data.title}
                                 </p>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
-                                <p class="text-start">Phỏng vấn:</p>
-                                <p>
-                                    <b>${full.interview_candidates_count}</b>
-                                </p>
+                                <p class="text-start">Phòng ban:</p>
+                                <p>${data.department.name}</p>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
-                                <p class="text-start">Chấp nhận:</p>
-                                <p>
-                                    <b>${full.accept_candidates_count}</b>
-                                </p>
-                            </div>
-                            <div style="display: flex; justify-content: space-between;">
-                                <p class="text-start">Từ chối:</p>
-                                <p>
-                                    <b>${full.refuse_candidates_count}</b>
-                                </p>
+                                <p class="text-start">Vị trí:</p>
+                                <p>${data.position.name}</p>
                             </div>
                         `;
                     },
                 },
                 {
-                    "data": "expired_time",
-                    "class": "text-center",
+                    "data": "desired_salary",
+                    "class": "text-end",
                 },
                 {
-                    "data": "maximum_salary",
-                    "class": "text-center",
+                    "data": "status",
                     "render": function(data, type, full, meta) {
-                        return `${full.minimum_salary} - ${data}`;
+                        return `<span class="badge badge-${data.button_type} mb-2 me-4">
+                            ${data.description}
+                        </span>`;
                     },
                 },
                 {
                     "data": "id",
                     "class": "text-center",
                     "render": function(data, type, full) {
-                        let urlEdit = `{{ route('admin.recruitment.edit', ':id') }}`.replace(':id', data);
-                        let urlDestroy = `{{ route('admin.recruitment.destroy', ':id') }}`.replace(':id',
+                        let urlEdit = `{{ route('admin.candidate.edit', ':id') }}`.replace(':id', data);
+                        let urlDestroy = `{{ route('admin.candidate.destroy', ':id') }}`.replace(':id',
                             data);
 
-                        return `
-                            <div class="action-btns">
-                                <x-table.actions.edit-action
-                                    :permission="Acl::PERMISSION_RECRUITMENT_EDIT_HR"
-                                    :url="'${urlEdit}'"
-                                />
-                                <x-table.actions.delete-action
-                                    :permission="Acl::PERMISSION_RECRUITMENT_DELETE_HR"
-                                    :url="'${urlDestroy}'"
-                                />
-                            </div>
-                        `;
+                            return `
+                                <div class="action-btns">
+                                    <a target="_blank" href="${full.cv}" class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="View" data-bs-original-title="View">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    </a>
+                                    <x-table.actions.edit-action
+                                        :permission="Acl::PERMISSION_CANDIDATE_EDIT_HR"
+                                        :url="'${urlEdit}'"
+                                    />
+                                    <x-table.actions.delete-action
+                                        :permission="Acl::PERMISSION_CANDIDATE_DELETE_HR"
+                                        :url="'${urlDestroy}'"
+                                    />
+                                </div>
+                            `;
                     }
                 },
             ]

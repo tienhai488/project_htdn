@@ -49,6 +49,12 @@ final class Acl
     const PERMISSION_RECRUITMENT_EDIT_HR   = 'recruitment edit';
     const PERMISSION_RECRUITMENT_DELETE_HR = 'recruitment delete';
 
+    const PERMISSION_CANDIDATE_MANAGE_HR = 'manage candidate';
+    const PERMISSION_CANDIDATE_LIST_HR   = 'candidate list';
+    const PERMISSION_CANDIDATE_ADD_HR    = 'candidate add';
+    const PERMISSION_CANDIDATE_EDIT_HR   = 'candidate edit';
+    const PERMISSION_CANDIDATE_DELETE_HR = 'candidate delete';
+
     const PERMISSION_PRODUCT_CATEGORY_MANAGE_WAREHOUSE = 'manage product category';
     const PERMISSION_PRODUCT_CATEGORY_LIST_WAREHOUSE   = 'product category list';
     const PERMISSION_PRODUCT_CATEGORY_ADD_WAREHOUSE    = 'product category add';

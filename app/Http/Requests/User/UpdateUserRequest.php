@@ -63,6 +63,7 @@ class UpdateUserRequest extends FormRequest
             ],
             'citizen_id' => [
                 'required',
+                'numeric',
                 'max:50',
                 'unique:user_profiles,citizen_id,' . $this->user->userProfile->id,
             ],
@@ -104,6 +105,7 @@ class UpdateUserRequest extends FormRequest
             'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp.',
             'date' => 'Trường :attribute không phải là định dạng của ngày-tháng.',
             'before' => 'Trường :attribute phải đủ 18 tuổi.',
+            'numeric' => 'Trường :attribute phải là số.',
         ];
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CandidateController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
@@ -77,4 +78,6 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('recruitment', RecruitmentController::class);
 
     Route::resource('role', RoleController::class);
+
+    Route::resource('candidate', CandidateController::class);
 });
