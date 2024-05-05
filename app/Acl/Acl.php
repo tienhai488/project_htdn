@@ -13,6 +13,9 @@ final class Acl
     const ROLE_BUSINESS = 'business';
     const ROLE_STAFF = 'staff';
 
+    const PERMISSION_PURCHASER_ORDER_STATISTIC_MANAGE = 'manage purchase order statistic';
+    const PERMISSION_ORDER_STATISTIC_MANAGE = 'manage order statistic';
+
     const PERMISSION_USER_MANAGE_HR = 'manage user';
     const PERMISSION_USER_LIST_HR   = 'user list';
     const PERMISSION_USER_ADD_HR    = 'user add';

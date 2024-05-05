@@ -53,13 +53,13 @@
                     :title="'Thống kê kho'"
                     :active="request()->routeIs('admin.dashboard.purchase_order_statistic')"
                     :url="route('admin.dashboard.purchase_order_statistic')"
-                    :show="true"
+                    :show="checkPermissions([Acl::PERMISSION_PURCHASER_ORDER_STATISTIC_MANAGE])"
                 />
                 <x-menu.vertical.drop-down-item
                     :title="'Thống kê kinh doanh'"
                     :active="request()->routeIs('admin.dashboard.order_statistic')"
                     :url="route('admin.dashboard.order_statistic')"
-                    :show="true"
+                    :show="checkPermissions([Acl::PERMISSION_ORDER_STATISTIC_MANAGE])"
                 />
             </x-menu.vertical.drop-down>
 
