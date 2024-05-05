@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -30,6 +31,8 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::ADMIN;
+
+    protected $failLoginResponse = 'Thông tin xác thực này không khớp.';
 
     /**
      * Create a new controller instance.
@@ -72,23 +75,8 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         throw ValidationException::withMessages([
-            $this->username() => ['Thông tin xác thực này không khớp.'],
+            $this->username() => [$this->failLoginResponse],
         ]);
-    }
-
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
-
-        $this->clearLoginAttempts($request);
-
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
-            return $response;
-        }
-
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : to_route('admin.dashboard.index');
     }
 
     public function logout(Request $request)
@@ -106,5 +94,21 @@ class LoginController extends Controller
         return $request->wantsJson()
             ? new JsonResponse([], 204)
             : to_route('login');
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        if (auth()->attempt($this->credentials($request), $request->boolean('remember'))) {
+            if (auth()->user()->status == UserStatus::ACTIVATED) {
+                return true;
+            } else {
+                $this->failLoginResponse = 'Tài khoản của bạn chưa được kích hoạt hoặc bị khóa.';
+                $this->logout($request);
+            }
+        } else {
+            $this->failLoginResponse = 'Thông tin xác thực không khớp.';
+        }
+
+        return false;
     }
 }
