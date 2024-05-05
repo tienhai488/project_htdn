@@ -43,6 +43,12 @@ final class Acl
     const PERMISSION_SALARY_EDIT_HR   = 'salary edit';
     const PERMISSION_SALARY_DELETE_HR = 'salary delete';
 
+    const PERMISSION_TIMEKEEPING_MANAGE_HR = 'manage timekeeping';
+    const PERMISSION_TIMEKEEPING_LIST_HR   = 'timekeeping list';
+    const PERMISSION_TIMEKEEPING_ADD_HR    = 'timekeeping add';
+    const PERMISSION_TIMEKEEPING_EDIT_HR   = 'timekeeping edit';
+    const PERMISSION_TIMEKEEPING_DELETE_HR = 'timekeeping delete';
+
     const PERMISSION_RECRUITMENT_MANAGE_HR = 'manage recruitment';
     const PERMISSION_RECRUITMENT_LIST_HR   = 'recruitment list';
     const PERMISSION_RECRUITMENT_ADD_HR    = 'recruitment add';

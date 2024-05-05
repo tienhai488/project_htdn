@@ -74,7 +74,7 @@
                 :show="checkPermissions([Acl::PERMISSION_PRODUCT_MANAGE_WAREHOUSE, Acl::PERMISSION_PRODUCT_CATEGORY_MANAGE_WAREHOUSE])"
             >
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách sản phẩm'"
+                    :title="'Quản lý sản phẩm'"
                     :active="request()->routeIs('admin.product.*')"
                     :url="route('admin.product.index')"
                     :show="checkPermissions([Acl::PERMISSION_PRODUCT_MANAGE_WAREHOUSE])"
@@ -163,19 +163,19 @@
                 :show="checkPermissions([Acl::PERMISSION_USER_MANAGE_HR, Acl::PERMISSION_DEPARTMENT_MANAGE_HR, Acl::PERMISSION_POSITION_MANAGE_HR])"
             >
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách người dùng'"
+                    :title="'Quản lý người dùng'"
                     :active="request()->routeIs('admin.user.*')"
                     :url="route('admin.user.index')"
                     :show="checkPermissions([Acl::PERMISSION_USER_MANAGE_HR])"
                 />
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách phòng ban'"
+                    :title="'Quản lý phòng ban'"
                     :active="request()->routeIs('admin.department.*')"
                     :url="route('admin.department.index')"
                     :show="checkPermissions([Acl::PERMISSION_DEPARTMENT_MANAGE_HR])"
                 />
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách vị trí'"
+                    :title="'Quản lý vị trí'"
                     :active="request()->routeIs('admin.position.*')"
                     :url="route('admin.position.index')"
                     :show="checkPermissions([Acl::PERMISSION_POSITION_MANAGE_HR])"
@@ -185,15 +185,24 @@
             <x-menu.vertical.drop-down
                 :id="'salaries'"
                 :title="'Lương'"
-                :active="request()->routeIs('admin.salary.*')"
+                :active="
+                request()->routeIs('admin.salary.*')
+                || request()->routeIs('admin.timekeeping.*')
+                "
                 :icon="'dollar-sign'"
-                :show="checkPermissions([Acl::PERMISSION_SALARY_MANAGE_HR])"
+                :show="checkPermissions([Acl::PERMISSION_SALARY_MANAGE_HR, Acl::PERMISSION_TIMEKEEPING_MANAGE_HR])"
             >
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách lương'"
+                    :title="'Quản lý lương'"
                     :active="request()->routeIs('admin.salary.*')"
                     :url="route('admin.salary.index')"
                     :show="checkPermissions([Acl::PERMISSION_SALARY_MANAGE_HR])"
+                />
+                <x-menu.vertical.drop-down-item
+                    :title="'Quản lý chấm công'"
+                    :active="request()->routeIs('admin.timekeeping.*')"
+                    :url="route('admin.timekeeping.index')"
+                    :show="checkPermissions([Acl::PERMISSION_TIMEKEEPING_MANAGE_HR])"
                 />
             </x-menu.vertical.drop-down>
 
@@ -205,16 +214,16 @@
                 || request()->routeIs('admin.candidate.*')
                 "
                 :icon="'user-plus'"
-                :show="checkPermissions([Acl::PERMISSION_RECRUITMENT_MANAGE_HR])"
+                :show="checkPermissions([Acl::PERMISSION_RECRUITMENT_MANAGE_HR, Acl::PERMISSION_CANDIDATE_MANAGE_HR])"
             >
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách tuyển dụng'"
+                    :title="'Quản lý tuyển dụng'"
                     :active="request()->routeIs('admin.recruitment.*')"
                     :url="route('admin.recruitment.index')"
                     :show="checkPermissions([Acl::PERMISSION_RECRUITMENT_MANAGE_HR])"
                 />
                 <x-menu.vertical.drop-down-item
-                    :title="'Danh sách ứng viên'"
+                    :title="'Quản lý ứng viên'"
                     :active="request()->routeIs('admin.candidate.*')"
                     :url="route('admin.candidate.index')"
                     :show="checkPermissions([Acl::PERMISSION_CANDIDATE_MANAGE_HR])"

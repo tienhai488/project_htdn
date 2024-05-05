@@ -62,6 +62,23 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $query->latest()->paginate(self::PER_PAGE);
     }
 
+    public function getDataForTimekeepingDatatable(array $searchArr)
+    {
+        $query = $this->model->query();
+
+        $keyword = Arr::get($searchArr, 'search', '');
+
+        if ($keyword) {
+            if (is_array($keyword)) {
+                $keyword = $keyword['value'];
+            }
+
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        return $query->latest()->paginate(self::PER_PAGE);
+    }
+
     public function getUserProfile($model)
     {
         return $model->userProfile
