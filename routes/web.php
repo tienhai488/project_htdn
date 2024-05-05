@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\ShippingUnitController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\TimekeepingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -80,4 +81,12 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::resource('role', RoleController::class);
 
     Route::resource('candidate', CandidateController::class);
+
+    Route::controller(TimekeepingController::class)->prefix('timekeeping')->name('timekeeping.')->group(function () {
+        Route::get('', 'index')->name('index');
+
+        Route::post('{user}', 'data')->name('data');
+
+        Route::put('{user}', 'update')->name('update');
+    });
 });

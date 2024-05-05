@@ -76,6 +76,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Salary::class, 'user_id', 'id');
     }
 
+    public function timekeepings(): HasMany
+    {
+        return $this->hasMany(Timekeeping::class, 'user_id', 'id');
+    }
+
     protected function approvedSalary(): Attribute
     {
         return Attribute::make(

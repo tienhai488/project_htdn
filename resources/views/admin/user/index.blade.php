@@ -144,7 +144,7 @@
                 },
                 {
                     "data": "roles",
-                    "class": "d-flex flex-wrap",
+                    "class": "d-flex flex-wrap w-100",
                     "render": function(data, type, full) {
                         let td = '';
 

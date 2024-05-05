@@ -11,6 +11,8 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function getDataForSalaryDatatable(array $searchArr);
 
+    public function getDataForTimekeepingDatatable(array $searchArr);
+
     public function getUserProfile($model);
 
     public function getAllUserWithSalaries($searchParams);
