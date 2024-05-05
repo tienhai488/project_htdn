@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('timekeeping_id')->constrained('timekeepings')->onDelete('cascade');
             $table->integer('working_status')->default(0);
-            $table->integer('work_type')->default(0);
+            $table->integer('work_type')->nullable();
             $table->date('date')->nullable();
             $table->decimal('ot', 16, 4)->nullable();
         });
