@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\WorkingStatus;
+use App\Enums\WorkType;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
@@ -167,4 +169,49 @@ function checkPermission($permission)
 function checkPermissions($permissions)
 {
     return auth()->user()->hasAnyPermission($permissions);
+}
+
+function getDataTimekeeping($timekeeping, $month, $year)
+{
+    if (empty($timekeeping)) {
+        return null;
+    }
+
+    $timekeepingDetails = $timekeeping->timekeepingDetails;
+
+    $date = Carbon::create($year, $month, 10);
+
+    $daysInMonth = $date->daysInMonth;
+
+    $data = [
+        'dayoff_count' => 0,
+        'weekend_count' => 0,
+        'weekend_work_count' => 0,
+        'holiday_work_count' => 0,
+        'normal_ot_total' => 0,
+        'weekend_ot_total' => 0,
+        'holiday_ot_total' => 0,
+    ];
+
+    foreach ($timekeepingDetails as $timekeepingDetail) {
+        if ($timekeepingDetail->working_status == WorkingStatus::WORK) {
+            if ($timekeepingDetail->work_type == WorkType::NORMAL) {
+                $data['normal_ot_total'] += $timekeepingDetail->ot;
+            } else if ($timekeepingDetail->work_type == WorkType::WEEKEND) {
+                $data['weekend_work_count'] += 1;
+                $data['weekend_ot_total'] += $timekeepingDetail->ot;
+            } else if ($timekeepingDetail->work_type == WorkType::HOLIDAY) {
+                $data['holiday_work_count'] += 1;
+                $data['holiday_ot_total'] += $timekeepingDetail->ot;
+            }
+        } else if ($timekeepingDetail->working_status == WorkingStatus::DAYOFF) {
+            $data['dayoff_count'] += 1;
+        } else if ($timekeepingDetail->working_status == WorkingStatus::WEEKEND) {
+            $data['weekend_count'] += 1;
+        }
+    }
+
+    $data['normal_work_count'] = $daysInMonth - $data['dayoff_count'] - $data['weekend_count'] - $data['weekend_work_count'] - $data['holiday_work_count'];
+
+    return $data;
 }

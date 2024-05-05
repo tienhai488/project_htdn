@@ -121,4 +121,14 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection(self::USER_THUMBNAIL_COLLECTION)->singleFile();
     }
+
+    public function getTimekeepingForDate($month, $year)
+    {
+        return $this
+            ->timekeepings()
+            ->where('month', $month)
+            ->where('year', $year)
+            ->with('approvedBy')
+            ->first();
+    }
 }

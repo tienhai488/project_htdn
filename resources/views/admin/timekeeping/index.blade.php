@@ -92,9 +92,9 @@
                                 <thead>
                                     <tr role="row">
                                         <th>#</th>
-                                        <th>Tên</th>
-                                        <th>Email</th>
+                                        <th>Thông tin</th>
                                         <th>T/t chấm công</th>
+                                        <th>Người chấm công</th>
                                         <th>Số ngày làm</th>
                                         <th>Số ngày nghỉ T7, CN</th>
                                         <th>Số ngày nghỉ</th>
@@ -217,12 +217,14 @@
             "serverSide": true,
             "ordering": false,
             "ajax": {
-                "url": "{{ route('admin.user.index') }}",
+                "url": "{{ route('admin.timekeeping.index') }}",
                 "data": function(d) {
                     let searchParams = new URLSearchParams(window.location.search);
                     drawDT = d.draw;
                     d.limit = d.length;
                     d.page = d.start / d.length + 1;
+                    d.month = $('#timekeeping-month').val();
+                    d.year = $('#timekeeping-year').val();
                 },
                 "dataSrc": function(res) {
                     res.draw = drawDT;
@@ -240,43 +242,103 @@
                 },
                 {
                     "data": "name",
-                },
-                {
-                    "data": "email",
-                },
-                {
-                    "data": "id",
-                    "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        return 'N/A';
+                        return `
+                            <div class="d-flex">
+                                <p class="text-start pe-2" style="width:60px;">Tên:</p>
+                                <p>${data}</p>
+                            </div>
+                            <div class="d-flex">
+                                <p class="text-start pe-2" style="width:60px;">Email:</p>
+                                <p>${full.email}</p>
+                            </div>
+                        `;
                     },
                 },
                 {
-                    "data": "id",
+                    "data": "timekeeping",
                     "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        return 'N/A';
+                        return data ?
+                        '<span class="badge badge-primary">Đã chấm công</span>'
+                        :
+                        '<span class="badge badge-danger">Chưa chấm công</span>';
                     },
                 },
                 {
-                    "data": "id",
+                    "data": "timekeeping",
                     "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        return 'N/A';
+                        return data ?
+                        data.approved_by.name
+                        :
+                        'N/A';
                     },
                 },
                 {
-                    "data": "id",
+                    "data": "timekeepingData",
                     "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        return 'N/A';
+                        return data ?
+                        `
+                        <div class="d-flex justify-content-between">
+                            <p class="pe-2">Ngày thường:</p>
+                            <p>${data.normal_work_count}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="pe-2">Ngày nghỉ:</p>
+                            <p>${data.weekend_work_count}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="pe-2">Ngày lễ:</p>
+                            <p>${data.holiday_work_count}</p>
+                        </div>
+                        `
+                        :
+                        'N/A';
                     },
                 },
                 {
-                    "data": "id",
+                    "data": "timekeepingData",
                     "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        return 'N/A';
+                        return data ?
+                        data.weekend_count
+                        :
+                        'N/A';
+                    },
+                },
+                {
+                    "data": "timekeepingData",
+                    "class": "text-center",
+                    "render": function(data, type, full, meta) {
+                        return data ?
+                        data.dayoff_count
+                        :
+                        'N/A';
+                    },
+                },
+                {
+                    "data": "timekeepingData",
+                    "class": "text-center",
+                    "render": function(data, type, full, meta) {
+                        return data ?
+                        `
+                        <div class="d-flex justify-content-between">
+                            <p class="pe-2">Ngày thường:</p>
+                            <p>${data.normal_ot_total}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="pe-2">Ngày nghỉ:</p>
+                            <p>${data.weekend_ot_total}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="pe-2">Ngày lễ:</p>
+                            <p>${data.holiday_ot_total}</p>
+                        </div>
+                        `
+                        :
+                        'N/A';
                     },
                 },
                 {
@@ -444,8 +506,6 @@
                     },
                     success: function(response) {
                         if (response) {
-                            console.log(response);
-                            // $('#datatable').DataTable().ajax.reload();
 
                             let icon = response.icon ? response.icon : 'success';
                             let title = response.title ? response.title : 'Chấm công thành công!';
@@ -454,6 +514,8 @@
                                 icon,
                                 title
                             });
+
+                            processChange();
                         }
                     },
                     error: function(response) {
@@ -578,10 +640,12 @@
             }
 
             timekeepingMonth.onchange = async () => {
+                processChange();
                 await reloadCalendar();
             }
 
             timekeepingYear.onchange = async () => {
+                processChange();
                 await reloadCalendar();
             }
 

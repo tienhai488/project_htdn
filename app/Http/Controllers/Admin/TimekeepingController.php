@@ -25,7 +25,7 @@ class TimekeepingController extends Controller
         $workTypes = WorkType::getWorkTypes();
 
         if ($request->ajax()) {
-            $users = $this->userRepository->all();
+            $users = $this->userRepository->getDataForTimekeepingDatatable($request->all());
             return UserTimekeepingResource::collection($users);
         }
 
@@ -94,7 +94,7 @@ class TimekeepingController extends Controller
             if (!empty($arr)) {
                 foreach ($arr as $key => $item) {
                     $dataDetail = [
-                        'working_status' => $item['working-status'] ?? 0,
+                        'working_status' => $item['working-status'] ?? WorkingStatus::WORK,
                         'work_type' => $item['work-type'] ?? null,
                         'date' => $key,
                         'ot' => $item['ot-time'] ?? 0,
