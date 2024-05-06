@@ -47,8 +47,6 @@ class UpdateProfileRequest extends FormRequest
             'citizen_id' => [
                 'required',
                 'numeric',
-                'max:50',
-                'unique:user_profiles,citizen_id,' . auth()->id(),
             ],
             'birthday' => [
                 'required',
