@@ -7,60 +7,65 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Website quản lý doanh nghiệp theo Repository Design Pattern (Laravel)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Ngôn ngữ và Kỹ năng
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà chúng tôi đã dùng để phát triển dự án:
+- **Back-end:**
+  - Laravel
+ 
+- **Front-end:**
+  - HTML
+  - CSS
+  - SCSS
+  - Bootstrap
+  - Javascript
+  - JQuery
+    
+- **Cơ sở dữ liệu:**
+  - MySQL
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Công cụ và thư viện:**
+  - Git
+  - Datatable (server-side)
+  - Spatie Media Library
+  - Spatie Laravel Permission
+  - Qilljs
 
-## Learning Laravel
+## Tính Năng Chính
+  - **Admin:**
+    - Admin có thể xem, tìm kiếm, tìm kiếm nâng cao, và sắp xếp, lọc các sản phẩm, nhà cung cấp...
+    - Thêm/ xoá/ sửa thông tin sản phẩm.
+    - Admin có thể tạo và xem các báo cáo theo thời gian
+    - Admin quản lý user (quản lý quyền và phân quyền cho user)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+  - **Quản lý kho:**
+    - Quản lý thông tin về sản phẩm doanh nghiệp đang kinh doanh, giá cả, chi tiết số lượng tồn của mỗi sản phẩm, giá nhập vào.
+    - Thêm/ xoá/ sửa thông tin sản phẩm.
+    - Lập phiếu nhập sản phẩm vào doanh nghiệp.
+    - Thêm, sửa, xoá, tìm kiếm thông tin nhà cung cấp
+    - In báo cáo thống kê theo tháng, năm về sản phẩm.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+  - **Quản lý kho:**
+    - Quản lý thông tin về sản phẩm doanh nghiệp đang kinh doanh, giá cả, chi tiết số lượng tồn của mỗi sản phẩm, giá nhập vào.
+    - Thêm/ xoá/ sửa thông tin sản phẩm.
+    - Lập phiếu nhập sản phẩm vào doanh nghiệp.
+    - Thêm, sửa, xoá, tìm kiếm thông tin nhà cung cấp
+    - In báo cáo thống kê theo tháng, năm về sản phẩm.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+  - **Quản lý kinh doanh:**
+    - Lập được phiếu xuất sản phẩm cho hoạt động kinh doanh: số lượng bán, giá bán.
+    - Thống kê số lượng sản phẩm đã xuất theo tháng, quý, năm.
+    - Thống kê được lợi nhuận của doanh nghiệp theo tháng, quý, năm..
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Hướng Dẫn Cài Đặt
+1. Clone repository: `git clone https://github.com/tienhai488/project_htdn` 
+2. composer install
+3. npm install
+4. Cài đặt thư viện Laravel Permission (https://spatie.be/docs/laravel-permission/v6/installation-laravel)
+4. php artisan migration (Cài đặt DB trong .env và chỉnh APP_URL=http://localhost:8000)
+5. php artisan db:seed (Chạy dữ liệu db, xem thông tin đăng nhập tại database/seeders/UserSeeder.php)
+6. Chạy chương trình (php artisan serve && npm run dev)
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
