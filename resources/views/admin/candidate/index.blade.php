@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách ứng viên
+    Quản lý ứng viên
 @endsection
 
 @section('style-plugins')

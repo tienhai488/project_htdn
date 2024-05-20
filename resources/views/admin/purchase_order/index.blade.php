@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách hóa đơn nhập
+    Quản lý hóa đơn nhập
 @endsection
 
 @section('style-plugins')

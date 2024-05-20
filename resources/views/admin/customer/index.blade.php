@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách khách hàng
+    Quản lý khách hàng
 @endsection
 
 @section('style-plugins')

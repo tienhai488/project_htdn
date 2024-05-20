@@ -62,7 +62,9 @@
             <div class="widget-content widget-content-area ecommerce-create-section">
                 <div class="row mb-4">
                     <div class="col-sm-12">
-                        <label for="descriptilon">Ảnh đại diện <strong class="text-danger">*</strong></label>
+                        <label for="descriptilon">
+                            Ảnh đại diện <strong class="text-danger">*</strong>
+                        </label>
                         <input type="file" class="filepond file-upload" id="thumbnail" name="thumbnail">
                         @error('thumbnail')
                             <p class="text-danger">{{ $message }}</p>
@@ -70,79 +72,45 @@
                     </div>
                 </div>
 
-                <div class="form-group mb-4">
-                    <label for="name">Tên <strong class="text-danger">*</strong>
-                    </label>
-                    <input
-                        type="text"
-                        name="name"
-                        class="form-control
-                        @error('name') is-invalid @enderror"
-                        id="name"
-                        placeholder="Tên"
-                        value="{{ old('name') ?? $product->name }}"
-                        spellcheck="false"
-                    >
-                    @error('name')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                <x-form.input
+                    :id="'name'"
+                    :name="'name'"
+                    :label="'Tên'"
+                    :placeholder="'Tên'"
+                    :value="old('name') ?? $product->name"
+                />
 
                 <div class="row">
-                    <div class="col-xxl-12 col-md-6 mb-4">
-                        <label for="category_id">Danh mục sản phẩm <strong class="text-danger">*</strong>
-                        </label></label>
-                        <select class="form-select" id="category_id" name="category_id">
-                            <option value="">Lựa chọn</option>
-                            @foreach ($productCategories as $item)
-                                <option
-                                    @selected($item->id == (old('category_id') ?? $product->category_id))
-                                    value="{{ $item->id }}"
-                                >
-                                    {{ $item->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('category_id')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                    <div class="col-xxl-12 col-md-6">
+                        <x-form.select
+                            :id="'category_id'"
+                            :name="'category_id'"
+                            :label="'Danh mục sản phẩm'"
+                            :value="old('category_id') ?? $product->category_id"
+                            :data-select="$productCategories"
+                        />
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12 mb-4 col-md-6">
-                        <label for="regular-price">Giá nhập <strong class="text-danger">*</strong>
-                        </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="regular_price"
-                            id="regular-price"
-                            value="{{ old('regular_price') ?? round($product->regular_price)  }}"
-                            placeholder="Giá nhập"
-                            spellcheck="false"
-                        >
-                        @error('regular_price')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                    <div class="col-sm-12 col-md-6">
+                        <x-form.input
+                            :id="'regular_price'"
+                            :name="'regular_price'"
+                            :label="'Giá nhập'"
+                            :placeholder="'Giá nhập'"
+                            :value="old('regular_price') ?? round($product->regular_price)"
+                        />
                     </div>
 
-                    <div class="col-sm-12 mb-4 col-md-6">
-                        <label for="sale-price">Giá bán <strong class="text-danger">*</strong>
-                        </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="sale_price"
-                            id="sale-price"
-                            value="{{ old('sale_price') ?? round($product->sale_price) }}" placeholder="Giá bán"
-                            spellcheck="false"
-                        >
-                        @error('sale_price')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
+                    <div class="col-sm-12 col-md-6">
+                        <x-form.input
+                            :id="'sale_price'"
+                            :name="'sale_price'"
+                            :label="'Giá bán'"
+                            :placeholder="'Giá bán'"
+                            :value="old('sale_price') ?? round($product->sale_price)"
+                        />
                     </div>
                 </div>
 
@@ -151,7 +119,7 @@
                         <label for="descriptilon">Mô tả <strong class="text-danger">*</strong>
                         </label>
                         <div id="description"></div>
-                        <textarea id="descriptionTextarea" name="description" style="display:none;">{{ old('description') ?? $product->description }}</textarea>
+                        <textarea id="descriptionTextarea" name="description" class="d-none">{{ old('description') ?? $product->description }}</textarea>
                         @error('description')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
@@ -178,6 +146,9 @@
             </div>
         </div>
     </form>
+
+    <input type="hidden" id="product_thumbnail" value="{{ $product->thumbnail }}">
+    <input type="hidden" id="product_images" value="{{ json_encode($product->images) }}">
 @endsection
 
 @section('script')
@@ -292,8 +263,8 @@
             }
         );
 
-        thumbnail.addFile(`{{ $product->thumbnail }}`);
+        thumbnail.addFile($('#product_thumbnail').val());
 
-        images.addFiles({!! json_encode($product->images) !!});
+        images.addFiles(JSON.parse($('#product_images').val()));
     </script>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách vị trí
+    Quản lý vị trí
 @endsection
 
 @section('style-plugins')
@@ -75,6 +75,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="count_list" value="{{ $countList }}">
 @endsection
 
 @section('script')
@@ -206,7 +208,7 @@
                     "data": "id",
                     "class": "text-center",
                     "render": function(data, type, full, meta) {
-                        let countList = {!! $countList !!};
+                        let countList = JSON.parse($('#count_list').val());
                         return countList[data] ? countList[data] : 0;
                     },
                 },

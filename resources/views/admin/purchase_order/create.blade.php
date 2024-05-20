@@ -20,8 +20,9 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+
     @include('includes.toast')
 
     <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
@@ -49,34 +50,22 @@
                     <div class="col-lg-12">
                         <form id="general-settings" method="POST" action="{{ route('admin.purchase_order.store') }}">
                             @csrf
-                            <div class="form-group mb-4">
-                                <label for="supplier_id">Nhà cung cấp <strong class="text-danger">*</strong>
-                                </label></label>
-                                <select class="form-select" id="supplier_id" name="supplier_id">
-                                    <option value="">Lựa chọn</option>
-                                    @foreach ($suppliers as $supplier)
-                                        <option
-                                            @selected($supplier->id == old('supplier_id')) value="{{ $supplier->id }}"
-                                        >
-                                            {{ $supplier->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('supplier_id')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="note">Ghi chú <strong class="text-danger">*</strong>
-                                </label>
-                                <textarea name="note" id="note" class="form-control @error('note') is-invalid @enderror" id="note"
-                                    rows="3" placeholder="Ghi chú" spellcheck="false" @error('note') is-invalid @enderror>{{ old('note') }}</textarea>
-                                @error('note')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <x-form.select
+                                :id="'supplier_id'"
+                                :name="'supplier_id'"
+                                :label="'Nhà cung cấp'"
+                                :value="old('supplier_id')"
+                                :data-select="$suppliers"
+                            />
+
+                            <x-form.textarea
+                                :id="'note'"
+                                :name="'note'"
+                                :label="'Ghi chú'"
+                                :placeholder="'Ghi chú'"
+                                :value="old('note')"
+                            />
+
                             <div class="form-group mb-4">
                                 <label for="note">Sản phẩm được nhập <strong class="text-danger">*</strong>
                                 </label>
@@ -91,8 +80,10 @@
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="product-group">
                             </div>
+
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
                                 Hoàn tất
                             </button>
@@ -102,6 +93,9 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="product_id" value="{{ json_encode(old('product_id')) }}">
+    <input type="hidden" id="product_quantity" value="{{ json_encode(old('product_quantity')) }}">
 @endsection
 
 @section('script')
@@ -171,8 +165,8 @@
                     productItemNode.querySelector(".product_name").value = productName;
                     productItemNode.querySelector(".product_id").value = value;
 
-                    if({!! json_encode(old('product_quantity')) !!}){
-                        let values = {!! json_encode(old('product_quantity')) !!};
+                    if(JSON.parse($('#product_quantity').val())){
+                        let values = JSON.parse($('#product_quantity').val());
                         productItemNode.querySelector(".product_quantity").value = values[index];
                     }
 
@@ -187,8 +181,8 @@
             processChange();
         });
 
-        if({!! json_encode(old('product_id')) !!}){
-            let values = {!! json_encode(old('product_id')) !!};
+        if(JSON.parse($('#product_id').val())){
+            let values = JSON.parse($('#product_id').val());
             values.forEach(value => tomSelectProducts.addItem(value));
         }
     </script>
