@@ -10,7 +10,7 @@
         <option value="">Lựa chọn</option>
         @foreach ($dataSelect as $item)
             <option @selected($item->id == $value) value="{{ $item->id }}">
-                {{ $item->name }}
+                {{ $item[$fieldName] }}
             </option>
         @endforeach
     </select>

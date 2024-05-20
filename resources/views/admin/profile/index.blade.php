@@ -30,8 +30,9 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+
     @include('includes.toast')
 
     <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
@@ -100,48 +101,29 @@
                                                             </div>
                                                             <div class="col-xl-10 col-lg-12 col-md-8 mt-md-0 mt-4">
                                                                 <div class="row">
-                                                                    <div class="form-group mb-4 col-md-6">
-                                                                        <label for="name">Tên <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="name"
-                                                                            id="name"
-                                                                            class="form-control @error('name') is-invalid @enderror"
-                                                                            placeholder="Tên"
-                                                                            value="{{ old('name') ?? $user->name }}"
-                                                                            spellcheck="false"
-                                                                        >
-                                                                        @error('name')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
+                                                                    <div class="col-md-6">
+                                                                        <x-form.input
+                                                                            :id="'name'"
+                                                                            :name="'name'"
+                                                                            :label="'Tên'"
+                                                                            :placeholder="'Tên'"
+                                                                            :value="old('name') ?? $user->name"
+                                                                        />
                                                                     </div>
 
-                                                                    <div class="form-group mb-4 col-md-6">
-                                                                        <label for="email">Email <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="email"
-                                                                            id="email"
-                                                                            class="form-control @error('email') is-invalid @enderror"
-                                                                            placeholder="Email"
-                                                                            value="{{ old('email') ?? $user->email }}"
-                                                                            spellcheck="false"
-                                                                        >
-                                                                        @error('email')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
+                                                                    <div class="col-md-6">
+                                                                        <x-form.input
+                                                                            :id="'email'"
+                                                                            :name="'email'"
+                                                                            :label="'Email'"
+                                                                            :placeholder="'Email'"
+                                                                            :value="old('email') ?? $user->email"
+                                                                        />
                                                                     </div>
 
                                                                     <div class="form-group mb-4 col-md-6">
                                                                         <label for="position_id">Vị trí</label>
                                                                         <input
-                                                                            type="text"
                                                                             id="position_id"
                                                                             class="form-control text-dark"
                                                                             value="{{ $approvedSalary ?
@@ -157,7 +139,6 @@
                                                                         <label for="department_id">Phòng ban
                                                                         </label>
                                                                         <input
-                                                                            type="text"
                                                                             id="position_id"
                                                                             class="form-control text-dark"
                                                                             value="{{
@@ -170,111 +151,53 @@
                                                                         >
                                                                     </div>
 
-                                                                    <div class="form-group mb-4 col-md-6">
-                                                                        <label for="phone_number">Số điện thoại <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="phone_number"
-                                                                            class="form-control @error('phone_number') is-invalid @enderror"
-                                                                            id="phone_number"
-                                                                            placeholder="Số điện thoại"
-                                                                            value="{{
-                                                                                old('phone_number') ??
-                                                                                $userProfile['phone_number']
-                                                                            }}"
-                                                                            spellcheck="false"
-                                                                            @error('phone_number') is-invalid @enderror
-                                                                        >
-                                                                        @error('phone_number')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
+                                                                    <div class="col-md-6">
+                                                                        <x-form.input
+                                                                            :id="'phone_number'"
+                                                                            :name="'phone_number'"
+                                                                            :label="'Số điện thoại'"
+                                                                            :placeholder="'Số điện thoại'"
+                                                                            :value="old('phone_number') ?? $userProfile['phone_number']"
+                                                                        />
                                                                     </div>
 
-                                                                    <div class="form-group mb-4 col-md-6">
-                                                                        <label for="gender">Giới tính <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <select class="form-select" name="gender">
-                                                                            <option value="">Lựa chọn</option>
-                                                                            @foreach ($genders as $gender)
-                                                                                <option
-                                                                                    @selected(
-                                                                                        old('gender') != '' ?
-                                                                                        old('gender') == $gender['case']->value
-                                                                                        :
-                                                                                        $userProfile['gender'] == $gender['case']
-                                                                                    )
-                                                                                    value="{{ $gender['case']->value }}"
-                                                                                >
-                                                                                    {{ $gender['description'] }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        @error('gender')
-                                                                            <p class="text-danger">{{ $message }}</p>
-                                                                        @enderror
+                                                                    <div class="col-md-6">
+                                                                        <x-form.select-enum
+                                                                            :id="'gender'"
+                                                                            :name="'gender'"
+                                                                            :label="'Giới tính'"
+                                                                            :value="old('gender') ?? $userProfile['gender']->value"
+                                                                            :data-select="$genders"
+                                                                        />
                                                                     </div>
 
-                                                                    <div class="form-group mb-4 col-md-6">
-                                                                        <label for="citizen_id">CMND/CCCD <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="citizen_id"
-                                                                            id="citizen_id"
-                                                                            class="form-control @error('citizen_id') is-invalid @enderror"
-                                                                            placeholder="CMND/CCCD"
-                                                                            value="{{
-                                                                                old('citizen_id') ?? $userProfile['citizen_id']
-                                                                            }}"
-                                                                            spellcheck="false"
-                                                                        >
-                                                                        @error('citizen_id')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
+                                                                    <div class="col-md-6">
+                                                                        <x-form.input
+                                                                            :id="'citizen_id'"
+                                                                            :name="'citizen_id'"
+                                                                            :label="'CMND/CCCD'"
+                                                                            :placeholder="'CMND/CCCD'"
+                                                                            :value="old('citizen_id') ?? $userProfile['citizen_id']"
+                                                                        />
                                                                     </div>
 
-                                                                    <div class="form-group mb-4 col-md-6">
-                                                                        <label for="birthday">Ngày sinh <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="birthday"
-                                                                            id="birthday"
-                                                                            class="form-control @error('birthday') is-invalid @enderror"
-                                                                            placeholder="Ngày sinh"
-                                                                            value="{{ old('birthday') ?? $userProfile['birthday']}}"
-                                                                            spellcheck="false"
-                                                                        >
-                                                                        @error('birthday')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
+                                                                    <div class="col-md-6">
+                                                                        <x-form.input
+                                                                            :id="'birthday'"
+                                                                            :name="'birthday'"
+                                                                            :label="'Ngày sinh'"
+                                                                            :placeholder="'Ngày sinh'"
+                                                                            :value="old('birthday') ?? $userProfile['birthday']"
+                                                                        />
                                                                     </div>
 
-                                                                    <div class="form-group mb-4">
-                                                                        <label for="address">Địa chỉ <strong class="text-danger">*</strong>
-                                                                        </label>
-                                                                        <textarea
-                                                                            name="address"
-                                                                            id="address"
-                                                                            class="form-control @error('address') is-invalid @enderror"
-                                                                            id="address"
-                                                                            rows="3"
-                                                                            placeholder="Địa chỉ"
-                                                                            spellcheck="false"
-                                                                            @error('address') is-invalid @enderror>{{ old('address') ?? $userProfile['address'] }}</textarea>
-                                                                        @error('address')
-                                                                            <span class="invalid-feedback" role="alert">
-                                                                                <strong>{{ $message }}</strong>
-                                                                            </span>
-                                                                        @enderror
-                                                                    </div>
+                                                                    <x-form.textarea
+                                                                        :id="'address'"
+                                                                        :name="'address'"
+                                                                        :label="'Địa chỉ'"
+                                                                        :placeholder="'Địa chỉ'"
+                                                                        :value="old('address') ?? $userProfile['address']"
+                                                                    />
 
                                                                     <div class="col-md-12 mt-1">
                                                                         <div class="form-group">
@@ -302,51 +225,29 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 mx-auto">
                                                         <div class="row">
-                                                            <div class="form-group mb-4">
-                                                                <label for="current_password">Mật khẩu hiện tại <strong class="text-danger">*</strong>
-                                                                </label>
-                                                                <input
-                                                                    type="password"
-                                                                    name="current_password"
-                                                                    id="current_password"
-                                                                    class="form-control @error('current_password') is-invalid @enderror"
-                                                                    placeholder="Mật khẩu hiện tại"
-                                                                >
-                                                                @error('current_password')
-                                                                    <span class="invalid-feedback" role="alert">
-                                                                        <strong>{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
+                                                            <x-form.input
+                                                                :id="'current_password'"
+                                                                :name="'current_password'"
+                                                                :label="'Mật khẩu hiện tại'"
+                                                                :placeholder="'Mật khẩu hiện tại'"
+                                                                :type="'password'"
+                                                            />
 
-                                                            <div class="form-group mb-4">
-                                                                <label for="password">Mật khẩu mới <strong class="text-danger">*</strong>
-                                                                </label>
-                                                                <input
-                                                                    type="password"
-                                                                    name="password"
-                                                                    id="password"
-                                                                    class="form-control @error('password') is-invalid @enderror"
-                                                                    placeholder="Mật khẩu mới"
-                                                                >
-                                                                @error('password')
-                                                                    <span class="invalid-feedback" role="alert">
-                                                                        <strong>{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
+                                                            <x-form.input
+                                                                :id="'password'"
+                                                                :name="'password'"
+                                                                :label="'Mật khẩu mới'"
+                                                                :placeholder="'Mật khẩu mới'"
+                                                                :type="'password'"
+                                                            />
 
-                                                            <div class="form-group mb-4">
-                                                                <label for="password_confirmation">Xác nhận lại mật khẩu <strong class="text-danger">*</strong>
-                                                                </label>
-                                                                <input
-                                                                    type="password"
-                                                                    name="password_confirmation"
-                                                                    id="password_confirmation"
-                                                                    class="form-control"
-                                                                    placeholder="Xác nhận lại mật khẩu"
-                                                                >
-                                                            </div>
+                                                            <x-form.input
+                                                                :id="'password_confirmation'"
+                                                                :name="'password_confirmation'"
+                                                                :label="'Xác nhận lại mật khẩu'"
+                                                                :placeholder="'Xác nhận lại mật khẩu'"
+                                                                :type="'password'"
+                                                            />
 
                                                             <div class="form-group">
                                                                 <button class="btn btn-primary _effect--ripple waves-effect waves-light">

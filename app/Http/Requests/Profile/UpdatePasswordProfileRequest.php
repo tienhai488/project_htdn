@@ -43,6 +43,7 @@ class UpdatePasswordProfileRequest extends FormRequest
     {
         return [
             'required' => 'Trường :attribute không được để trống.',
+            'min' => 'Trường :attribute ít nhất :min kí tự.',
             'current_password' => 'Trường :attribute không khớp .',
             'confirmed' => 'Giá trị xác nhận trong trường :attribute không khớp.',
         ];

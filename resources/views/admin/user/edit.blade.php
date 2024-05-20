@@ -35,7 +35,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
     <style>
-        .form-group .ts-wrapper {
+        .ts-wrapper {
             height: 48px !important;
         }
         .ts-wrapper .ts-control {

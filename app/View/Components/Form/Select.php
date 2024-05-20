@@ -17,6 +17,7 @@ class Select extends Component
         public $label = '',
         public $value = '',
         public $dataSelect = [],
+        public $fieldName = 'name',
     ) {
         //
     }

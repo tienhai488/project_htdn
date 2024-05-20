@@ -27,6 +27,7 @@
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+
     @include('includes.toast')
 
     <script src="{{ asset('src/plugins/src/flatpickr/flatpickr.js') }}"></script>
@@ -58,151 +59,77 @@
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                <div class="form-group mb-4">
-                                    <label for="title">Tiêu đề <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        id="title"
-                                        class="form-control @error('title') is-invalid @enderror"
-                                        placeholder="Tiêu đề"
-                                        value="{{ old('title') ?? $recruitment->title }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('title')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <x-form.input
+                                    :id="'title'"
+                                    :name="'title'"
+                                    :label="'Tiêu đề'"
+                                    :placeholder="'Tiêu đề'"
+                                    :value="old('title') ?? $recruitment->title"
+                                />
+
+                                <x-form.select
+                                    :id="'department_id'"
+                                    :name="'department_id'"
+                                    :label="'Phòng ban cần tuyển'"
+                                    :value="old('department_id') ?? $recruitment->department_id"
+                                    :data-select="$departments"
+                                />
+
+                                <x-form.select
+                                    :id="'position_id'"
+                                    :name="'position_id'"
+                                    :label="'Vị trí cần tuyển'"
+                                    :value="old('position_id') ?? $recruitment->position_id"
+                                    :data-select="$positions"
+                                />
+
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'quantity'"
+                                        :name="'quantity'"
+                                        :label="'Số lượng cần tuyển'"
+                                        :placeholder="'Số lượng cần tuyển'"
+                                        :value="old('quantity') ?? $recruitment->quantity"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="department_id">Phòng ban cần tuyển <strong class="text-danger">*</strong>
-                                    </label>
-                                    <select class="form-select" id="department_id" name="department_id">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($departments as $department)
-                                            <option
-                                                @selected((old('department_id') ?? $recruitment->department_id) == $department->id)
-                                                value="{{ $department->id }}"
-                                            >
-                                                {{ $department->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('department_id')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'expired_time'"
+                                        :name="'expired_time'"
+                                        :label="'Thời gian kết thúc'"
+                                        :placeholder="'Thời gian kết thúc'"
+                                        :value="old('expired_time') ?? $recruitment->expired_time"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="position_id">Vị trí cần tuyển <strong   class="text-danger">*</strong>
-                                    </label>
-                                    <select class="form-select" id="position_id" name="position_id">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($positions as $position)
-                                            <option
-                                                @selected((old('position_id') ?? $recruitment->position_id) == $position->id)
-                                                value="{{ $position->id }}"
-                                            >
-                                                {{ $position->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('position_id')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'minimum_salary'"
+                                        :name="'minimum_salary'"
+                                        :label="'Mức lương tối thiểu'"
+                                        :placeholder="'Mức lương tối thiểu'"
+                                        :value="old('minimum_salary') ?? round($recruitment->minimum_salary, 4)"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="quantity">Số lượng cần tuyển <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="quantity"
-                                        id="quantity"
-                                        class="form-control @error('quantity') is-invalid @enderror"
-                                        placeholder="Số lượng cần tuyển"
-                                        value="{{ old('quantity') ?? $recruitment->quantity }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('quantity')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'maximum_salary'"
+                                        :name="'maximum_salary'"
+                                        :label="'Mức lương tối đa'"
+                                        :placeholder="'Mức lương tối đa'"
+                                        :value="old('maximum_salary') ?? round($recruitment->maximum_salary, 4)"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="expired_time">Thời gian kết thúc <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="expired_time"
-                                        id="expired_time"
-                                        class="form-control @error('expired_time') is-invalid @enderror"
-                                        placeholder="Thời gian kết thúc"
-                                        value="{{ old('expired_time') ?? $recruitment->expired_time }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('expired_time')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="minimum_salary">Mức lương tối thiểu <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="minimum_salary"
-                                        id="minimum_salary"
-                                        class="form-control @error('minimum_salary') is-invalid @enderror"
-                                        placeholder="Mức lương tối thiểu"
-                                        value="{{ old('minimum_salary') ?? round($recruitment->minimum_salary, 4) }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('minimum_salary')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="maximum_salary">Mức lương tối đa <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="maximum_salary"
-                                        id="maximum_salary"
-                                        class="form-control @error('maximum_salary') is-invalid @enderror"
-                                        placeholder="Mức lương tối đa"
-                                        value="{{ old('maximum_salary') ?? round($recruitment->maximum_salary, 4) }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('maximum_salary')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group mb-4">
-                                    <div class="col-sm-12">
-                                        <label for="description">Mô tả <strong class="text-danger">*</strong>
-                                        </label>
-                                        <div id="editor"></div>
-                                        <input type="hidden" name="description" id="description"
-                                        value="{{ old('description') ?? $recruitment->description }}">
-                                        @error('description')
-                                            <p class="text-danger">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
+                                <x-form.input
+                                    :id="'description'"
+                                    :name="'description'"
+                                    :label="'Mô tả'"
+                                    :placeholder="'Mô tả'"
+                                    :value="old('description') ?? $recruitment->description"
+                                />
                             </div>
 
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
