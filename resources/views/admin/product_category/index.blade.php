@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách danh mục sản phẩm
+    Quản lý danh mục sản phẩm
 @endsection
 
 @section('style-plugins')

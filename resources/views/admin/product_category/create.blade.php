@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
 
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
-
     <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
@@ -41,20 +41,20 @@
 
                 <div class="widget-content widget-content-area" style="padding: 20px !important;">
                     <div class="col-lg-12">
-                        <form id="general-settings" method="POST" action="{{ route('admin.product_category.store') }}">
+                        <form
+                            id="general-settings"
+                            method="POST"
+                            action="{{ route('admin.product_category.store') }}"
+                        >
                             @csrf
-                            <div class="form-group mb-4">
-                                <label for="name">Tên <strong class="text-danger">*</strong>
-                                </label>
-                                <input type="text" name="name"
-                                    class="form-control @error('name') is-invalid @enderror" id="name"
-                                    placeholder="Tên" value="{{ old('name') }}" spellcheck="false">
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <x-form.input
+                                :id="'name'"
+                                :name="'name'"
+                                :label="'Tên'"
+                                :placeholder="'Tên'"
+                                :value="old('name')"
+                            />
+
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
                                 Hoàn tất
                             </button>
