@@ -16,8 +16,9 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+
     @include('includes.toast')
 @endsection
 
@@ -42,55 +43,38 @@
                     <div class="col-lg-12">
                         <form id="general-settings" method="POST" action="{{ route('admin.supplier.store') }}">
                             @csrf
-                            <div class="form-group mb-4">
-                                <label for="name">Tên <strong class="text-danger">*</strong>
-                                </label>
-                                <input type="text" name="name"
-                                    class="form-control @error('name') is-invalid @enderror" id="name"
-                                    placeholder="Tên" value="{{ old('name') }}" spellcheck="false">
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="phone_number">Số điện thoại <strong class="text-danger">*</strong>
-                                </label>
-                                <input type="text" name="phone_number"
-                                    class="form-control @error('phone_number') is-invalid @enderror" id="phone_number"
-                                    placeholder="Số điện thoại" value="{{ old('phone_number') }}" spellcheck="false"
-                                    @error('phone_number') is-invalid @enderror>
-                                @error('phone_number')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="email">Email <strong class="text-danger">*</strong>
-                                </label>
-                                <input type="text" name="email"
-                                    class="form-control @error('email') is-invalid @enderror" id="email"
-                                    placeholder="Email" value="{{ old('email') }}" spellcheck="false"
-                                    @error('email') is-invalid @enderror>
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="address">Địa chỉ <strong class="text-danger">*</strong>
-                                </label>
-                                <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror" id="address"
-                                    rows="3" placeholder="Địa chỉ" spellcheck="false" @error('address') is-invalid @enderror>{{ old('address') }}</textarea>
-                                @error('address')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <x-form.input
+                                :id="'name'"
+                                :name="'name'"
+                                :label="'Tên'"
+                                :placeholder="'Tên'"
+                                :value="old('name')"
+                            />
+
+                            <x-form.input
+                                :id="'phone_number'"
+                                :name="'phone_number'"
+                                :label="'Số điện thoại'"
+                                :placeholder="'Số điện thoại'"
+                                :value="old('phone_number')"
+                            />
+
+                            <x-form.input
+                                :id="'email'"
+                                :name="'email'"
+                                :label="'Email'"
+                                :placeholder="'Email'"
+                                :value="old('email')"
+                            />
+
+                            <x-form.textarea
+                                :id="'address'"
+                                :name="'address'"
+                                :label="'Địa chỉ'"
+                                :placeholder="'Địa chỉ'"
+                                :value="old('address')"
+                            />
+
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
                                 Hoàn tất
                             </button>
