@@ -93,6 +93,9 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="product_id" value="{{ json_encode(old('product_id')) }}">
+    <input type="hidden" id="product_quantity" value="{{ json_encode(old('product_quantity')) }}">
 @endsection
 
 @section('script')
@@ -162,8 +165,8 @@
                     productItemNode.querySelector(".product_name").value = productName;
                     productItemNode.querySelector(".product_id").value = value;
 
-                    if({!! json_encode(old('product_quantity')) !!}){
-                        let values = {!! json_encode(old('product_quantity')) !!};
+                    if(JSON.parse($('#product_quantity').val())){
+                        let values = JSON.parse($('#product_quantity').val());
                         productItemNode.querySelector(".product_quantity").value = values[index];
                     }
 
@@ -178,8 +181,8 @@
             processChange();
         });
 
-        if({!! json_encode(old('product_id')) !!}){
-            let values = {!! json_encode(old('product_id')) !!};
+        if(JSON.parse($('#product_id').val())){
+            let values = JSON.parse($('#product_id').val());
             values.forEach(value => tomSelectProducts.addItem(value));
         }
     </script>

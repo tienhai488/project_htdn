@@ -105,6 +105,10 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="purchase_order_products" value="{{ json_encode($purchaseOrderProducts) }}">
+    <input type="hidden" id="product_id" value="{{ json_encode(old('product_id')) }}">
+    <input type="hidden" id="product_quantity" value="{{ json_encode(old('product_quantity')) }}">
 @endsection
 
 @section('script')
@@ -174,14 +178,14 @@
                     productItemNode.querySelector(".product_name").value = productName;
                     productItemNode.querySelector(".product_id").value = value;
 
-                    if({!! json_encode(old('product_quantity')) !!}){
-                        let values = {!! json_encode(old('product_quantity')) !!};
+                    if(JSON.parse($('#product_quantity').val())){
+                        let values = JSON.parse($('#product_quantity').val());
                         productItemNode.querySelector(".product_quantity").value = values[index];
                     }
                     else
                     {
-                        if({!! json_encode($purchaseOrderProducts) !!}){
-                            let values = {!! json_encode($purchaseOrderProducts) !!};
+                        if(JSON.parse($('#purchase_order_products').val())){
+                            let values = JSON.parse($('#purchase_order_products').val());
                             values.forEach(item => {
                                 if(item.id == value){
                                     productItemNode.querySelector(".product_quantity").value = item.pivot.quantity;
@@ -201,14 +205,14 @@
             processChange();
         });
 
-        if({!! json_encode(old('product_id')) !!}){
-            let values = {!! json_encode(old('product_id')) !!};
+        if(JSON.parse($('#product_id').val())){
+            let values = JSON.parse($('#product_id').val());
             values.forEach(value => tomSelectProducts.addItem(value));
         }
         else
         {
-            if({!! json_encode($purchaseOrderProducts) !!}){
-                let values = {!! json_encode($purchaseOrderProducts) !!};
+            if(JSON.parse($('#purchase_order_products').val())){
+                let values = JSON.parse($('#purchase_order_products').val());
                 values.forEach(value => tomSelectProducts.addItem(value.id));
             }
         }

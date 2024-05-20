@@ -486,6 +486,8 @@
         </div>
         </div>
     </x-custom.accordion-basic>
+
+    <input type="hidden" id="user_thumbnail" value="{{ $user->thumbnail }}">
 @endsection
 
 @section('script')
@@ -514,7 +516,7 @@
         let tomSelectRoles = new TomSelect("#roles");
 
         @if(!empty($user->thumbnail))
-            thumbnail.addFile(`{{ $user->thumbnail }}`);
+            thumbnail.addFile($('#user_thumbnail').val());
         @endif
 
         let dt = flatpickr(document.getElementById('birthday'));

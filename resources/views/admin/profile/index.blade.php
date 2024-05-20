@@ -268,6 +268,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="user_thumbnail" value="{{ $user->thumbnail }}">
 @endsection
 
 @section('script')
@@ -313,13 +315,13 @@
             tabPanePassword.classList.remove('active', 'show');
 
             if(!checkLoaded){
-                thumbnail.addFile(`{{ $user->thumbnail }}`);
+                thumbnail.addFile($('#user_thumbnail').val());
                 checkLoaded = true;
             }
         }
     @endif
 
-    thumbnail.addFile(`{{ $user->thumbnail }}`);
+    thumbnail.addFile($('#user_thumbnail').val());
 
     let dt = flatpickr(document.getElementById('birthday'));
 </script>

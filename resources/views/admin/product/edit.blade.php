@@ -146,6 +146,9 @@
             </div>
         </div>
     </form>
+
+    <input type="hidden" id="product_thumbnail" value="{{ $product->thumbnail }}">
+    <input type="hidden" id="product_images" value="{{ json_encode($product->images) }}">
 @endsection
 
 @section('script')
@@ -260,8 +263,8 @@
             }
         );
 
-        thumbnail.addFile(`{{ $product->thumbnail }}`);
+        thumbnail.addFile($('#product_thumbnail').val());
 
-        images.addFiles({!! json_encode($product->images) !!});
+        images.addFiles(JSON.parse($('#product_images').val()));
     </script>
 @endsection
