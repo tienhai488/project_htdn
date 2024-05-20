@@ -30,6 +30,8 @@ use App\Repositories\ShippingUnit\ShippingUnitRepository;
 use App\Repositories\ShippingUnit\ShippingUnitRepositoryInterface;
 use App\Repositories\Supplier\SupplierRepository;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
+use App\Repositories\Timekeeping\TimekeepingRepository;
+use App\Repositories\Timekeeping\TimekeepingRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -56,6 +58,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
         $this->app->singleton(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->singleton(CandidateRepositoryInterface::class, CandidateRepository::class);
+        $this->app->singleton(TimekeepingRepositoryInterface::class, TimekeepingRepository::class);
     }
 
     /**
