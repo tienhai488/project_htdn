@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách vai trò
+    Quản lý vai trò
 @endsection
 
 @section('style-plugins')

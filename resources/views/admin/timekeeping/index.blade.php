@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách chấm công
+    Quản lý chấm công
 @endsection
 
 @section('style-plugins')
@@ -54,7 +54,7 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Danh sách chấm công</h4>
+                            <h4>Quản lý chấm công</h4>
                         </div>
                     </div>
                 </div>

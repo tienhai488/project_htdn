@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách người dùng
+    Quản lý người dùng
 @endsection
 
 @section('style-plugins')

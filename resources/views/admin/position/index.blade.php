@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách vị trí
+    Quản lý vị trí
 @endsection
 
 @section('style-plugins')

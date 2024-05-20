@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách phòng ban
+    Quản lý phòng ban
 @endsection
 
 @section('style-plugins')

@@ -45,24 +45,14 @@
                             action="{{ route('admin.position.update', $position) }}">
                             @csrf
                             @method('PUT')
-                            <div class="form-group mb-4">
-                                <label for="name">Tên <strong class="text-danger">*</strong>
-                                </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    class="form-control
-                                    @error('name') is-invalid @enderror" id="name"
-                                    placeholder="Tên"
-                                    value="{{ old('name') ?? $position->name }}"
-                                    spellcheck="false"
-                                >
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <x-form.input
+                                :id="'name'"
+                                :name="'name'"
+                                :label="'Tên'"
+                                :placeholder="'Tên'"
+                                :value="old('name') ?? $position->name"
+                            />
+
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
                                 Hoàn tất
                             </button>

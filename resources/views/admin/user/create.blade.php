@@ -26,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
     <style>
-        .form-group .ts-wrapper {
+        .ts-wrapper {
             height: 48px !important;
         }
         .ts-wrapper .ts-control {
@@ -41,8 +41,9 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+
     @include('includes.toast')
 
     <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
@@ -99,99 +100,65 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="name">Tên <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        placeholder="Tên"
-                                        value="{{ old('name') }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'name'"
+                                        :name="'name'"
+                                        :label="'Tên'"
+                                        :placeholder="'Tên'"
+                                        :value="old('name')"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="email">Email <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        id="email"
-                                        class="form-control @error('email') is-invalid @enderror"
-                                        placeholder="Email"
-                                        value="{{ old('email') }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'email'"
+                                        :name="'email'"
+                                        :label="'Email'"
+                                        :placeholder="'Email'"
+                                        :value="old('email')"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="password">Mật khẩu <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        class="form-control @error('password') is-invalid @enderror"
-                                        placeholder="Mật khẩu"
-                                    >
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'password'"
+                                        :name="'password'"
+                                        :label="'Mật khẩu'"
+                                        :placeholder="'Mật khẩu'"
+                                        :type="'password'"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="status">Trạng thái tài khoản <strong class="text-danger">*</strong>
-                                    </label>
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($userStatuses as $status)
-                                            <option
-                                                @selected(old('status') != '' && old('status') == $status['case']->value)
-                                                value="{{ $status['case']->value }}"
-                                            >
-                                                {{ $status['description'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('status')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.select-enum
+                                        :id="'status'"
+                                        :name="'status'"
+                                        :label="'Trạng thái tài khoản'"
+                                        :value="old('status')"
+                                        :data-select="$userStatuses"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="password_confirmation">Xác nhận lại mật khẩu <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="password"
-                                        name="password_confirmation"
-                                        id="password_confirmation"
-                                        class="form-control"
-                                        placeholder="Xác nhận lại mật khẩu"
-                                    >
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'password_confirmation'"
+                                        :name="'password_confirmation'"
+                                        :label="'Xác nhận lại mật khẩu'"
+                                        :placeholder="'Xác nhận lại mật khẩu'"
+                                        :type="'password'"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="role">Vai trò của tài khoản <strong class="text-danger">*</strong>
+                                <div class="col-md-6">
+                                    <label for="role">
+                                        Vai trò của tài khoản <strong class="text-danger">*</strong>
                                     </label>
                                     <select
                                         id="roles"
                                         name="roles[]"
-                                        multiple placeholder="Lựa chọn..."
+                                        multiple
+                                        placeholder="Lựa chọn..."
                                         autocomplete="off"
                                     >
                                     @foreach ($roles as $role)
@@ -208,131 +175,74 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
+                                <div class="col-md-6">
                                     <label for="position_id">Vị trí</label>
                                     <input
-                                        type="text"
-                                        id="position_id"
                                         class="form-control text-dark"
                                         value="N/A"
                                         readonly
                                     >
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="department_id">Phòng ban <strong class="text-danger">*</strong>
-                                    </label>
-                                    <select class="form-select" id="department_id" name="department_id">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($departments as $department)
-                                            <option
-                                                @selected(old('department_id') == $department->id)
-                                                value="{{ $department->id }}"
-                                            >
-                                                {{ $department->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('department_id')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.select
+                                        :id="'department_id'"
+                                        :name="'department_id'"
+                                        :label="'Phòng ban'"
+                                        :value="old('department_id')"
+                                        :data-select="$departments"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="phone_number">Số điện thoại <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="phone_number"
-                                        class="form-control @error('phone_number') is-invalid @enderror"
-                                        id="phone_number"
-                                        placeholder="Số điện thoại"
-                                        value="{{ old('phone_number') }}"
-                                        spellcheck="false"
-                                        @error('phone_number') is-invalid @enderror
-                                    >
-                                    @error('phone_number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'phone_number'"
+                                        :name="'phone_number'"
+                                        :label="'Số điện thoại'"
+                                        :placeholder="'Số điện thoại'"
+                                        :value="old('phone_number')"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="gender">Giới tính <strong class="text-danger">*</strong>
-                                    </label>
-                                    <select class="form-select" name="gender">
-                                        <option value="">Lựa chọn</option>
-                                        @foreach ($genders as $gender)
-                                            <option
-                                                @selected(old('gender') != '' && old('gender') == $gender['case']->value)
-                                                value="{{ $gender['case']->value }}"
-                                            >
-                                                {{ $gender['description'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('gender')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.select-enum
+                                        :id="'gender'"
+                                        :name="'gender'"
+                                        :label="'Giới tính'"
+                                        :value="old('gender')"
+                                        :data-select="$genders"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="citizen_id">CMND/CCCD <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="citizen_id"
-                                        id="citizen_id"
-                                        class="form-control @error('citizen_id') is-invalid @enderror"
-                                        placeholder="CMND/CCCD"
-                                        value="{{ old('citizen_id') }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('citizen_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'citizen_id'"
+                                        :name="'citizen_id'"
+                                        :label="'CMND/CCCD'"
+                                        :placeholder="'CMND/CCCD'"
+                                        :value="old('citizen_id')"
+                                    />
                                 </div>
 
-                                <div class="form-group mb-4 col-md-6">
-                                    <label for="birthday">Ngày sinh <strong class="text-danger">*</strong>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="birthday"
-                                        id="birthday"
-                                        class="form-control @error('birthday') is-invalid @enderror"
-                                        placeholder="Ngày sinh"
-                                        value="{{ old('birthday') }}"
-                                        spellcheck="false"
-                                    >
-                                    @error('birthday')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <x-form.input
+                                        :id="'birthday'"
+                                        :name="'birthday'"
+                                        :label="'Ngày sinh'"
+                                        :placeholder="'Ngày sinh'"
+                                        :value="old('birthday')"
+                                    />
                                 </div>
                             </div>
-                            <div class="form-group mb-4">
-                                <label for="address">Địa chỉ <strong class="text-danger">*</strong>
-                                </label>
-                                <textarea
-                                    name="address"
-                                    id="address"
-                                    class="form-control @error('address') is-invalid @enderror"
-                                    id="address"
-                                    rows="3"
-                                    placeholder="Địa chỉ"
-                                    spellcheck="false"
-                                    @error('address') is-invalid @enderror>{{ old('address') }}</textarea>
-                                @error('address')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+
+                            <x-form.textarea
+                                :id="'address'"
+                                :name="'address'"
+                                :label="'Địa chỉ'"
+                                :placeholder="'Địa chỉ'"
+                                :value="old('address')"
+                            />
+
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
                                 Hoàn tất
                             </button>

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách lương
+    Quản lý lương
 @endsection
 
 @section('style-plugins')

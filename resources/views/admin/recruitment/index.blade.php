@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách tuyển dụng
+    Quản lý tuyển dụng
 @endsection
 
 @section('style-plugins')

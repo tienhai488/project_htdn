@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Danh sách đơn vị vận chuyển
+    Quản lý đơn vị vận chuyển
 @endsection
 
 @section('style-plugins')

@@ -16,8 +16,9 @@
 
 @section('script-plugins')
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{-- sweatalert2 --}}
+
     <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+
     @include('includes.toast')
 @endsection
 
@@ -43,23 +44,14 @@
                     <div class="col-lg-12">
                         <form id="general-settings" method="POST" action="{{ route('admin.position.store') }}">
                             @csrf
-                            <div class="form-group mb-4">
-                                <label for="name">Tên <strong class="text-danger">*</strong>
-                                </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    class="form-control
-                                    @error('name') is-invalid @enderror" id="name"
-                                    placeholder="Tên" value="{{ old('name') }}"
-                                    spellcheck="false"
-                                >
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <x-form.input
+                                :id="'name'"
+                                :name="'name'"
+                                :label="'Tên'"
+                                :placeholder="'Tên'"
+                                :value="old('name')"
+                            />
+
                             <button type="submit" class="btn btn-primary _effect--ripple waves-effect waves-light">
                                 Hoàn tất
                             </button>
