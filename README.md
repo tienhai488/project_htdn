@@ -40,12 +40,11 @@ Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà chúng 
     - Admin có thể tạo và xem các báo cáo theo thời gian
     - Admin quản lý user (quản lý quyền và phân quyền cho user)
 
-  - **Quản lý kho:**
-    - Quản lý thông tin về sản phẩm doanh nghiệp đang kinh doanh, giá cả, chi tiết số lượng tồn của mỗi sản phẩm, giá nhập vào.
-    - Thêm/ xoá/ sửa thông tin sản phẩm.
-    - Lập phiếu nhập sản phẩm vào doanh nghiệp.
-    - Thêm, sửa, xoá, tìm kiếm thông tin nhà cung cấp
-    - In báo cáo thống kê theo tháng, năm về sản phẩm.
+  - **Quản lý nhân sự:**
+    - Thêm/ xoá nhân sự trong doanh nghiệp.
+    - Thay đổi chức vụ của nhân sự, khi thay đổi chức vụ phải có thời điểm cụ thể và lương sẽ thay đổi theo.
+    - Chấm công cho nhân sự
+    - Tuyển dụng và quản lý ứng viên
 
   - **Quản lý kho:**
     - Quản lý thông tin về sản phẩm doanh nghiệp đang kinh doanh, giá cả, chi tiết số lượng tồn của mỗi sản phẩm, giá nhập vào.
