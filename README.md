@@ -63,8 +63,8 @@ Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà chúng 
 1. Clone repository: `git clone https://github.com/tienhai488/project_htdn` 
 2. composer install
 3. npm install
-4. Cài đặt thư viện Laravel Permission (https://spatie.be/docs/laravel-permission/v6/installation-laravel)
-4. php artisan migration (Cài đặt DB trong .env và chỉnh APP_URL=http://localhost:8000)
-5. php artisan db:seed (Chạy dữ liệu db, xem thông tin đăng nhập tại database/seeders/UserSeeder.php)
-6. Chạy chương trình (php artisan serve && npm run dev)
+5. Cài đặt thư viện Laravel Permission (https://spatie.be/docs/laravel-permission/v6/installation-laravel)
+6. php artisan migration (Cài đặt DB trong .env và chỉnh APP_URL=http://localhost:8000)
+7. php artisan db:seed (Chạy dữ liệu db, xem thông tin đăng nhập tại database/seeders/UserSeeder.php)
+8. Chạy chương trình (php artisan serve && npm run dev)
 
